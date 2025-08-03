@@ -31,7 +31,7 @@ int main()
   vec.erase(vec.begin() + 1);                              // Erase By Position
   vec.erase(remove(vec.begin(), vec.end(), 3), vec.end()); // Erase By Value
 
-  for (auto i : vec)
+  for (auto &i : vec)
   {
     cout << i << " ";
   }
@@ -105,18 +105,20 @@ int main()
   lst.push_back(6);
   lst.push_front(0);
 
-  auto it_lst = find(lst.begin(),lst.end(),4);  // FIND
-  if(it_lst != lst.end()){
-    cout<<"Found In List: "<<*it_lst<<endl; 
+  auto it_lst = find(lst.begin(), lst.end(), 4); // FIND
+  if (it_lst != lst.end())
+  {
+    cout << "Found In List: " << *it_lst << endl;
   }
 
-  it_lst = find(lst.begin(),lst.end(),3);
-  if(it_lst != lst.end()){
-    *it_lst=100;  // UPDATION
+  it_lst = find(lst.begin(), lst.end(), 3);
+  if (it_lst != lst.end())
+  {
+    *it_lst = 100; // UPDATION
   }
 
   lst.remove(1); // REMOVE All 1
-  lst.erase(find(lst.begin(),lst.end(),6));
+  lst.erase(find(lst.begin(), lst.end(), 6));
 
   for (auto &it : lst)
   {
