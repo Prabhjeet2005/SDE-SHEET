@@ -211,11 +211,10 @@
 - After Insert Remaining of left <= mid or right <= high
 - Create a For Loop to replace original array elements with sorted temporary elements
 
-
 ### 5. Quick Sort [Divide & Conquer ( Pick A Pivot Element & Swap it by counting elements <= pivotElement )]
 
 - Create a quick sort function which has another partition function
-- After partition call quickSort(arr,low,partition-1), quickSort(arr,partition+1,high)  
+- After partition call quickSort(arr,low,partition-1), quickSort(arr,partition+1,high)
 - partition(arr,low,high) function SWAPS the first element of current subarray with the number of elements <= arr[low]
 - initialize left = low,right =high
 - Create a while loop (left < pivotIndex && right > pivotIndex)
@@ -223,3 +222,47 @@
 - Create Inner While Loops where right > pivotElement then right--
 - Again Check if left < pivotIndex && right > pivotIndex , then swap( arr[left++],arr[right--])
 - return pivotIndex
+
+# Step 3. Arrays
+
+## EASY
+
+### 1. Largest Element In An Array
+
+**APPROACH**
+
+- Initialize a maxi = INT_MIN variable
+- Compare each element in array and store maximum element maxi = max(maxi,arr[i])
+
+### 2. Second Largest/Smallest Element In An Array
+
+**UNOPTIMIZED APPROACH**
+
+- Sort the Array
+- Second Index -> 2nd Smallest, Last Second Index -> 2nd Largest
+
+**OPTIMIZED APPROACH [EDGE CASE]**
+
+- initialize smallest,second_smallest,largest,second_largest
+- Run A Loop From 0 to n
+- if arr[i] > largest, then store largest in second_largest & update largest = arr[i]
+- **EDGE CASE [Beacause Largest can be the first element]** else if arr[i] < largest && arr[i] > second_largest, update second_largest = arr[i]
+- if arr[i] < smallest , then store smallest in second_smallest & update smallest = arr[i]
+- **EDGE CASE [Beacause Smallest can be the first element]** else if arr[i] > smallest && arr[i] < second_smallest, then update second_smallest = arr[i]
+- return second_largest & second_smallest
+
+### 3. Check Is Array Sorted
+
+**OPTIMIZED APPROACH**
+
+- Run A Loop from 0 to n
+- if at any point (currentElement > nextElement) return false
+- otherwise return true
+
+### 4. Remove Duplicate Elements From Sorted Array
+
+**OPTIMIZED APPROACH**
+
+- Run A Loop from 0 to n
+- if at any point (currentElement > nextElement) return false
+- otherwise return true
