@@ -212,3 +212,14 @@
 - Create a For Loop to replace original array elements with sorted temporary elements
 
 
+### 5. Quick Sort [Divide & Conquer ( Pick A Pivot Element & Swap it by counting elements <= pivotElement )]
+
+- Create a quick sort function which has another partition function
+- After partition call quickSort(arr,low,partition-1), quickSort(arr,partition+1,high)  
+- partition(arr,low,high) function SWAPS the first element of current subarray with the number of elements <= arr[low]
+- initialize left = low,right =high
+- Create a while loop (left < pivotIndex && right > pivotIndex)
+- Create Inner While Loops where left < pivotElement then left++
+- Create Inner While Loops where right > pivotElement then right--
+- Again Check if left < pivotIndex && right > pivotIndex , then swap( arr[left++],arr[right--])
+- return pivotIndex
