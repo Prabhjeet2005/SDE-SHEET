@@ -259,10 +259,17 @@
 - if at any point (currentElement > nextElement) return false
 - otherwise return true
 
-### 4. Remove Duplicate Elements From Sorted Array
+### 4. Remove Duplicate Elements From Sorted Array [inplace, print first k elements which are non duplicated]
+
+**UNOPTIMIZED APPROACH**
+
+- Create A Set And set.insert(arr[i]) all elements
+- Initialize (i=0) & iterate through the set and set arr[i++] = iterator_set
 
 **OPTIMIZED APPROACH**
 
-- Run A Loop from 0 to n
-- if at any point (currentElement > nextElement) return false
-- otherwise return true
+- Initialize current Index = 0
+- Run a Loop From iterator=1 to n
+- if {*DUPLICATE ENCOUNTERED*} arr[iterator] == arr[currentIndex], then continue
+- otherwise (*Not Duplicate Encountered*) increase currentIndex += 1 & store arr[currentIndex] = arr[iterator]
+- print Removed Duplicate from 0 to <= currentIndex
