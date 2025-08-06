@@ -1,0 +1,135 @@
+# DSA REVISION
+
+# Step 1: Basics
+
+## Patterns
+## Learn STL
+
+## Basic Maths
+
+### 1. Count Digits
+#### **UNOPTIMISED APPROACH**
+- Create A Counter, ÷ Each Number By 10 and Increase Counter
+
+### 2. Reverse A Number
+#### **OPTIMISED APPROACH**
+- Take Remainder
+- Check if FinalAns > INT_MAX/10 || FinalAns < INT_MIN/10
+- Multiply Final Ans by 10 and Add Remainder
+
+### 3. Check Palindrome Number
+#### **OPTIMISED APPROACH**
+- If Negative Number Then Return False
+- First Calculate Reverse
+- If Reverse and Original No. Same Then it Is A Palindrome
+
+### 4. GCD or HCF
+#### **UNOPTIMISED APPROACH**
+- Loop from 1 to min(num1,num2)
+- Divide Each Number With min(num1,num2)
+- Return the Final Answer
+
+#### **BETTER APPROACH**
+- Loop from min(num1,num2) to 1
+- Divide Each Number With min(num1,num2) if Found Then Break
+- Return the Final Answer
+
+#### **OPTIMISED APPROACH [Euclidean Algorithm]**
+- Subtract & Update Lesser Number From Greater Number
+- Keep Repeating This Step Till Any One Number is 0
+- After any no. is 0 return the other number.
+
+
+### 5. ArmStrong Number
+#### **OPTIMISED APPROACH**
+- Initialize Armstrong Sum = 0
+- Calculate Remainder and Then Divide By 10
+- Add Remainder * Remainder * Remainder to Armstrong Sum
+- If Armstrong Sum == number, Then it is an Armstrong Number
+
+### 6. Print All Divisors Of Given Number
+#### **UNOPTIMISED APPROACH**
+- From Number till 1 Add To Set if Number % iterator == 0
+
+#### **OPTIMISED APPROACH**
+- Run A For Loop From 1 to <= sqrt(n)
+- if n % i == 0, {
+    then i is a divisor, 
+    if(n/i != i){ // Not 6 x 6 =36 i.e it's counter part is different
+      then n/i is also a divisor
+    }
+  }
+- ![alt text](<images/Screen Shot 2025-08-05 at 9.24.13 AM.png>)
+
+### 7. Check if Number is Prime
+#### **UNOPTIMISED APPROACH**
+- Initialize flag = false
+- Run a for loop from 2 till < n , If n % iterator == 0 -> flag=true
+- if flag is false then it is a prime, otherwise not a prime
+
+#### **OPTIMISED APPROACH**
+- Initialize flag = false
+- Run a for loop from 2 till < sqrt(n) , If n % iterator == 0 -> flag=true
+- if flag is false then it is a prime, otherwise not a prime
+
+
+
+
+## Basic Recursion
+
+### 3. Print 1 To N 
+#### **APPROACH 1**
+- Run Recursion From n and also store current value as 1 solve(1,n)
+- each step solve(current + 1, n)
+- Base Condition current > n 
+
+#### **APPROACH 2 [BACKTRACKING]**
+- Run Recursion From n 
+- After solve(n-1) write the print Statement (BACKTRACKING)
+- ![alt text](<images/Screen Shot 2025-08-05 at 6.49.25 PM.png>)
+
+### 5. Sum 1 To N 
+#### **APPROACH [Recursion]**
+- Run Recursion From n and also store current sum as 0 solve(n,sumFirstN)
+- Base Condition if(n <= 0)
+- While Backtracking return sumFirstN += end
+
+### 7. Reverse An Array
+#### **APPROACH 1 [2 Pointer]**
+- Run A For Loop
+- Using 2 Pointer Technique to swap(arr[i],arr[n-i-1])
+
+#### **APPROACH 2 [RECURSION]**
+- Recursion Function Pass Array and iterator=0
+- Base Condition iterator >= arr.size()/2
+- swap(arr[iterator],arr[size - iterator - 1])
+
+### 8. Check Palindrom String With Other Special Characters
+- ![alt text](<images/Screen Shot 2025-08-05 at 7.47.32 PM.png>)
+#### **APPROACH [2 Pointer]**
+- Initialize 2 Pointers start=0 & end = str.size() - 1
+- check if( !isalnum(str[start]) ) then start++
+- else if( !isalnum(str[end]) ) then end--
+- else if( tolower(str[start]) != tolower(str[end]) ) then return Not Palindrome
+- else start++,end--
+
+### 9. Nth Fiboonacci Number
+#### **APPROACH**
+- Recursion from n
+- each recursion return fibo(n-1) + fibo(n-2)
+
+
+## Hashing
+### 1. Count Frequency Of All Elements
+#### **UNOPTIMIZED APPROACH**
+- Create a visited array of size n
+- run a for loop from 0 to < n, if element already visited then continue 
+- otherwise mark the element visited and initialize count=0 and run another for loop that counts the occurence of element in array
+- Print the Count
+
+#### **OPTIMIZED APPROACH**
+- Create an unordered_map < int,int > to store each element count
+- Run a For loop map[arr[i]]++
+- then print the map by map.first and map.second
+
+

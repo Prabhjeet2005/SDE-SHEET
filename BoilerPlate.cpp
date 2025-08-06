@@ -11,4 +11,5 @@ class Solution{
 int main(){
   Solution sol = Solution();
   sol.solution();
+  cout<<endl;
 }
