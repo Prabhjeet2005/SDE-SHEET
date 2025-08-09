@@ -272,4 +272,65 @@
 - Run a Loop From iterator=1 to n
 - if {*DUPLICATE ENCOUNTERED*} arr[iterator] == arr[currentIndex], then continue
 - otherwise (*Not Duplicate Encountered*) increase currentIndex += 1 & store arr[currentIndex] = arr[iterator]
-- print Removed Duplicate from 0 to <= currentIndex
+- print Array of removed duplicates from 0 to <= currentIndex
+
+### 5. Left Rotate Array By 1 Place
+
+**APPROACH 1**
+- ![alt text](<images/Screen Shot 2025-08-08 at 10.05.34 AM.png>)
+- Store the First Element
+- From i=0 to i < n-1 ,store arr[i] = arr[i+1]
+- assign last element arr[n-1] = firstElement
+
+**APPROACH 2 [STL]**
+
+- Store First Element
+- Erase first element
+- push_back first element
+
+### 6. Left/Right Rotate Array By K Place
+
+**UNOPTIMIZED APPROACH**
+- if rotate by left
+- store first k elements in temp array
+- erase first k elements
+- push_back first K elements back to array
+
+- if rotate by right
+- store last k elements in temp array
+- erase last k elements
+- .insert temp elements back to array
+
+**OPTIMIZED APPROACH [REVERSE ALGORITHM]**
+- create a reverse function
+- if rotate by left
+- reverse first k elements
+- reverse rest of elements
+- reverse all elements
+
+- if rotate by right
+- reverse last k elements
+- reverse rest of elements
+- reverse all elements
+
+### 7. Move All Zeroes To End
+**OPTIMIZED APPROACH 1**
+- count all zeroes
+- erase all zeroes
+- push_back zeroes count times
+
+**OPTIMIZED APPROACH 2 [TRICKY]**
+- ![alt text](<images/Screen Shot 2025-08-08 at 11.46.02 AM.png>)
+- Create 2 Pointers
+- ptrZero points to First Occurence 0 
+- ptrNonZero points to NON 0 element (*Just After ptrZero pointer*)
+- if (arr[i] != 0) then swap the ptrZero and ptrNonZero & move ptrZero++ because now it points to just next zero
+
+### 8. Join 2 Sorted Arrays while removing duplicates
+**UNOPTIMIZED APPROACH**
+- create an Ordered Set
+- insert into set values of array1 and array2
+- traverse set and push_back into ans array
+
+**OPTIMIZED APPROACH**
+-
