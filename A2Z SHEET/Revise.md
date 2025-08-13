@@ -225,7 +225,7 @@
 
 # Step 3. Arrays
 
-## EASY
+## **EASY**
 
 ### 1. Largest Element In An Array
 
@@ -270,13 +270,14 @@
 
 - Initialize current Index = 0
 - Run a Loop From iterator=1 to n
-- if {*DUPLICATE ENCOUNTERED*} arr[iterator] == arr[currentIndex], then continue
-- otherwise (*Not Duplicate Encountered*) increase currentIndex += 1 & store arr[currentIndex] = arr[iterator]
+- if {_DUPLICATE ENCOUNTERED_} arr[iterator] == arr[currentIndex], then continue
+- otherwise (_Not Duplicate Encountered_) increase currentIndex += 1 & store arr[currentIndex] = arr[iterator]
 - print Array of removed duplicates from 0 to <= currentIndex
 
 ### 5. Left Rotate Array By 1 Place
 
 **APPROACH 1**
+
 - ![alt text](<images/Screen Shot 2025-08-08 at 10.05.34 AM.png>)
 - Store the First Element
 - From i=0 to i < n-1 ,store arr[i] = arr[i+1]
@@ -291,6 +292,7 @@
 ### 6. Left/Right Rotate Array By K Place
 
 **UNOPTIMIZED APPROACH**
+
 - if rotate by left
 - store first k elements in temp array
 - erase first k elements
@@ -302,6 +304,7 @@
 - .insert temp elements back to array
 
 **OPTIMIZED APPROACH [REVERSE ALGORITHM]**
+
 - create a reverse function
 - if rotate by left
 - reverse first k elements
@@ -314,23 +317,117 @@
 - reverse all elements
 
 ### 7. Move All Zeroes To End
+
 **OPTIMIZED APPROACH 1**
+
 - count all zeroes
 - erase all zeroes
 - push_back zeroes count times
 
 **OPTIMIZED APPROACH 2 [TRICKY]**
+
 - ![alt text](<images/Screen Shot 2025-08-08 at 11.46.02 AM.png>)
 - Create 2 Pointers
-- ptrZero points to First Occurence 0 
-- ptrNonZero points to NON 0 element (*Just After ptrZero pointer*)
+- ptrZero points to First Occurence 0
+- ptrNonZero points to NON 0 element (_Just After ptrZero pointer_)
 - if (arr[i] != 0) then swap the ptrZero and ptrNonZero & move ptrZero++ because now it points to just next zero
 
 ### 8. Join 2 Sorted Arrays while removing duplicates
+
 **UNOPTIMIZED APPROACH**
+
 - create an Ordered Set
 - insert into set values of array1 and array2
 - traverse set and push_back into ans array
 
 **OPTIMIZED APPROACH**
--
+
+- create 2 pointer to keep track each array element
+- whichever ptr element is lower && is not equal to ans.back() element will be added
+- Enter All Remaining Elements of either Array1 OR Array2 && they should != ans.back()
+
+### 9. Missing Number In Array [*Duplicate Try to Use XOR*]
+
+**UNOPTIMIZED APPROACH**
+
+- for each element check if the element exists in entire array if not then found the missing number
+
+**BETTER APPROACH**
+
+- Create an unordered set insert each element in it
+- again traverse through array and .find() each element if iterator == set.end() then found the missing element
+
+**OPTIMIZED APPROACH 1**
+
+- Calculate sumN from 1 to n => (N \* (N + 1))/ 2
+- calculate sum of array
+- Missing Number = sumN - sum of Array
+
+**OPTIMIZED APPROACH 2**
+
+- Calculate XOR of 1 to N
+- Calculate XOR of Array
+- Calculate XOR of 1 To n ^ XOR of Array [ XOR Of Same No. Will be 0 & XOR of 0 with a number returns Number itself] gives missing number
+- EXAMPLE:
+- XORN : 1 ^ 2 ^ 3 ^ 4 ^ 5 ^ 6 ^ 7 ^ 8 ^ 9 ^ 10 ^ 11
+- XORArray: 1 ^ 2 ^ 3 ^ 4 ^ 5 ^ 6 ^ 8 ^ 9 ^ 10 ^ 11
+- RESULT : 0 ^ 0 ^ 0 ^ 0 ^ 0 ^ 0 ^ 7 ^ 0 ^ 0 ^ 0 ^ 0 => 7
+
+### 10. Max Count of 1's in array of only 0 & 1
+
+**OPTIMIZED APPROACH**
+
+- Keep track of current count of 1 and maximum count of 1
+- if 0 is encountered reset current count
+
+### 11. Find Number Appearing Once With Array of elements occuring twice [*Duplicate Try To Use XOR*]
+
+**UNOPTIMIZED APPROACH**
+
+- Create a Unordered HashMap store every element frequency
+- return element with frequecy as 1
+
+**OPTIMIZED APPROACH**
+
+- Find XOR Of All Elements
+- {_Same Elements XOR will be 0 & finally XOR with 0 returns number itself_}
+- return XOR
+
+[ **PREFIX SUM** ]
+
+### 12. Length of Longest Subarray [ **CONTIGOUS** ] with sum K (POSITIVES ONLY)
+
+**UNOPTIMIZED APPROACH**
+
+- for each element check its subarray (contigous) calculate if sum equal to K then store max length by inner loop index - outer loop index
+
+**BETTER APPROACH [PREFIX SUM]**
+
+- Track current sum of array & max Size
+- if sum == k , then update max size
+- if sum - k found in map then update max size
+- Store every sum along with their index in unordered_map if not already present
+
+**OPTIMIZED APPROACH**
+
+- Initialize 2 pointers (left,right)
+- store first element in sum
+- when sum > k subtract current element from sum
+- if sum == k store current length
+- if right < n then add element in sum
+
+### 13. Length of Longest Subarray [ **CONTIGOUS** ] with sum K (POSITIVES & NEGATIVES)
+
+**UNOPTIMIZED APPROACH**
+
+- for each element check its subarray (contigous) calculate if sum equal to K then store max length by inner loop index - outer loop index
+
+**OPTIMIZED APPROACH [PREFIX SUM]**
+
+- Track current sum of array & max Size
+- if sum == k , then update max size
+- if sum - k found in map then update max size
+- Store every sum along with their index in unordered_map if not already present
+
+
+## **MEDIUM**
