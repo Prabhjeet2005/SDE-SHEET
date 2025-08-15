@@ -416,7 +416,7 @@
 - if sum == k store current length
 - if right < n then add element in sum
 
-### 13. Length of Longest Subarray [ **CONTIGOUS** ] with sum K (POSITIVES & NEGATIVES)
+### 13. Length of Longest Subarray [ **CONTIGOUS** ] with sum K (POSITIVES & NEGATIVES) [*PREFIX SUM*]
 
 **UNOPTIMIZED APPROACH**
 
@@ -431,3 +431,56 @@
 
 
 ## **MEDIUM**
+
+### 1. 2 Sum [**1 pass sum think of hashmap**]
+
+#### **UNOPTIMIZED APPROACH**
+- take 2 loops check each combo if sum == target then print yes and indexes
+
+#### **OPTIMIZED APPROACH 1**
+- Store Each Element in unordered_map
+- check if target - currentElement present in map, if present then return yes & currentElement, {target-currentElement}
+
+#### **OPTIMIZED APPROACH 2 [GREEDY]**
+- Sort the Array
+- Take 2 Pointer Beginning and end
+- if begin + end < target then begin++ otherwise end++
+
+### 2. Sort Array of 0, 1 ,2
+
+#### **UNOPTIMIZED APPROACH**
+- Sort The Array Using Sorting Algorithm
+
+#### **BETTER APPROACH**
+- count no. of 0, 1, 2 and then populate them back into the array
+
+#### **OPTIMIZED APPROACH [ *DUTCH FLAG ALGORITHM* ]**
+- 3 Pointer Approach ( low, mid, high )
+- if element at mid == 0, then swap low and mid and low++, mid++
+- if element at mid == 1, then mid++
+- if element at mid == 2, then swap mid and high, and high--
+
+### 3. Majority Element ( > n/2) 
+
+#### **UNOPTIMIZED APPROACH**
+- for each element traverse array again and count number of occurernces & store the max count
+
+#### **BETTER APPROACH**
+- Store Each frequency of element in HASHMAP
+- Return the Maximum Frequency Element
+
+#### **OPTIMIZED APPROACH [*Moore's Voting Algorithm*]**
+- store majortyElement and Count
+- check if element same as majority element with count > 0, then increase count
+- if count == 0 , then update majorityElement and increase count
+
+### 4. Kadane Algorithm [Maximum Subarray Sum]
+
+#### **UNOPTIMIZED APPROACH**
+- Take 2 loops check each and every subarray sum and store the sum, and start index and end index array to print maximum subarray sum
+
+#### **OPTIMIZED APPROACH [ *KADANE* ]**
+- Keep track of current sum
+- store maximum sum & if sum < 0, then sum = 0
+
+
