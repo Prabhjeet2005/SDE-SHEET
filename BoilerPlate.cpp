@@ -9,6 +9,8 @@ class Solution{
 };
 
 int main(){
+  ios_base::sync_with_stdio(false);
+  cin.tie(nullptr);
   Solution sol = Solution();
   sol.solution();
   cout<<endl;
