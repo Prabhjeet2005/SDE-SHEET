@@ -429,19 +429,21 @@
 - if sum - k found in map then update max size
 - Store every sum along with their index in unordered_map if not already present
 
-
 ## **MEDIUM**
 
 ### 1. 2 Sum [**1 pass sum think of hashmap**]
 
 #### **UNOPTIMIZED APPROACH**
+
 - take 2 loops check each combo if sum == target then print yes and indexes
 
 #### **OPTIMIZED APPROACH 1**
+
 - Store Each Element in unordered_map
 - check if target - currentElement present in map, if present then return yes & currentElement, {target-currentElement}
 
 #### **OPTIMIZED APPROACH 2 [GREEDY]**
+
 - Sort the Array
 - Take 2 Pointer Beginning and end
 - if begin + end < target then begin++ otherwise end++
@@ -449,27 +451,33 @@
 ### 2. Sort Array of 0, 1 ,2
 
 #### **UNOPTIMIZED APPROACH**
+
 - Sort The Array Using Sorting Algorithm
 
 #### **BETTER APPROACH**
+
 - count no. of 0, 1, 2 and then populate them back into the array
 
 #### **OPTIMIZED APPROACH [ *DUTCH FLAG ALGORITHM* ]**
+
 - 3 Pointer Approach ( low, mid, high )
 - if element at mid == 0, then swap low and mid and low++, mid++
 - if element at mid == 1, then mid++
 - if element at mid == 2, then swap mid and high, and high--
 
-### 3. Majority Element ( > n/2) 
+### 3. Majority Element ( > n/2)
 
 #### **UNOPTIMIZED APPROACH**
+
 - for each element traverse array again and count number of occurernces & store the max count
 
 #### **BETTER APPROACH**
+
 - Store Each frequency of element in HASHMAP
 - Return the Maximum Frequency Element
 
 #### **OPTIMIZED APPROACH [*Moore's Voting Algorithm*]**
+
 - store majortyElement and Count
 - check if element same as majority element with count > 0, then increase count
 - if count == 0 , then update majorityElement and increase count
@@ -477,10 +485,111 @@
 ### 4. Kadane Algorithm [Maximum Subarray Sum]
 
 #### **UNOPTIMIZED APPROACH**
+
 - Take 2 loops check each and every subarray sum and store the sum, and start index and end index array to print maximum subarray sum
 
 #### **OPTIMIZED APPROACH [ *KADANE* ]**
+
+- Just DO **sum += arr[i]**
 - Keep track of current sum
 - store maximum sum & if sum < 0, then sum = 0
+- temporary starting index will update to current Index whenever currentSum == 0
+- Also For Array start & end index -> _whenever max sum updated_ then update end Index & actual start Index with temporary starting index
 
+### 5. Stock Buy & Sell [ Buy Early Sell Later ]
 
+#### **UNOPTIMIZED APPROACH**
+
+- Calcuate each and every profit
+- store max Profit
+
+#### **OPTIMIZED APPROACH**
+
+- Store Minimum Element and store maximum profit as difference between currentElement and MinElement
+
+### 6. Alternate Positive & Negative Element in Array [start positive]
+
+#### **OPTIMIZED APPROACH**
+
+- Create answer array
+- put all positive element in even places & negative elements in odd places
+- if either negative or positive have exhausted
+- insert remaining positive or negative [only 1 type remains if excess]
+
+### 7. Next Permutation ( Time Complexity To Generate All Permutation -> N! )
+
+#### **UNOPTIMIZED APPROACH**
+
+- generate all permutations
+- search for current permutation & print the next element
+- EDGE: if it is the last element return the first element otherwise return the
+
+##### _GENERATING ALL PERMUTATIONS [swap indexes] TC-> O( N! x N )_
+
+- Using **Recurion** & **Backtracking**
+- for each index loop till rest of array
+- swap index with iterator
+- Call recursive function with index + 1
+- BACKTRACK: swap back the iterator with index
+
+#### **STL APPROACH**
+
+- Use _next_permutation()_
+
+#### **OPTIMIZED APPROACH [ Break Point ]**
+
+- ![alt text](images/diagram-export-8-17-2025-8_14_44-PM.svg)
+
+- Longest Prefix Match arr[i] < arr[i+1] --> This is the BREAK Point _{ Check From Right }_
+- Select greater than current element arr[i] but the smallest one from after the break line i.e i+1 & greater index
+- if no index found then reverse entire array
+- if index found then from right just greater element swap with arr[i]
+- reverse array after break point
+
+### 8. Leaders In Array
+
+#### **UNOPTIMIZED APPROACH**
+
+- For Each Element Check if It is Maximum
+
+#### **OPTIMIZED APPROACH**
+
+- From right carry the maximum element
+- if currentElement > maximumElement then store currentElement into Leaders array
+
+### 9. Longest Consecutive Subsequence
+
+#### **UNOPTIMIZED APPROACH**
+
+- For Each Element check if element+1, element+2,...element+arr.size() are present
+- if not present then break and store highest length
+
+#### **BETTER APPROACH**
+
+- Sort The Array
+- check next element same if not then set current length = 0 & store max length
+
+#### OPTIMIZED APPROACH _[ SET ]_
+
+- **[Consecutive -> Must be 1st Element of the sequence for OPTIMIZATION]**
+- Using Set Data Structure Store All elements
+- Check if _element-1 exists, then continue_ as it can't be starting of longest subsequence
+- otherwise element-1 not exist, then search element+1,element+2,....,element+arr.size() & store the maximum length
+
+### 10. Set Matrix Zero
+
+#### **UNOPTIMIZED APPROACH**
+- whenever 0 encountered make entire row and column -1
+- Again traverse and replace -1 with 0
+
+#### **BETTER APPROACH [SC ↑]**
+
+- Maintain Two Array for Row and Col 
+- if 0 encountered mark index of Row and Col to be true
+- traverse wherever row or col 0 encountered make entire row & col 0
+
+#### **OPTIMIZED APPROACH**
+
+- Mark in first Row All the columns having 0 & in first Col mark for each row having 0
+- EDGE: for 1st row keep track by another variable
+- {Suppose 1st Col has 0 if we depend upon  1st col for row 1 then row 1 also become all zero}
