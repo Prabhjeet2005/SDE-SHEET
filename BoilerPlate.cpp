@@ -1,17 +1,22 @@
-#include<iostream>
-#include<vector>
+#include <iostream>
+#include <vector>
 
 using namespace std;
 
-class Solution{
-  public:
-  void solution(){}
+class Solution
+{
+public:
+  void solution()
+  {
+    vector<int>arr = {};
+  }
 };
 
-int main(){
+int main()
+{
   ios_base::sync_with_stdio(false);
   cin.tie(nullptr);
   Solution sol = Solution();
   sol.solution();
-  cout<<endl;
+  cout << endl;
 }
