@@ -395,6 +395,8 @@
 
 [ **PREFIX SUM** ]
 
+### **_HINT_ -> SUBARRAY THINK OF PREFIX SUM with MAP**
+
 ### 12. Length of Longest Subarray [ **CONTIGOUS** ] with sum K (POSITIVES ONLY)
 
 **UNOPTIMIZED APPROACH**
@@ -579,17 +581,79 @@
 ### 10. Set Matrix Zero
 
 #### **UNOPTIMIZED APPROACH**
-- whenever 0 encountered make entire row and column -1
+
+- whenever 0 encountered make entire row and column -1 except 0 elements
 - Again traverse and replace -1 with 0
 
 #### **BETTER APPROACH [SC ↑]**
 
-- Maintain Two Array for Row and Col 
+- Maintain Two Array for Row and Col
 - if 0 encountered mark index of Row and Col to be true
 - traverse wherever row or col 0 encountered make entire row & col 0
 
 #### **OPTIMIZED APPROACH**
 
+- **EDGE CASE:** Keep track of 0 in row0 and col0 seperately
 - Mark in first Row All the columns having 0 & in first Col mark for each row having 0
-- EDGE: for 1st row keep track by another variable
-- {Suppose 1st Col has 0 if we depend upon  1st col for row 1 then row 1 also become all zero}
+- {Suppose 1st Col has 0 if we depend upon 1st col for row 1 then row 1 also become all zero}
+- Again traverse from 1st index as we don't want to change either row or col
+- if anywhere in row0 or col0 element 0 is found make entire row or col 0
+- finally check if row0 or col0 is true then make them entire 0
+
+### 11. Rotate Matrix 90 Degree
+
+#### **UNOPTIMIZED APPROACH**
+
+- Take Another Answer array for each row make each col of ans array from last same
+
+#### **OPTIMIZED APPROACH**
+
+- Transpose Matrix
+- then reverse each row
+
+### 12. Print Matrix Spiral
+
+- _GO LAYER BY LAYER_
+- take 4 variables startRow = 0, endRow = n-1, startCol = 0, endCol = n-1
+- print startCol -> endCol each element of startRow, then startRow++
+- print startRow -> endRow each element of endCol, then endCol--
+- print endCol -> startCol each element of endRow, then endRow--
+- print endRow -> startRow each element of startCol, then startCol++
+
+### 13. Count Subarray Sum Equal To K
+
+#### **UNOPTIMIZED APPROACH**
+
+- Calculate each and every subarray and if subarray sum == k increase the count
+
+**BETTER APPROACH [PREFIX SUM]**
+
+- ![alt text](<images/Screen Shot 2025-08-18 at 11.21.55 AM.png>)
+- Track current sum of array & store sum & its index in map or set
+- if sum == k , then increase count
+- if sum - k found in map or set then update count
+- Store every sum along with their index in unordered_map if not already present
+
+**OPTIMIZED APPROACH**
+
+- Initialize 2 pointers (left,right)
+- right adds each and every element
+- while left <= right & at any time current Sum > k then remove arr[left] from sum
+- if sum == k ,then increase the count
+- increase right & check if < arr.size() , then add next element to sum
+
+## **HARD**
+
+### 1. Pascal Triangle
+
+- ![alt text](<images/Screen Shot 2025-08-18 at 12.01.43 PM.png>)
+- ![alt text](images/diagram-export-8-18-2025-11_59_51-AM.svg)
+
+#### _VARIATION 1_
+- *Given Row & Col Index Give Element At Pascal Triangle (row,col) position*
+- use formula row-1 C col-1
+- nCr -> n! / r! * (n-r)! 
+
+#### _VARIATION 2_
+
+#### _VARIATION 3_
