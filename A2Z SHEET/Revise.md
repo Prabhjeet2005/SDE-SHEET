@@ -650,10 +650,38 @@
 - ![alt text](images/diagram-export-8-18-2025-11_59_51-AM.svg)
 
 #### _VARIATION 1_
-- *Given Row & Col Index Give Element At Pascal Triangle (row,col) position*
+
+- _Given Row & Col Index Give Element At Pascal Triangle (row,col) position_
 - use formula row-1 C col-1
-- nCr -> n! / r! * (n-r)! 
+- nCr -> n! / (r! \* (n-r)!)
 
 #### _VARIATION 2_
 
+- Same as variaion 1 just go for entire col same as length of row keep row same
+
 #### _VARIATION 3_
+
+- add another loop to manage row as well & make col go from 0 < loop1 + 1
+
+### 2. Majority Element Array _[ > N ÷ 3 ]_
+
+- _There Can be Only 2 Elements >N/3_
+
+#### **UNOPTIMIZED APPROACH**
+
+- Check For each & every Element if greater than N/3, then add to answer array
+
+#### **BETTER APPROACH**
+
+- Keep Track of Frequency Of All Elements in Unordered_map if frequency > N/3, then store element in Answer
+
+#### **OPTIMIZED APPROACH _[Extended Morre's Voting Algorithm]_**
+
+- ![alt text](<images/Screen Shot 2025-08-19 at 7.12.53 PM.png>)
+- Create 4 Pointers *{2 for tracking element count & 2 for storing max element}*
+- if Count == 0 && currentElement != otherElement ,then reset count=1 & UPDATE element stored to current Element
+- ***EDGE CASE:*** When checking for an element make sure current element != other stored element
+- if current element same as stored element increase count
+- if current Element not equal to stored element decrease count
+- After Looping through array Again calculate respective count of both the element 
+- if count > N/3 then store it in answer
