@@ -441,6 +441,7 @@
 
 #### **OPTIMIZED APPROACH 1**
 
+- **FORMULA: Target - arr[i]**
 - Store Each Element in unordered_map
 - check if target - currentElement present in map, if present then return yes & currentElement, {target-currentElement}
 
@@ -678,10 +679,64 @@
 #### **OPTIMIZED APPROACH _[Extended Morre's Voting Algorithm]_**
 
 - ![alt text](<images/Screen Shot 2025-08-19 at 7.12.53 PM.png>)
-- Create 4 Pointers *{2 for tracking element count & 2 for storing max element}*
+- Create 4 Pointers _{2 for tracking element count & 2 for storing max element}_
 - if Count == 0 && currentElement != otherElement ,then reset count=1 & UPDATE element stored to current Element
-- ***EDGE CASE:*** When checking for an element make sure current element != other stored element
+- **_EDGE CASE:_** When checking for an element make sure current element != other stored element
 - if current element same as stored element increase count
 - if current Element not equal to stored element decrease count
-- After Looping through array Again calculate respective count of both the element 
+- After Looping through array Again calculate respective count of both the element
 - if count > N/3 then store it in answer
+
+### 3. 3 Sum Equal to target
+
+#### **UNOPTIMIZED APPROACH**
+
+- _set<vector<int>> to vector<vector<int>>_
+- Run 3 Loops 0 to n-1, i+1 to n-1, j+1 to n-1
+- if sum == target store the triplet in **IMPORTANT:** SORTED MANNER {To Check Existence of same triplets} otherwise their order might be different and we could add same triplets
+
+#### **BETTER APPROACH _[2 Pointer Approach With 3rd Element as Lookup]_**
+
+- **_FORMULA: Target - (arr[i]+arr[j]+arr[k])_**
+- traverse each element
+- Declare another hashset to store 2nd element
+- run another loop from i+1 to n
+- check if 3rd Element = target - (arr[i] + arr[j]) is Present in set of visited elements
+- if visited then store triplet
+- at last transfer set< vector< int >> to vector< vector< int >>
+- **_ORDERED SET SHOULD BE USED Only it can store set<vector<int>>_**
+
+#### **OPTIMIZED APPROACH**
+
+- Sort the array
+- take 3 pointers i=0,j=i+1,k=n-1
+- skip duplicates of ith pointer
+- if sum > target => k--
+- if sum < target => j++
+- **_EDGE CASE: Ensure Duplicates Removed_**
+- if sum == target => Store Triplet & keep increasing and decreasing 2nd and 3rd pointer to avoid duplicates
+
+### 4. 4 Sum Equal to target
+
+#### **UNOPTIMIZED APPROACH**
+
+- Take 4 Loops And Calculate sum whether equal to target, if equal then sort and store it in set of vectors
+
+#### **BETTER APPROACH [Loop + Loop + Set{For Lookup} + Loop]**
+
+- **_FORMULA: 4th Element = target - (arr[i]+arr[j]+arr[k])_**
+- Take 3 Loops
+- first loop iterate each element
+- second loop iterate i+1 to n-1
+- before 3rd Loop create a set for visited elements
+- 3rd loop have **_4th Element = target - (arr[i]+arr[j]+arr[k])_** if present in set then we found the 4 numbers equating to sum target now sort and add them to set
+
+#### **OPTIMIZED APPROACH [Loop + Loop + Set{For Lookup} + 2 Pointer]**
+
+- Sort the array
+- Take 4 Pointer (2 Fixed, 2 moving)
+- 2 Moving 1->start, 1->end
+- **_IMPORTANT: Check Duplicate at every loop_**
+- if sum == target => store answer and move forward/back till no longer duplicate
+- sum < target => pointer3++
+- sum > target => pointer4--
