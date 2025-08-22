@@ -740,3 +740,27 @@
 - if sum == target => store answer and move forward/back till no longer duplicate
 - sum < target => pointer3++
 - sum > target => pointer4--
+
+### 5. Longest Subarray With Sum 0
+
+#### **UNOPTIMIZED APPROACH**
+
+- Check Each and Every Subarray Sum == 0, then store longest length
+
+#### **OPTIMIZED APPROACH [Use HashMap Only]**
+
+- Calculate Prefix sum
+- for each element check whether currentSum - target is present or not
+- if present store maxLength
+- Store sum in unordered_map along with index
+
+### 6. Count Subarrays with XOR Target
+
+#### **UNOPTIMIZED APPROACH**
+
+- Calculate XOR of Each and every subarray & if XOR == Target, then count++
+
+#### **OPTIMIZED APPROACH**
+- ***EDGE CASE:*** Do map[0]++, Because if first element is equal to xor of target then we find xor ^ target which will be 0 and it isn't included in map yet
+- Store Xor in Prefix Xor, then store in hashmap
+- for each element check XOR ^ CurrentXOR if Present in Hashmap then increase the count, otherwise insert current XOR in Hashmap
