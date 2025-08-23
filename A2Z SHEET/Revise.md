@@ -761,6 +761,41 @@
 - Calculate XOR of Each and every subarray & if XOR == Target, then count++
 
 #### **OPTIMIZED APPROACH**
-- ***EDGE CASE:*** Do map[0]++, Because if first element is equal to xor of target then we find xor ^ target which will be 0 and it isn't included in map yet
+
+- **_EDGE CASE:_** Do map[0]++, Because if first element is equal to xor of target then we find xor ^ target which will be 0 and it isn't included in map yet
 - Store Xor in Prefix Xor, then store in hashmap
 - for each element check XOR ^ CurrentXOR if Present in Hashmap then increase the count, otherwise insert current XOR in Hashmap
+
+### 7. Merge Overlapping Subintervals
+
+#### **UNOPTIMIZED APPROACH**
+
+- SORT the Array
+- store start & end of interval
+- **_EDGE CASE:_** if end <= ans.back()[1] which means it has already been merged so continue
+- check from i+1 < n whether start <= currentElement[0] if true then update end
+- else break
+- push_back start & end in ans
+
+#### **OPTIMIZED APPROACH**
+
+- SORT the Array
+- push_back first element in answer
+- in a single pass we will check
+- **_CASE 1:_** if current element's start <= end of ans.back() then update answer's end to max(currentElement's end, ansElement's end )
+- **_CASE 2:_** otherwise store the entire interval in answer
+
+### 8. Merge 2 Sorted Arrays
+
+#### **UNOPTIMIZED APPROAACH**
+
+- Take 2 Pointers in start of both arrays whichever smaller push to answer array
+
+#### **OPTIMIZED APPROACH 1**
+- [Picking up greater elements of array1 & swapping to arr2 until they become equal or greate so that all larger elements go into arr2]
+- Take 2 pointers 1 in end of 1st array in start of 2nd array
+- if element at ptr1 > ptr2 then swap arr1[ptr1--] & arr2[ptr2++]
+- if element at ptr1 <= ptr2 then break
+- Individually sort arr1 & arr2
+
+
