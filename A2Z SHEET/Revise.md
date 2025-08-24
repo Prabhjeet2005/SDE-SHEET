@@ -798,4 +798,18 @@
 - if element at ptr1 <= ptr2 then break
 - Individually sort arr1 & arr2
 
+### 9. Find Repeating and missing number
 
+#### **UNOPTIMIZED APPROAACH**
+
+- Run Loop From 1 to n , initialize count = 0, run through entire array 
+- if count == 0 -> missing number, count == 2 -> repeating number
+
+#### **BETTER APPROACH**
+- create a unordered hashmap and store from 1 to n natural numbers with frequency = 0
+- store frequency of each and every element of array
+- traverse through map and if any freq == 0 -> missing number, freq == 2 -> repeating number
+
+#### **OPTIMIZED APPROACH [MATHS EQUATION]**
+
+- ![alt text](images/20250823_105225.jpg)
