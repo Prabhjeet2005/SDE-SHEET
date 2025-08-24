@@ -792,6 +792,7 @@
 - Take 2 Pointers in start of both arrays whichever smaller push to answer array
 
 #### **OPTIMIZED APPROACH 1**
+
 - [Picking up greater elements of array1 & swapping to arr2 until they become equal or greate so that all larger elements go into arr2]
 - Take 2 pointers 1 in end of 1st array in start of 2nd array
 - if element at ptr1 > ptr2 then swap arr1[ptr1--] & arr2[ptr2++]
@@ -802,10 +803,11 @@
 
 #### **UNOPTIMIZED APPROAACH**
 
-- Run Loop From 1 to n , initialize count = 0, run through entire array 
+- Run Loop From 1 to n , initialize count = 0, run through entire array
 - if count == 0 -> missing number, count == 2 -> repeating number
 
 #### **BETTER APPROACH**
+
 - create a unordered hashmap and store from 1 to n natural numbers with frequency = 0
 - store frequency of each and every element of array
 - traverse through map and if any freq == 0 -> missing number, freq == 2 -> repeating number
@@ -813,3 +815,50 @@
 #### **OPTIMIZED APPROACH [MATHS EQUATION]**
 
 - ![alt text](images/20250823_105225.jpg)
+
+### 10. Count Inversions in array [Merge Sort]
+
+#### **UNOPTIMIZED APPROACH**
+
+- for each and every element if arr[i] > arr[j] then increase the count
+
+#### **OPTIMIZED APPROACH [MERGE SORT]**
+
+- ![alt text](<images/Screen Shot 2025-08-24 at 10.42.27 AM.png>)
+- Assume 2 Sorted Array Approach [Merge Sort]
+- maintain count while applying merge sort in merge function
+- while(arr[left]>arr[right]) then increase count by += (mid - left + 1) because all elements are sorted in both arrays and all left after that point will be greater than right so add their count
+
+### 11. Count Reverse Pairs in array [Merge Sort]
+
+#### **UNOPTIMIZED APPROACH**
+
+- for each and every element if arr[i] > 2\*arr[j] then increase the count
+
+#### **OPTIMIZED APPROACH [MERGE SORT]**
+
+- Using merge sort maintain the count
+- Just Before Merging call count_pairs()
+- It moves through left sorted array and check whether element in right sorted array is arr[left] > 2 \* arr[right]
+- if so then increase count += (right - (mid+1)) **_[Here Move Through All Left even if right comes to end]_** here we don't add + 1 in (right - (mid + 1) **+1**) because right is at position which is fails condition arr[left] > 2\*arr[right]
+
+### 12. Max Product Subarray
+
+#### **UNOPTIMIZED APPROACH**
+
+- For Each & Every Subarray Calculate product and store the maximum product
+
+#### **OPTIMIZED APPROACH 1**
+- **_{why prefix & sum Important? otherwise EDGE Case [2,3,-2,4,3] max Product will be 12 but it will give 6}_**
+- initialize 2 pointers pre = 1 & suffix = 1
+- start pre from 0 & suffix from end n-i-1 
+- **ZERO ENCOUNTERED:** at any point if(pre == 0) then set pre = 1 ,or suff == 0 then set suffix = 0
+- otherwise calculate currentProduct and store max of pre,suffix,ans
+
+#### **[ DON'T Do In Interview NOT INTUITIVE ]OPTIMIZED APPROACH 2 [Kadane Modified]**
+- _Main Idea of This is we can get max product from -ve elements product as well_
+- Maintain prod1 and prod2
+- prod1 will be max of currentElement\*prod1,currentElement,currentElement\*prod2
+- prod2 will be min of currentElement\*prod1,currentElement,currentElement\*prod2
+- return max of prod1 and prod2
+
