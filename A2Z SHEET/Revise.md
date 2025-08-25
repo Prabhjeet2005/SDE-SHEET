@@ -862,3 +862,8 @@
 - prod2 will be min of currentElement\*prod1,currentElement,currentElement\*prod2
 - return max of prod1 and prod2
 
+
+# Step 4. Binary Search [SORTED O(logn)]
+## Binary Search On 1D Array
+
+### 1. Search Element In Sorted Array w/o Duplicates
