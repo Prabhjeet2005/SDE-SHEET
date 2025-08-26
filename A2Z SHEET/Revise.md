@@ -849,21 +849,101 @@
 - For Each & Every Subarray Calculate product and store the maximum product
 
 #### **OPTIMIZED APPROACH 1**
+
 - **_{why prefix & sum Important? otherwise EDGE Case [2,3,-2,4,3] max Product will be 12 but it will give 6}_**
 - initialize 2 pointers pre = 1 & suffix = 1
-- start pre from 0 & suffix from end n-i-1 
+- start pre from 0 & suffix from end n-i-1
 - **ZERO ENCOUNTERED:** at any point if(pre == 0) then set pre = 1 ,or suff == 0 then set suffix = 0
 - otherwise calculate currentProduct and store max of pre,suffix,ans
 
 #### **[ DON'T Do In Interview NOT INTUITIVE ]OPTIMIZED APPROACH 2 [Kadane Modified]**
+
 - _Main Idea of This is we can get max product from -ve elements product as well_
 - Maintain prod1 and prod2
 - prod1 will be max of currentElement\*prod1,currentElement,currentElement\*prod2
 - prod2 will be min of currentElement\*prod1,currentElement,currentElement\*prod2
 - return max of prod1 and prod2
 
-
 # Step 4. Binary Search [SORTED O(logn)]
+
 ## Binary Search On 1D Array
 
+### **_FORMULA: start + (end - mid)/2_**
+
 ### 1. Search Element In Sorted Array w/o Duplicates
+
+- Use Binary Search
+
+### 2. Implement Lower Bound (Atleast Target Element or greater)
+
+#### **UNOPTIMIZED APPROACH**
+
+- Use Linear Search To find the first element in sorted array which satisfy the condition arr[i] >= target, return the index
+
+#### **OPTIMIZED APPROACH**
+
+- Use Binary Search
+- **_Case 1:_** arr[mid] >= target , we can go into left half
+- **_Case 2:_** arr[mid] < target, then only go in right half
+
+### 3. Implement Upper Bound (Atmost Target Element or smaller)
+
+#### **UNOPTIMIZED APPROACH**
+
+- Use Linear Search To find the index where currentElement > target and return the previous index as answer & break
+
+#### **OPTIMIZED APPROACH**
+
+- Using Binary Search
+- **_CASE 1:_** arr[mid] <= target, store current element in answer and traverse in right half
+- **_CASE 2:_** arr[mid] > target, go into left half
+
+### 4. Search Insert Position
+
+#### **OPTIMIZED APPROACH**
+
+- Use Binary Search (Use Lower Bound: Find Either target or just greater element where it will)
+- **_EDGE CASE:_** Initialize answer with arr.size() , if all elements smaller then return array size
+- **_CASE 1:_** If arr[mid] <= target store in ans = mid & start = mid+1
+- **_CASE 2:_** arr[mid] > target, end = mid - 1
+
+### 5. Find Floor & Ceil Value of a given Target
+
+#### **OPTIMIZED APPROACH**
+
+- Use Binary Search
+- Use Lower Bound (atleast element or greater) => ceil
+- Use Upper Bound (atmost element or smaller) => floor
+
+### 6. Find First And Last Occurence Of Element In Array
+
+#### **UNOPTIMIZED APPROACH**
+- For First Occurence -> Start Loop from 0 and reach till target, if not found return -1
+- For Last Occurence -> Start Loop from size-1 and reach till target, if not found return -1
+
+#### **OPTIMIZED APPROACH**
+
+- Use Binary Search And For First Occurence in arr[mid] == target, store index and then update end = mid - 1 to go into left half more to find first occurence
+- Use Binary Search And For Last Occurence in arr[mid] == target, store index and then update start = mid + 1 to go into right half more to find last occurence
+
+### 7. Count Duplicates Of Target In Array
+
+#### **UNOPTIMIZED APPROACH**
+- Initialize counter and whenever currentElement == target, increase counter++
+
+#### **OPTIMIZED APPROACH**
+
+- Find First Occurence, Last Occurence
+- Duplicates: Last Occurence - First Occurrence + 1
+
+### 8. Search In Rotated Sorted Array
+
+#### **UNOPTIMIZED APPROACH**
+- Do A Linear Search And Find The Element
+
+#### **OPTIMIZED APPROACH**
+
+- 
+
+
+
