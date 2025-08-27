@@ -1,3 +1,6 @@
+# KEYWORDS For Revise.md: 
+- EDGE CASE, FORMULA
+
 ### Duplicates -> _XOR_
 
 ### Subarray/Array Sum -> [PREFIX SUM] _HashMap_ => store sum or element & indexes

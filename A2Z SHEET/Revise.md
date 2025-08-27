@@ -918,6 +918,7 @@
 ### 6. Find First And Last Occurence Of Element In Array
 
 #### **UNOPTIMIZED APPROACH**
+
 - For First Occurence -> Start Loop from 0 and reach till target, if not found return -1
 - For Last Occurence -> Start Loop from size-1 and reach till target, if not found return -1
 
@@ -929,6 +930,7 @@
 ### 7. Count Duplicates Of Target In Array
 
 #### **UNOPTIMIZED APPROACH**
+
 - Initialize counter and whenever currentElement == target, increase counter++
 
 #### **OPTIMIZED APPROACH**
@@ -936,14 +938,69 @@
 - Find First Occurence, Last Occurence
 - Duplicates: Last Occurence - First Occurrence + 1
 
-### 8. Search In Rotated Sorted Array
+### 8. Search In Rotated Sorted Array W/O Duplicates
 
 #### **UNOPTIMIZED APPROACH**
+
 - Do A Linear Search And Find The Element
 
 #### **OPTIMIZED APPROACH**
+- ![alt text](images/diagram-export-8-26-2025-8_47_21-AM.svg)
+- Do A Binary Search
+- if arr[mid] == target return mid
+- **_CASE 1:_** Check if arr[start] <= arr[mid], then
+- element in left sorted part: if arr[start] <= target && target <= arr[mid], then element in left sorted array end = mid-1
+- else(WE ASSUMED WRONG) start = mid+1, element in right half
+- ***CASE 2:*** if arr[mid]<=target && target <= arr[end], then element in right sorted array start = mid+1
+- else(WE ASSUMED WRONG) end = mid-1, element in left half
 
+### 9. Search In Rotated Sorted Array With Duplicates
+
+#### **UNOPTIMIZED APPROACH**
+
+- Do A Linear Search And Find The Element
+
+#### **OPTIMIZED APPROACH**
+- Same as 8. Search in Rotated Sorted Array W/O Duplicates
+- ***EDGE CASE:*** If arr[low] = arr[mid] = arr[high], then increment low & decrement high
+
+### 10. Search Minimum In Rotated Sorted Array
+
+#### **UNOPTIMIZED APPROACH**
+
+- Do A Linear Search And Find The Smallest Element
+
+#### **OPTIMIZED APPROACH**
+- Do Binary Search Same as rotated sorted array
+- Look into sorted half whose arr[start] <= arr[mid] or the right half store the start of sorted half as minimum and then discard the sorted half
+- {Choose Leftmost element of Sorted Half And Then Look into other half}
+
+### 11. Number Of Times Array Rotated
+
+#### **UNOPTIMIZED APPROACH**
+
+- Do A Linear Search, Return index where currentElement > nextElement
+
+#### **OPTIMIZED APPROACH**
+- Do Binary Search Same as rotated sorted array
+- Find Minimum element in rotated sorted array by storing left most of sorted half as minimum and then discarding the sorted half
+
+### 12. Search Single Element in Array Of Duplicates
+
+#### **UNOPTIMIZED APPROACH 1**
+
+- Do A Linear Search, Return index where currentElement != previousElement && currentElement != nextElement
+
+#### **UNOPTIMIZED APPROACH 2**
+
+- XOR Every Element { Same Element ^ Same Element = 0, 0 ^ Different Element } and we will get the Single Element
+
+#### **UNOPTIMIZED APPROACH 3**
+
+- Hashmap of frequency & whenever frequency == 1 return that element
+
+#### **OPTIMIZED APPROACH [Even/Odd Index]**
+- ![alt text](<images/Screen Shot 2025-08-27 at 1.43.03 AM.png>)
+- Do Binary Search 
+- If 
 - 
-
-
-
