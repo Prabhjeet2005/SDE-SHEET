@@ -866,6 +866,8 @@
 
 # Step 4. Binary Search [SORTED O(logn)]
 
+- **_Try & Make Some pattern to eliminate a half_**
+
 ## Binary Search On 1D Array
 
 ### **_FORMULA: start + (end - mid)/2_**
@@ -945,13 +947,14 @@
 - Do A Linear Search And Find The Element
 
 #### **OPTIMIZED APPROACH**
+
 - ![alt text](images/diagram-export-8-26-2025-8_47_21-AM.svg)
 - Do A Binary Search
 - if arr[mid] == target return mid
 - **_CASE 1:_** Check if arr[start] <= arr[mid], then
 - element in left sorted part: if arr[start] <= target && target <= arr[mid], then element in left sorted array end = mid-1
 - else(WE ASSUMED WRONG) start = mid+1, element in right half
-- ***CASE 2:*** if arr[mid]<=target && target <= arr[end], then element in right sorted array start = mid+1
+- **_CASE 2:_** if arr[mid]<=target && target <= arr[end], then element in right sorted array start = mid+1
 - else(WE ASSUMED WRONG) end = mid-1, element in left half
 
 ### 9. Search In Rotated Sorted Array With Duplicates
@@ -961,8 +964,9 @@
 - Do A Linear Search And Find The Element
 
 #### **OPTIMIZED APPROACH**
+
 - Same as 8. Search in Rotated Sorted Array W/O Duplicates
-- ***EDGE CASE:*** If arr[low] = arr[mid] = arr[high], then increment low & decrement high
+- **_EDGE CASE:_** If arr[low] = arr[mid] = arr[high], then increment low & decrement high
 
 ### 10. Search Minimum In Rotated Sorted Array
 
@@ -971,6 +975,7 @@
 - Do A Linear Search And Find The Smallest Element
 
 #### **OPTIMIZED APPROACH**
+
 - Do Binary Search Same as rotated sorted array
 - Look into sorted half whose arr[start] <= arr[mid] or the right half store the start of sorted half as minimum and then discard the sorted half
 - {Choose Leftmost element of Sorted Half And Then Look into other half}
@@ -982,6 +987,7 @@
 - Do A Linear Search, Return index where currentElement > nextElement
 
 #### **OPTIMIZED APPROACH**
+
 - Do Binary Search Same as rotated sorted array
 - Find Minimum element in rotated sorted array by storing left most of sorted half as minimum and then discarding the sorted half
 
@@ -1000,7 +1006,56 @@
 - Hashmap of frequency & whenever frequency == 1 return that element
 
 #### **OPTIMIZED APPROACH [Even/Odd Index]**
+
 - ![alt text](<images/Screen Shot 2025-08-27 at 1.43.03 AM.png>)
-- Do Binary Search 
-- If 
-- 
+- Do Binary Search
+- Even-Odd Pair {Left Half LEFT->EVEN,RIGHT->ODD}
+- Check Mid Left and Right Element if they both are not equal then mid answer
+- **_EDGE CASE: _** If Single Element, First Element != Second Element, Last Element != Second Last Element
+- For Left Half being normal & not containing single element either mid%2 == 0,then arr[mid+1] should same OR mid%2 == 1, then arr[mid-1] should be same to arr[mid], --> DISCARD CURRENT HALF
+- Otherwise Ans will be in left half
+
+### 13. Find Peak Element
+
+#### **UNOPTIMIZED APPROACH**
+
+- For Each Element check whether arr[i-1]< arr[i] && arr[i] > arr[i+1], if so then return arr[i] as peak element
+
+#### **OPTIMIZED APPROACH**
+
+- **_EDGE CASE:_** If size == 1, first element > secondElement, lastElement > prevElement
+- start = 1, end = size-2
+- if arr[mid] > arr[mid+1] && arr[mid] > arr[mid+2], return arr[mid]
+- if arr[mid-1] < arr[mid] && arr[mid] < arr[mid+1] --> INCREASING ORDER No Peak Left Half, move to right
+- else search for peak in left half
+
+## Binary Search On Answers [HARD]
+
+### 1. Find SQRT Of Number
+
+#### **UNOPTIMIZED APPROACH**
+
+- From 1 To N Square Each Number, store in ans if i\*i <= number
+- if i\*i > number break
+
+#### **OPTIMIZED APPROACH [sqrt()]**
+
+- Use Built In Function sqrt()
+
+#### **OPTIMIZED APPROACH 2**
+
+- Assume Search Space from 1 to n
+- if mid \* mid <= n store in answer
+- otherwise move to respective half
+
+### 2. Find Nth Root Of Number
+
+#### **UNOPTIMIZED APPROACH**
+
+- **_exponential power base :_** method Base, Power ---> while(pow > 0) if(Pow % 2==1) then Pow-- ; ans _= ans _ Base; else Pow /=2; Base \*= Base
+- For Each Number from 1 upto number if i _ i _ i………\* i ( N times ), then break and return the answer
+
+#### **OPTIMIZED APPROACH**
+
+- Do Binary Search From 1 to Number
+- if mid \* mid \*....mid (N times) == Number at N times then store and return the answer otherwise -1

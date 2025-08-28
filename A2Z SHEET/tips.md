@@ -17,3 +17,6 @@
 
 ### Count Inversions/Reverse *PAIRS* (i < j && arr[i]>arr[j]) => Merge Sort
 - pairs try to use merge sort if i < j && arr[i] > arr[j] something like this condition
+
+### Binary Search
+- Use Some Trick to Move in Either of Half (Recognize some pattern)
