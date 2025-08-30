@@ -1031,6 +1031,8 @@
 
 ## Binary Search On Answers [HARD]
 
+### Minimize the max OR Maximize the min
+
 ### 1. Find SQRT Of Number
 
 #### **UNOPTIMIZED APPROACH**
@@ -1059,3 +1061,50 @@
 
 - Do Binary Search From 1 to Number
 - if mid \* mid \*....mid (N times) == Number at N times then store and return the answer otherwise -1
+
+### 3. Koko Eating Banana [Minimum K to consume within H Hours]
+
+- **_BINARY SEARCH ON ANSWER SPACE_**
+
+- **_FORMULA :_** Time Req = ceil((double)arr[i]/(double)bananaPerHor)
+- **_EDGE CASE:_** double required otherwise give less answer
+
+#### **UNOPTIMIZED APPROACH**
+
+- From 1 to MaxElement in Array
+- calculate time required for each iteration
+- if timeReqd <= H , then return iteration
+
+#### **OPTIMIZED APPROACH [BINARY SEARCH]**
+
+- Do Binary Search From 1 to MaxElement, find mid
+- if timeReqd by mid <= H, then store mid and end = mid-1
+- otherwise start = mid+1
+
+### 4. Minimum Days To Make M Bouquets
+
+#### **UNOPTIMIZED APPROACH**
+- Traverse From Min Element to Max Element {because atleast min Element Days Required for 1st flower to bloom}
+- for each element traverse through entire array 
+- if arr[j] <= i then increase the count
+- otherwise store BouquetsFormed += count / k & Reset Counter
+- Now check if BouquetsFormed >= M
+
+#### **OPTIMIZED APPROACH**
+- Same As Unoptimized approach just use BINARY SEARCH and calculate mid
+- if BouquetCount >= M, then store ans & end = mid-1
+- else start = mid+1
+
+### 5. Minimum Divisor Sum With Threshold K
+
+#### **UNOPTIMIZED APPROACH**
+- Traverse From 1 to Max Element 
+- for each element as divisor traverse through entire array 
+- calculate sum = ceil((double)arr[i]/(double)i)
+- otherwise store BouquetsFormed += count / k & Reset Counter
+- Now check if BouquetsFormed >= M
+
+#### **OPTIMIZED APPROACH**
+- Same As Unoptimized approach just use BINARY SEARCH and calculate mid
+- if BouquetCount >= M, then store ans & end = mid-1
+- else start = mid+1
