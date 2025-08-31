@@ -1025,7 +1025,7 @@
 
 - **_EDGE CASE:_** If size == 1, first element > secondElement, lastElement > prevElement
 - start = 1, end = size-2
-- if arr[mid] > arr[mid+1] && arr[mid] > arr[mid+2], return arr[mid]
+- if arr[mid] > arr[mid+1] && arr[mid] > arr[mid-1], return arr[mid]
 - if arr[mid-1] < arr[mid] && arr[mid] < arr[mid+1] --> INCREASING ORDER No Peak Left Half, move to right
 - else search for peak in left half
 
@@ -1065,7 +1065,7 @@
 ### 3. Koko Eating Banana [Minimum K to consume within H Hours]
 
 - **_BINARY SEARCH ON ANSWER SPACE_**
-
+- **Can't move further till current pile not completed so use this formula**
 - **_FORMULA :_** Time Req = ceil((double)arr[i]/(double)bananaPerHor)
 - **_EDGE CASE:_** double required otherwise give less answer
 
@@ -1084,13 +1084,15 @@
 ### 4. Minimum Days To Make M Bouquets
 
 #### **UNOPTIMIZED APPROACH**
+
 - Traverse From Min Element to Max Element {because atleast min Element Days Required for 1st flower to bloom}
-- for each element traverse through entire array 
+- for each element traverse through entire array
 - if arr[j] <= i then increase the count
 - otherwise store BouquetsFormed += count / k & Reset Counter
 - Now check if BouquetsFormed >= M
 
 #### **OPTIMIZED APPROACH**
+
 - Same As Unoptimized approach just use BINARY SEARCH and calculate mid
 - if BouquetCount >= M, then store ans & end = mid-1
 - else start = mid+1
@@ -1098,13 +1100,38 @@
 ### 5. Minimum Divisor Sum With Threshold K
 
 #### **UNOPTIMIZED APPROACH**
-- Traverse From 1 to Max Element 
-- for each element as divisor traverse through entire array 
-- calculate sum = ceil((double)arr[i]/(double)i)
-- otherwise store BouquetsFormed += count / k & Reset Counter
-- Now check if BouquetsFormed >= M
+
+- Traverse From 1 to Max Element
+- for each element as divisor traverse through entire array
+- calculate sum = ceil((double)arr[i]/(double)divisor)
+- return if sum <= threshold
 
 #### **OPTIMIZED APPROACH**
-- Same As Unoptimized approach just use BINARY SEARCH and calculate mid
-- if BouquetCount >= M, then store ans & end = mid-1
-- else start = mid+1
+
+- Same as unoptimized approach just use binary search to look for divisor from 1 to maxElement
+
+### 6. Minimum Ship Capacity to ship with D Days [Order Maintained unlike koko eating banana]
+
+- ![alt text](<images/Screen Shot 2025-08-30 at 4.48.05 PM.png>)
+
+#### **UNOPTIMIZED APPROACH**
+
+- Traverse From Max Element to Sum of Array --> Gets package capacity {because at max every Package can be deliverd in 1 day which will be sum of all packages}
+- initialize with day 1 and till the currentLoad doesn't cross the Capacity keep on increasing the currentLoad
+- if currentLoad > capacity, then day++ and set currentLoad to currentPackage
+- After Loop if day <= dayTarget then return answer
+
+#### **OPTIMIZED APPROACH**
+
+- Same as unoptimized approach just use binary search to look for days from maxElement to sum of all Elements
+
+### 7. Kth Missing Number Sorted Array  [NON INTUITIVE]
+#### **UNOPTIMIZED APPROACH**
+- given k
+- ***FORMULA:*** if arr[i] <= k, then k++, otherwise return k
+
+#### **OPTIMIZED APPROACH**
+- Apply Binary Search calculate missingNumber: arr[mid] - index + 1 <= k, then start = mid+1, otherwise end = mid-1
+- After Binary search end will be behind and start will be ahead where the missing number should lie 
+- then return k + end +1
+
