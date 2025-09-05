@@ -1054,7 +1054,7 @@
 
 #### **UNOPTIMIZED APPROACH**
 
-- **_exponential power base :_** method Base, Power ---> while(pow > 0) if(Pow % 2==1) then Pow-- ; ans _= ans _ Base; else Pow /=2; Base \*= Base
+- **_exponential power base :_** method Base, Power ---> while(pow > 0) if(Pow % 2==1) then Pow-- ; ans = ans \* Base; else Pow /=2; Base \*= Base
 - For Each Number from 1 upto number if i _ i _ i………\* i ( N times ), then break and return the answer
 
 #### **OPTIMIZED APPROACH**
@@ -1125,13 +1125,58 @@
 
 - Same as unoptimized approach just use binary search to look for days from maxElement to sum of all Elements
 
-### 7. Kth Missing Number Sorted Array  [NON INTUITIVE]
+### 7. Kth Missing Number Sorted Array [NON INTUITIVE]
+
 #### **UNOPTIMIZED APPROACH**
+
 - given k
-- ***FORMULA:*** if arr[i] <= k, then k++, otherwise return k
+- **_FORMULA:_** if arr[i] <= k, then k++, otherwise return k
+- [WHY K++ ?] As if any element comes which is smaller than k takes 1 place so increase k++
 
 #### **OPTIMIZED APPROACH**
-- Apply Binary Search calculate missingNumber: arr[mid] - index + 1 <= k, then start = mid+1, otherwise end = mid-1
-- After Binary search end will be behind and start will be ahead where the missing number should lie 
-- then return k + end +1
 
+- **_FORMULA:_** K + high + 1  { arr[high] + (K - (arr[high]- (high + 1))) --> Current Element + ( K - Missing Number ) }
+- Apply Binary search from 1 to max(arr[])
+- For mid, the missingNumbers = arr[mid] - (mid + 1)
+- if missingNumber == k, then return k
+- if missingNumbers < k, then start = mid+1
+- else end = mid - 1
+- After Completion end will come before start
+- **_EDGE CASE 1:_** if(high <= -1) return k
+<!-- - **_EDGE CASE 2:_** if(high >= arr.size()) return (arr[low] - (low+1)) + K -->
+- return K + high + 1
+- ![alt text](<images/Screen Shot 2025-09-03 at 9.17.13 AM.png>)
+- ![alt text](<images/Screen Shot 2025-09-03 at 9.22.14 AM.png>)
+
+### 8. Aggressive Cows
+
+#### **UNOPTIMIZED APPROACH**
+- SORT ARRAY
+- from distance 1 to maxDistance - minDistance
+- Allocate First Cow to First Stall, now check for rest of stalls if currentStall - last Allocated stall >= allowedDistance(Taken by loop) then allocate stall and increase cow count
+- return previous distance if cowCounted < cowsGiven 
+- otherwise return max - min
+
+#### **OPTIMIZED APPROACH**
+- Same As Unoptimized approach just apply binary search on Limit distance
+
+### 9. Book Allocation
+
+#### **UNOPTIMIZED APPROACH**
+- from maxElement to SumElements
+- if Sum till current Pg > pages(Taken By Loop) then increase student count and reset SumTillCurrentPg to currentElement
+- otherwise increase SumTillCurrentPg count
+- if studentCount == studentGiven return pages, else return maxElement
+
+#### **OPTIMIZED APPROACH**
+- Same As Unoptimized approach but apply binary search on pages
+- return low as answer
+
+### 10. Split Array: Largest Sum
+
+#### **UNOPTIMIZED APPROACH**
+- 
+
+#### **OPTIMIZED APPROACH**
+- Same As Unoptimized approach but apply binary search on pages
+- return low as answer
