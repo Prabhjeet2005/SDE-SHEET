@@ -1,6 +1,9 @@
 # KEYWORDS For Revise.md:
 
-- EDGE CASE, FORMULA, NON INTUITIVE
+- EDGE CASE     -> Cases that i missed or can miss
+- FORMULA       -> Formula For Particular question
+- NON INTUITIVE -> No intuition almost WROTE Learning
+- CONCEPT       -> Makes Many Question Clear
 
 # Duplicates -> _XOR_
 
@@ -22,10 +25,15 @@
 
 # Binary Search
 
-- ****Binary Search on 1D*** Use Some Trick to Move in Either of Half (Recognize some pattern)
+- ***Binary Search on 1D*** Use Some Trick to Move in Either of Half (Recognize some pattern)
 - **_ANSWER SPACE: _** For Finding Min/Max, Find Min Value, Max Value and apply Binary Search While looping from min <= max look if each possible otherwise go to other half
 - One Limit to Another Limit Consecutive Try Apply Binary Search Eg. [minElement,maxElement] or [1,n]
 - [No,No,No,Yes,Yes,Yes,Yes] -> Ans Search Space Array Looks Something like this find the min or max
+
+## ***Binary Search [Book Allocate, Aggressive Cows, Painter Partition]***
+- greedily take sum and  increase count if limit violated
+
+
 
 # Binary Search V/s DP
 - ![alt text](<images/Screen Shot 2025-08-30 at 2.58.11 AM.png>)

@@ -1135,7 +1135,7 @@
 
 #### **OPTIMIZED APPROACH**
 
-- **_FORMULA:_** K + high + 1  { arr[high] + (K - (arr[high]- (high + 1))) --> Current Element + ( K - Missing Number ) }
+- **_FORMULA:_** K + high + 1 { arr[high] + (K - (arr[high]- (high + 1))) --> Current Element + ( K - Missing Number ) }
 - Apply Binary search from 1 to max(arr[])
 - For mid, the missingNumbers = arr[mid] - (mid + 1)
 - if missingNumber == k, then return k
@@ -1151,32 +1151,60 @@
 ### 8. Aggressive Cows
 
 #### **UNOPTIMIZED APPROACH**
+
 - SORT ARRAY
 - from distance 1 to maxDistance - minDistance
 - Allocate First Cow to First Stall, now check for rest of stalls if currentStall - last Allocated stall >= allowedDistance(Taken by loop) then allocate stall and increase cow count
-- return previous distance if cowCounted < cowsGiven 
+- return previous distance if cowCounted < cowsGiven
 - otherwise return max - min
 
 #### **OPTIMIZED APPROACH**
+
 - Same As Unoptimized approach just apply binary search on Limit distance
 
 ### 9. Book Allocation
 
 #### **UNOPTIMIZED APPROACH**
+
 - from maxElement to SumElements
 - if Sum till current Pg > pages(Taken By Loop) then increase student count and reset SumTillCurrentPg to currentElement
 - otherwise increase SumTillCurrentPg count
 - if studentCount == studentGiven return pages, else return maxElement
 
 #### **OPTIMIZED APPROACH**
+
 - Same As Unoptimized approach but apply binary search on pages
 - return low as answer
 
 ### 10. Split Array: Largest Sum
 
+- _Minimized Largest Sum -> Binary Search [Reason For Binary Search]_
+
 #### **UNOPTIMIZED APPROACH**
-- 
+
+- from maxElement to SumArr (range decide because atleast max element should be there and at max there could be sum of all elements)
+- whenever sum > limit (Decide By Loop) then increase subarray count and reset sum to current element
+- if countSubarray == givenCountSubarray, return limit
 
 #### **OPTIMIZED APPROACH**
-- Same As Unoptimized approach but apply binary search on pages
-- return low as answer
+
+- ![alt text](images/diagram-export-9-5-2025-11_08_35-AM.svg)
+- **_CONCEPT EDGE CASE:_** After Getting Answer Minimize it so put answer variable in <=
+- Same As Unoptimized approach but apply binary search on range of sum
+- return mid as answer
+
+### 11. Painter's Partition
+
+- Same as [ 10. Split Array: Largest Sum ]
+
+### 12. Minimize Max Distance Between Gas Stations
+
+- _Minimized Max Distance -> Binary Search [Reason For Binary Search]_
+
+#### **UNOPTIMIZED APPROACH**
+
+-
+
+#### **OPTIMIZED APPROACH**
+
+-
