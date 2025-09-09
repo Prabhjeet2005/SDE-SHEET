@@ -1023,7 +1023,7 @@
 
 #### **OPTIMIZED APPROACH**
 
-- **_EDGE CASE:_** If size == 1, first element > secondElement, lastElement > prevElement
+- **_EDGE CASE:_** If size == 1, first element > secondElement or lastElement > prevElement
 - start = 1, end = size-2
 - if arr[mid] > arr[mid+1] && arr[mid] > arr[mid-1], return arr[mid]
 - if arr[mid-1] < arr[mid] && arr[mid] < arr[mid+1] --> INCREASING ORDER No Peak Left Half, move to right
@@ -1197,14 +1197,118 @@
 
 - Same as [ 10. Split Array: Largest Sum ]
 
+- ![alt text](images/diagram-export-9-8-2025-8_41_01-AM.svg)
+
 ### 12. Minimize Max Distance Between Gas Stations
 
 - _Minimized Max Distance -> Binary Search [Reason For Binary Search]_
+- ![alt text](images/diagram-export-9-7-2025-7_31_41-PM.svg)
 
 #### **UNOPTIMIZED APPROACH**
 
--
+- INSERT GAS STATION WHERE MAX DISTANCE BETWEEN 2 POINTS, then maintain count in how many placed
+- use formula arr[i+1]-arr[i] / gasStations[i] + 1
+
+#### **BETTER APPROACH**
+
+- Same as unoptimized approach just use MAX HEAP To Find Max Element
+
+#### **OPTIMIZED APPROACH [Very Tough]**
+
+- **_BINARY SEARCH DECIMAL_**
+- from 0 to max(distance)
+- run loop 1 to n, numberInBetween = arr[i] - arr[i-1] / currentDistance
+- if numberInBetween == arr[i]-arr[i-1] / currentDistance, then numberInBetween--
+- increase count += numberInBetween
+- out of loop if count > k then high = mid otherwise low = mid
+
+### 13. Median Of 2 Sorted Arrays
+
+#### **UNOPTIMIZED APPROACH**
+
+- Merge 2 arrays by taking extra space and if even size return
+  ((n1 + n2)/2 + (n1+n2/2 + 1)) / 2 otherwise return (n1+n2)/2
+
+#### **BETTER APPROACH**
+
+- Maintain a count variable and whenever count reaches (n1+n2)/2 or (n1+n2)/2 + 1 store those elements and return if even avg(element1,element2) otherwise return element1
+
+#### **OPTIMIZED APPROACH [Binary Search Partition]**
+
+- **_Odd No. Element_**
+- ![alt text](<images/Screen Shot 2025-09-09 at 6.18.07 AM.png>)
+- **_Even No. Element_**
+- ![alt text](<images/Screen Shot 2025-09-09 at 6.30.30 AM.png>)
+- **_BINARY SEARCH ON No. OF ELEMENTS TAKEN FROM 1 ARRAY_**
+- Pick partition by left = (n1+n2)/2 [EACH HALF SIZE]
+- Take 0 to size(n1) (no. of elements from smaller array)
+- mid1 = mid [arr1 no. of elements left half], mid2 = left - mid1 [arr2 no. of elements left half]
+- calculate l1,l2,r1,r2 and check whether l1 <= r2 and l2 <= r1 then calculate median
+- l1 > r2 then decrease no. elements taken high = mid-1
+- else start = mid+1
+
+### 14. Element At Kth Position of 2 Sorted Arrays
+
+#### **UNOPTIMIZED APPROACH**
+
+- Same as 13. Median Of 2 Sorted Arrays
+
+#### **BETTER APPROACH**
+
+- Same as 13. Median Of 2 Sorted Arrays
 
 #### **OPTIMIZED APPROACH**
 
--
+- Just use Left Half Size as K not mid as taken earlier
+- **_EDGE CASE:_** start and end points
+- ![alt text](<images/Screen Shot 2025-09-09 at 10.58.24 AM.png>)
+
+## Binary Search On 1D Array
+
+### 1. Find Row Index With Maximum 1's [Rows are Sorted & consist only 0 & 1]
+
+#### **UNOPTIMIZED APPROACH**
+- Traverse Each and every row and count no. of 1
+- Maintain FinalMaxCount and update if current1Count > FinalMaxCount
+
+#### **OPTIMIZED APPROACH**
+- Row Traversal To Find Current1Count should be done by Binary Search Since every Row is Sorted
+
+### 2. Search Element In Sorted 2D Array
+
+#### **UNOPTIMIZED APPROACH**
+- Do Linear Search
+
+#### **BETTER APPROACH**
+- For Each Row Do Binary Search
+
+#### **OPTIMIZED APPROACH**
+- m -> No. Of Cols
+- Convert 2D -> 1D Array Search From 0 to (N*M)-1
+- For Any Index Its CELL Location => ( index / M , index % M )
+
+- ![alt text](images/diagram-export-9-9-2025-12_26_19-PM.svg)
+
+### 3. Search Element In Sorted 2D Array Row And Column are Sorted Individually
+
+#### **UNOPTIMIZED APPROACH**
+- Do Linear Search
+
+#### **BETTER APPROACH**
+- For Each Row Do Binary Search
+
+#### **OPTIMIZED APPROACH**
+- start from top right element
+- if currentElement > target then move col--
+- other wise move row++
+
+### 4. Find Peak Element
+
+#### **UNOPTIMIZED APPROACH**
+
+
+#### **BETTER APPROACH**
+
+
+#### **OPTIMIZED APPROACH**
+

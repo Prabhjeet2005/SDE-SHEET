@@ -1,9 +1,9 @@
 # KEYWORDS For Revise.md:
 
-- EDGE CASE     -> Cases that i missed or can miss
-- FORMULA       -> Formula For Particular question
+- EDGE CASE -> Cases that i missed or can miss
+- FORMULA -> Formula For Particular question
 - NON INTUITIVE -> No intuition almost WROTE Learning
-- CONCEPT       -> Makes Many Question Clear
+- CONCEPT -> Makes Many Question Clear
 
 # Duplicates -> _XOR_
 
@@ -25,27 +25,48 @@
 
 # Binary Search
 
-- ***Binary Search on 1D*** Use Some Trick to Move in Either of Half (Recognize some pattern)
+- **_Binary Search on 1D_** Use Some Trick to Move in Either of Half (Recognize some pattern)
 - **_ANSWER SPACE: _** For Finding Min/Max, Find Min Value, Max Value and apply Binary Search While looping from min <= max look if each possible otherwise go to other half
 - One Limit to Another Limit Consecutive Try Apply Binary Search Eg. [minElement,maxElement] or [1,n]
 - [No,No,No,Yes,Yes,Yes,Yes] -> Ans Search Space Array Looks Something like this find the min or max
 
-## ***Binary Search [Book Allocate, Aggressive Cows, Painter Partition]***
-- greedily take sum and  increase count if limit violated
+## **_Binary Search [Book Allocate, Aggressive Cows, Painter Partition]_**
 
+- greedily take sum and increase count if limit violated
 
+## Binary Search [Decimal] Method
+
+- ![alt text](images/diagram-export-9-8-2025-8_41_01-AM.svg)
+- For First 6 Decimal Places Matching
+- while(high - low > 1e-6) low = mid , high = mid
 
 # Binary Search V/s DP
+
 - ![alt text](<images/Screen Shot 2025-08-30 at 2.58.11 AM.png>)
 - ![alt text](<images/Screen Shot 2025-08-30 at 2.58.46 AM.png>)
 
+# Binary Search Partition
+
+- 2 Array Given assume a partition and decide how many elements to take from smaller size array
 
 # Maths
+
 ## Odd/Even Trick
+
 - Odd + Even -> Odd
 - Even + Odd -> Odd
 - Odd + Odd -> Even
 - Even + Even -> Even
 
+## >> , <<
+
+- \>\> this operator divides number with 2^n [40 \>\> 2 will be 40 / 2^2]
+- << this operator multiplies number with 2^n [5 << 3 will be 5 * 2^3]
+
 ## Find Ceil
-- ceil( (double)arr[i] / (double) i )  // DOUBLE is Important otherwise give floor value
+
+- ceil( (double)arr[i] / (double) i ) // DOUBLE is Important otherwise give floor value
+
+# Heap [Priority Queue]
+
+- When Repeatedly find max or min and array constatntly Change then use HEAP
