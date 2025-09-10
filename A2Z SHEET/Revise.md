@@ -1343,3 +1343,14 @@
 ## Basic & Easy String Problems
 
 ### 1. Remove OuterMost Paranthesis
+
+#### **UNOPTIMIZED APPROACH**
+- Use A Stack
+- if str[i] == "(" ,then if !stack.empty() {then means it is not first bracket and add to ans += "("} push to stack("(") 
+- if str[i] == ")" and stack.size() > 1 {then only add ")" to ans}, pop from stack
+- We Do Size check as we want to remove outermost paranthesis
+
+#### **OPTIMIZED APPROACH**
+- take string ans = ""
+- paranthesisCount = 0, if str[i] == "(" ,then store in ans += "(" [only when paranthesisCount != 0 as if count is 0 then it means it is first outermost bracket], paranthesisCount++
+- if str[i] == ")" , then if paranthesisCount > 1 store in ans += ")" ,then paranthesisCount--

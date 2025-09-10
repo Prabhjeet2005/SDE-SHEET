@@ -73,6 +73,15 @@
 
 - ceil( (double)arr[i] / (double) i ) // DOUBLE is Important otherwise give floor value
 
+# Strings
+
+## STL
+- .size(), .empty(), str[0], .front(), .back()
+- .push_back() -> Adds Only 1 char, .insert(index,"string"), .erase(index,len), .clear()
+- += best for appending a string to another string
+- str.find("string") -> return index, .substr(index,len)
+- to_string(42), stoi("42"), stod("4.2")
+
 # Heap [Priority Queue]
 
 - When Repeatedly find max or min and array constatntly Change then use HEAP
