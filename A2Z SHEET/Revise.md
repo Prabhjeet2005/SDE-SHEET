@@ -1268,23 +1268,28 @@
 ### 1. Find Row Index With Maximum 1's [Rows are Sorted & consist only 0 & 1]
 
 #### **UNOPTIMIZED APPROACH**
+
 - Traverse Each and every row and count no. of 1
 - Maintain FinalMaxCount and update if current1Count > FinalMaxCount
 
 #### **OPTIMIZED APPROACH**
+
 - Row Traversal To Find Current1Count should be done by Binary Search Since every Row is Sorted
 
 ### 2. Search Element In Sorted 2D Array
 
 #### **UNOPTIMIZED APPROACH**
+
 - Do Linear Search
 
 #### **BETTER APPROACH**
+
 - For Each Row Do Binary Search
 
 #### **OPTIMIZED APPROACH**
+
 - m -> No. Of Cols
-- Convert 2D -> 1D Array Search From 0 to (N*M)-1
+- Convert 2D -> 1D Array Search From 0 to (N\*M)-1
 - For Any Index Its CELL Location => ( index / M , index % M )
 
 - ![alt text](images/diagram-export-9-9-2025-12_26_19-PM.svg)
@@ -1292,23 +1297,49 @@
 ### 3. Search Element In Sorted 2D Array Row And Column are Sorted Individually
 
 #### **UNOPTIMIZED APPROACH**
+
 - Do Linear Search
 
 #### **BETTER APPROACH**
+
 - For Each Row Do Binary Search
 
 #### **OPTIMIZED APPROACH**
+
 - start from top right element
 - if currentElement > target then move col--
 - other wise move row++
 
-### 4. Find Peak Element
+### 4. Find Peak Element 2D
 
 #### **UNOPTIMIZED APPROACH**
 
-
-#### **BETTER APPROACH**
-
+- For Each & Every Element Check Top,Right,Bottom,Left Values if currentElement is greater than all then return its position
 
 #### **OPTIMIZED APPROACH**
 
+- Apply Binary Search On Row And For The mid take Max element[to cover top < element && bottom < element] and check for max whether increasing order of left and right if increasing then go to right half as peak will be there otherwise move to left half
+- ![alt text](images/diagram-export-9-10-2025-9_12_32-AM.svg)
+
+### 5. Find Median Odd Sized 2D Array [Row-wise Sorted 2D]
+
+- LENGTH OF ARRAY IS ODD
+
+#### **UNOPTIMIZED APPROACH**
+
+- Put each element in ordered_set and then initialize counter for odd size/2, for even (arr[size-1]/2 + (arr[size]/2 + 1))/2.0
+
+#### **OPTIMIZED APPROACH**
+
+- Search Space 0 to M\*N-1
+- Find How Many Elements <= MID
+- if elements > ( M\*N )/2 then found potential answer and move left to find smallest which will be the median
+- otherwise move right
+
+# Step 5. Strings
+
+- **_#include< string >_**
+
+## Basic & Easy String Problems
+
+### 1. Remove OuterMost Paranthesis

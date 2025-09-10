@@ -51,6 +51,12 @@
 
 # Maths
 
+## LCM
+
+- LCM = |a| \* |b| / GCD(a,b) => Avoid Integer Overflow Multiply |b| seperate
+- **_GCD Formula_**
+- ![alt text](images/diagram-export-9-9-2025-7_27_35-PM.svg)
+
 ## Odd/Even Trick
 
 - Odd + Even -> Odd
