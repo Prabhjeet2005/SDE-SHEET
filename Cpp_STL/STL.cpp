@@ -8,6 +8,7 @@
 #include <unordered_map>
 #include <queue>
 #include <algorithm>
+#include <string>
 using namespace std;
 
 int main()
@@ -125,5 +126,27 @@ int main()
     cout << it << " ";
   }
   cout << endl;
-  // ------------------------------  ------------------------------
+  // ------------------------------ STRING ------------------------------
+  cout << "\n";
+  string str = "Hello, cruel world!";
+  str.erase(7, 6); // From 7 index erase 6 char
+  cout << "After Erase: " << str;
+  cout << "\n";
+  str.insert(7, "cruel "); // Insert At 7th Index
+  cout << "After Insert: " << str;
+  cout << "\n";
+  size_t position = str.find("cruel"); // Find
+  if (position != str.size())
+  {
+    cout << "cruel found at: " << position << endl;
+    cout << "Substring at 7th index: " << str.substr(7, 5) << endl; // Extract substr from 7th index 5 character
+  }
+  int number = 234;
+  cout << "Num to String: " << to_string(number); // Convert Number -> String
+  cout << "\n";
+  string numStr = "345";
+  cout << "String to Int: " << stoi(numStr);
+  cout << "\n";
+  string doubleStr = "3.14";
+  cout << "String to Double: " << stod(doubleStr) << endl;
 }
