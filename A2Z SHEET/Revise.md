@@ -856,7 +856,7 @@
 - **ZERO ENCOUNTERED:** at any point if(pre == 0) then set pre = 1 ,or suff == 0 then set suffix = 0
 - otherwise calculate currentProduct and store max of pre,suffix,ans
 
-#### **[ DON'T Do In Interview NOT INTUITIVE ]OPTIMIZED APPROACH 2 [Kadane Modified]**
+#### **[ DON'T Do In Interview NON INTUITIVE ]OPTIMIZED APPROACH 2 [Kadane Modified]**
 
 - _Main Idea of This is we can get max product from -ve elements product as well_
 - Maintain prod1 and prod2
@@ -1345,12 +1345,65 @@
 ### 1. Remove OuterMost Paranthesis
 
 #### **UNOPTIMIZED APPROACH**
+
 - Use A Stack
-- if str[i] == "(" ,then if !stack.empty() {then means it is not first bracket and add to ans += "("} push to stack("(") 
+- if str[i] == "(" ,then if !stack.empty() {then means it is not first bracket and add to ans += "("} push to stack("(")
 - if str[i] == ")" and stack.size() > 1 {then only add ")" to ans}, pop from stack
 - We Do Size check as we want to remove outermost paranthesis
 
 #### **OPTIMIZED APPROACH**
+
 - take string ans = ""
 - paranthesisCount = 0, if str[i] == "(" ,then store in ans += "(" [only when paranthesisCount != 0 as if count is 0 then it means it is first outermost bracket], paranthesisCount++
 - if str[i] == ")" , then if paranthesisCount > 1 store in ans += ")" ,then paranthesisCount--
+
+### 2. Reverse Order Of Words In A Given String
+
+#### **UNOPTIMIZED APPROACH**
+
+- Use A Stack and initialize ans = ""
+- if str[i]==" " then store the word in stack
+- Now pop from stack and store in ans then put " " in ans for last element don't put " "
+
+#### **OPTIMIZED APPROACH**
+
+- remove trailing and leading white spaces
+- from right traverse whenever there is white space encounter by left add the substring on right side from left+1 to right ptr
+- reset right each time str[left] != ' ' and str[left+1] == ' '
+- finally add the last word
+
+### 3. Largest odd Integer In String
+
+#### **OPTIMIZED APPROACH**
+
+- From Right Check Whenever The Element is odd return string from start to current char
+- otherwise return ""
+
+### 4. Longest Common Prefix
+
+#### **UNOPTIMIZED APPROACH**
+
+- Find The Minimum String & it's Length Out of vector< string >
+- Traverse For Each String Array and compare it's each character with minimum String
+- if minimum string character becomes not equal to traversing character then update min string length = charIndex-1 and update minimum String
+- **_EDGE CASE: _** if min string size becomes < 0 [NO MATCH] return ""
+- return min common prefix string
+
+### **OPTMIZED APPROACH**
+
+- Sort the array and compare first and last string's characters and return min possible common prefix string
+
+### 5. Isomorphic String [NON INTUITIVE]
+- **_DESCRIPTION_**
+- ![alt text](<images/Screen Shot 2025-09-12 at 11.48.05 PM.png>)
+- All Characters of 1 string can be changed into characters of string 2 While Preserving their order
+- Eg: s1 = "eggd", s2 = "zyyx" ===> Here Each character correspond to another character for same no. of times like if g correspond to y then all g of string 1 must correspond to y in string 2
+
+#### **OPTIMIZED APPROACH**
+
+- ![alt text](images/diagram-export-9-12-2025-11_35_58-PM.svg)
+- **_EDGE CASE:_** Don't Count frequency as it will then violate the condition of first mapping of each character
+- **_REMEMBER: If Store index of any character it should remain same throughout for the other string's mapping_**
+- Create 2 Arrays Of size 256 => ASCII All Symbols
+- if element of string 1 at arr1[str1[i]] ≠ arr2[str2[i]] then it is NOT ISOMORPHIC
+- for each character in each string increase their corresponding array element count by position + 1 to avoid edge case of diagram

@@ -133,6 +133,7 @@ int main()
   cout << "After Erase: " << str;
   cout << "\n";
   str.insert(7, "cruel "); // Insert At 7th Index
+  // str+= "cruel" ADD AT END OF STRING
   cout << "After Insert: " << str;
   cout << "\n";
   size_t position = str.find("cruel"); // Find

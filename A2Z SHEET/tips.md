@@ -74,8 +74,9 @@
 - ceil( (double)arr[i] / (double) i ) // DOUBLE is Important otherwise give floor value
 
 # Strings
+- Try To Use Stack If Removal of something or reversing
 
-## STL
+## STRING STL
 - .size(), .empty(), str[0], .front(), .back()
 - .push_back() -> Adds Only 1 char, .insert(index,"string"), .erase(index,len), .clear()
 - += best for appending a string to another string
