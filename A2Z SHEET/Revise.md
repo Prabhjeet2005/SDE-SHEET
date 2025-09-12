@@ -1407,3 +1407,14 @@
 - Create 2 Arrays Of size 256 => ASCII All Symbols
 - if element of string 1 at arr1[str1[i]] ≠ arr2[str2[i]] then it is NOT ISOMORPHIC
 - for each character in each string increase their corresponding array element count by position + 1 to avoid edge case of diagram
+
+### 6. Rotate String
+
+#### **UNOPTIMIZED SOLUTION**
+- Find All Rotation possible by resversing 3 time 
+- begin->begin+index
+- begin+index -> end
+- begin -> end
+
+
+
