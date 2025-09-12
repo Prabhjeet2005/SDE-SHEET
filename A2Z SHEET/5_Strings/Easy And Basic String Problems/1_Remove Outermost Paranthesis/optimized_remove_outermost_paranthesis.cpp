@@ -11,7 +11,7 @@ public:
   void solution()
   {
     string str = "(()())(())(()(()))";
-    string ans = "";
+    string ans = ""; 
     int paranthesisCount=0;
 
     for (char &ch : str)
