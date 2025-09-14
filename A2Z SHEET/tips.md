@@ -5,6 +5,15 @@
 - NON INTUITIVE -> No intuition almost WROTE Learning
 - CONCEPT -> Makes Many Question Clear
 
+# Array Declaration
+
+- int arr[25] = {0};
+- STL Sort Override
+- std::sort(students.begin(), students.end(), [](const Student& a, const Student& b) {
+        // For descending order, we want 'a' to come before 'b' if a.score is greater.
+        return a > b;
+  });
+
 # Duplicates -> _XOR_
 
 # Subarray/Array Sum -> [PREFIX SUM] _HashMap_ => store sum or element & indexes
@@ -74,9 +83,11 @@
 - ceil( (double)arr[i] / (double) i ) // DOUBLE is Important otherwise give floor value
 
 # Strings
+
 - Try To Use Stack If Removal of something or reversing
 
 ## STRING STL
+
 - .size(), .empty(), str[0], .front(), .back()
 - .push_back() -> Adds Only 1 char, .insert(index,"string"), .erase(index,len), .clear()
 - += best for appending a string to another string

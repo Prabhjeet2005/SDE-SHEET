@@ -1410,11 +1410,38 @@
 
 ### 6. Rotate String
 
-#### **UNOPTIMIZED SOLUTION**
+#### **OPTIMIZED SOLUTION**
 - Find All Rotation possible by resversing 3 time 
 - begin->begin+index
 - begin+index -> end
 - begin -> end
+
+### 7. Is String Anagram
+
+#### **UNOPTIMIZED SOLUTION**
+- Sort the strings and compare
+
+#### **OPTIMIZED SOLUTION**
+- Count Frequency of all characters and compare frequencies if same count then it is valid anagram
+
+### 8. Sort Characters By Frequency
+
+#### **OPTIMIZED APPROACH**
+
+- Store Characters and their frequency in vector < pair < char,int > >
+- store each frequency 
+- sort array by custom comparator sort(arr.begin(),arr.end(),customComparator)
+- return non-zeroed values of Ans Array as they are already sorted in descending order by our custom Sort Operation
+
+### 9. Maximum Nesting Depth Of Paranthesis
+#### **UNOPTIMIZED APPROACH**
+- Take Stack if '(' then push to stack increase count
+- if ')' then pop from stack and decreaseCount
+- return maxCount
+
+#### **OPTIMIZED APPROACH**
+-Same As Unoptimized approach but don't use stack
+
 
 
 
