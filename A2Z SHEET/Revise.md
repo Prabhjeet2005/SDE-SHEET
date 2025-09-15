@@ -1394,6 +1394,7 @@
 - Sort the array and compare first and last string's characters and return min possible common prefix string
 
 ### 5. Isomorphic String [NON INTUITIVE]
+
 - **_DESCRIPTION_**
 - ![alt text](<images/Screen Shot 2025-09-12 at 11.48.05 PM.png>)
 - All Characters of 1 string can be changed into characters of string 2 While Preserving their order
@@ -1411,7 +1412,8 @@
 ### 6. Rotate String
 
 #### **OPTIMIZED SOLUTION**
-- Find All Rotation possible by resversing 3 time 
+
+- Find All Rotation possible by resversing 3 time
 - begin->begin+index
 - begin+index -> end
 - begin -> end
@@ -1419,29 +1421,71 @@
 ### 7. Is String Anagram
 
 #### **UNOPTIMIZED SOLUTION**
+
 - Sort the strings and compare
 
 #### **OPTIMIZED SOLUTION**
+
 - Count Frequency of all characters and compare frequencies if same count then it is valid anagram
 
-### 8. Sort Characters By Frequency
+## MEDIUM String Problems
+
+### 1. Sort Characters By Frequency
 
 #### **OPTIMIZED APPROACH**
 
 - Store Characters and their frequency in vector < pair < char,int > >
-- store each frequency 
+- store each frequency
 - sort array by custom comparator sort(arr.begin(),arr.end(),customComparator)
 - return non-zeroed values of Ans Array as they are already sorted in descending order by our custom Sort Operation
 
-### 9. Maximum Nesting Depth Of Paranthesis
+### 2. Maximum Nesting Depth Of Paranthesis
+
 #### **UNOPTIMIZED APPROACH**
+
 - Take Stack if '(' then push to stack increase count
 - if ')' then pop from stack and decreaseCount
 - return maxCount
 
 #### **OPTIMIZED APPROACH**
--Same As Unoptimized approach but don't use stack
 
+- Same As Unoptimized approach but don't use stack
 
+### 3.(i) Roman -> Integer [Version 1]
 
+#### **OPTIMIZED APPROACH**
 
+- Create A fixed Size Unordered_Map Of Roman Numerals
+- for each roman numeral if i+1 < s.size() && map[s[i]] < map[s[i+1]] then subtract current Roman Numeral From Sum
+- otherwise add to answer current roman Numeral
+
+### 3. (ii) Integer -> Roman Number [Version 2] [NON INTUITIVE]
+
+#### **OPTIMIZED APPROACH**
+
+- create an array containing combinations of {Number,Roman Numeral}
+- keep track of the roman Numeral just below or Equal to current Number
+- whenever number >= Current Roman Number VALUE then add that Roman Numeral STRING to ans & subtract from number the current Roman Number VALUE
+- otherwise if number < current Roman Number VALUE decrease the Roman Number Pointer
+- Return the ans String Containing the Roman Number
+
+### 4. String To Integer
+
+#### **OPTIMIZED APPROACH**
+
+- **_Do it Step By Step_**
+- First Remove Leading whitespaces
+- Then Immediately Check For sign + or - and store it in isPositive
+- Now check for each character if it lies ch - '0' >= 0 && ch - '0' <=9 then insert into finalAns = (finalAns _ 10) + ch - '0' _ sign
+- if finalAns overflows INT_MAX or INT_MIN then return the respective limit
+- if at any moment ch - '0' > 9 or < 0 then break and return ans
+
+### 5. Count no. of Substrings
+
+- **_FORMULA :_** N\*(n+1)/2
+
+### 6. Longest Palindromic Substring [No DP]
+
+#### **UNOPTIMIZED APPROACH**
+
+-

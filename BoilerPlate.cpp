@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include<string>
+#include <string>
 
 using namespace std;
 
@@ -9,7 +9,8 @@ class Solution
 public:
   void solution()
   {
-    vector<int>arr = {};
+    vector<int> arr = {};
+    string str = "";
   }
 };
 
@@ -17,7 +18,7 @@ int main()
 {
   ios_base::sync_with_stdio(false);
   cin.tie(nullptr);
-  cout<<endl;
+  cout << endl;
   Solution sol = Solution();
   sol.solution();
   cout << endl;
