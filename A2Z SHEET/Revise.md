@@ -1486,6 +1486,92 @@
 
 ### 6. Longest Palindromic Substring [No DP]
 
+- SUBSTRING -> Continous Character String
+
 #### **UNOPTIMIZED APPROACH**
+
+- For Each And Every substring Check Whether it is palindrome or not if it is palindrome then store maxSize and store substring in answer
+
+#### **BETTER APPROACH [Expand From CENTER]**
+
+- Take Palindrome for odd and even length
+- For Each and every element go in both directions till condition satisfied -> leftElement == rightElement && left>=0 && right< size, return start Point of substr & max size length
+- Now Compare with maxLength stored if currentLength > maxLength then store starting point as left Index
+- return substr from left index upto count of maxLength
+
+### 7. Beauty of Substring [SUBSTRING -> Continous]
+
+#### **UNOPTIMIZED APPROACH**
+
+- Calculate all substrings and store each substring frequency to 26 size frequency array then calculate its beauty by calculating maxFreq - minFreq
+
+#### **OPTIMIZED APPROACH**
+
+- same as unoptimized just initialize the freq Array before each substring so to avoid traversing through substring & add the frequency while generating the current substring this will reduce from O(N^3) -> O(N^2)
+
+# Step 6. Linked List
+
+- {Take class}
+- Non Contigous Memory Location
+- Store next ptr along with data
+- Eg: Stack & Queue [Browser Next tab -> next tab]
+- **_Pointer:_** Stores Memory Location
+- **_RECOMMENDED WAY:_** Initialize LL by Node\* head = new Node(data,nullpt ) this approach uses head->data to access
+- Use **_Node\* _** to initialize because it becomes a pointer and other nodes can be assigned to the pointer
+- **_Non Recommended Way:_** Initialize LL by Node start = Node(data,nullptr) this approach uses start.data to access
+- **_Memory space:_** 64 bytes System : int->4bytes + ptr->8bytes
+
+## Linked List Concepts [BOILERPLATE LL] [template]
+
+### Array -> LL
+
+- Create a head from arr[0]
+- create a temp pointing to head
+- traverse temp from 1 -> arr.size() and set temp->next = new Node(arr[i]) then update temp = temp->next
+
+### Prinitng Of LL
+
+### Search In LL
+
+- From head create another Node< int >\* temp = head and traverse till it becomes nullptr and if at any point temp->data == value then return FOUND otherwise NOT FOUND
+
+### INSERTION In Linked List
+
+#### **INSERTION AT HEAD**
+
+-
+
+#### **INSERTION AT HEAD**
+
+-
+
+#### **INSERTION AT HEAD**
+
+-
+
+#### **INSERTION AT HEAD**
+
+-
+
+### Deletion In Linked List
+
+- **_CALL delete ptr_name_** : Free Up Memory Space Otherwise Memory Leak
+
+#### **DELETION AT HEAD**
+
+- ***EDGE CASE:*** if head == nullptr then return otherwise store temp = head then move head = head->next then delete temp 
+
+#### **DELETION AT TAIL**
+
+- traverse till temp -> next -> next becomes equal to nullptr then delete temp->next 
+
+#### **DELETION AT POSITION**
+
+- Initialize counter
+- if head == nullptr return nullptr
+- if given K = 1 then delete at head, if K == size then delete at tail
+- otherwise traverse till K - 1 then store temp->next  and update temp->next = temp->next->next and delete that stored temp->next
+
+#### **DELETION AT VALUE**
 
 -
