@@ -94,6 +94,12 @@
 - str.find("string") -> return index, .substr(index,len)
 - to_string(42), stoi("42"), stod("4.2")
 
+# Linked List
+- Use Class for using OOPS concepts
+- template can be used here
+- 
+- DELETION delete ptr_name OR free(ptr_name) ===> Free Up The space IMPORTANT
+
 # Heap [Priority Queue]
 
 - When Repeatedly find max or min and array constatntly Change then use HEAP

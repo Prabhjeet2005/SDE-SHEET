@@ -9,7 +9,6 @@ class Solution
 public:
   void solution()
   {
-    vector<int> arr = {};
     string str = "";
   }
 };
