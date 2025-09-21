@@ -1565,13 +1565,19 @@
 
 - traverse till temp -> next -> next becomes equal to nullptr then delete temp->next 
 
-#### **DELETION AT POSITION**
-
+#### **DELETION AT POSITION [NON INTUITIVE]**
+- ***EDGE CASE: Try to Think of Deletion At End I need Some Pointer to Point after curr is deleted***
 - Initialize counter
 - if head == nullptr return nullptr
-- if given K = 1 then delete at head, if K == size then delete at tail
-- otherwise traverse till K - 1 then store temp->next  and update temp->next = temp->next->next and delete that stored temp->next
+- if position == 1 then delete head and return head->next
+- Now we traverse from 2nd element
+- initialize 2 pointers curr and prev whenever count reaches targetPosition then store prev->next = curr->next and delete curr
 
 #### **DELETION AT VALUE**
 
--
+- Same as Deletion at position 
+
+## 1. Delete Node LL Without head [NON INTUITIVE]
+- GIVEN: Deleted Node is not At Tail
+- Think of Deleting the next Node and Trasnfer its value to currNode
+

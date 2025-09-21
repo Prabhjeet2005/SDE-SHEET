@@ -94,7 +94,7 @@
 - str.find("string") -> return index, .substr(index,len)
 - to_string(42), stoi("42"), stod("4.2")
 
-# Linked List
+# Linked List [Think in Edge Cases]
 - Use Class for using OOPS concepts
 - template can be used here
 - 
