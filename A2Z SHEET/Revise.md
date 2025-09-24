@@ -1539,19 +1539,23 @@
 
 #### **INSERTION AT HEAD**
 
--
+- Create new Node node->next = head; then update the head to new node
 
-#### **INSERTION AT HEAD**
+#### **INSERTION AT END**
 
--
+- Go til curr->next != nullptr, create a new node here and do curr->next = newNode
 
-#### **INSERTION AT HEAD**
+#### **INSERTION AT POSITION [Take 2 Pointer]**
+- ***EDGE CASE:*** Always take 2 nodes curr & prev
+- Discover Edge Cases At Tail At End
+- Create 2 Nodes curr and prev
+- Initialize a counter and traverse till counter != targetPosition
+- then prev->next = newNode, newNode->next = curr
+- ***EDGE CASE:*** for insertion at end check counter == position - 1 then insert at end otherwise if counter is still less than position then node doesn't get inserted
 
--
+#### **INSERTION AT VALUE [Take 2 Pointer]**
 
-#### **INSERTION AT HEAD**
-
--
+- Same as position
 
 ### Deletion In Linked List
 
@@ -1565,7 +1569,7 @@
 
 - traverse till temp -> next -> next becomes equal to nullptr then delete temp->next 
 
-#### **DELETION AT POSITION [NON INTUITIVE]**
+#### **DELETION AT POSITION [NON INTUITIVE] [Take 2 Pointer]**
 - ***EDGE CASE: Try to Think of Deletion At End I need Some Pointer to Point after curr is deleted***
 - Initialize counter
 - if head == nullptr return nullptr
@@ -1573,11 +1577,46 @@
 - Now we traverse from 2nd element
 - initialize 2 pointers curr and prev whenever count reaches targetPosition then store prev->next = curr->next and delete curr
 
-#### **DELETION AT VALUE**
+#### **DELETION AT VALUE [Take 2 Pointer]**
 
 - Same as Deletion at position 
 
-## 1. Delete Node LL Without head [NON INTUITIVE]
+## Problems LL
+### 1. Delete Node LL Without head [NON INTUITIVE]
 - GIVEN: Deleted Node is not At Tail
 - Think of Deleting the next Node and Trasnfer its value to currNode
+
+## Doubly Linked List Concepts 
+- Create with prev and next pointers
+### INSERTION
+#### **Insertion in DLL At HEAD**
+- Check if head == nullptr
+- create a new node, newNode->next = head and head->prev = newNode and update head = newNode
+
+#### **Insertion in DLL At END**
+- traverse till curr-> next != nullptr, then newNode->prev = curr and curr->next = newNode
+
+#### **Insertion in DLL At POSITION [Take 2 Pointer]** 
+- Cover Edge Cases of Insertion at head and END[For end just check counter == targetPosition-1] then only insert at end
+- Take 2 pointers traverse till position
+- CASE 1: We Found Position then update newNode's pointers and exit;
+- Case 2: The Counter stopped at position-1 [INSERT AT END] ther we explicitly handle insert at end
+
+#### **Insertion in DLL At VALUE [Take 2 Pointer]**
+- Same As Position
+### DELETION
+#### **Deletion in DLL At HEAD**
+- Take Care of Edge Case Of Head == nullptr
+- Save The head pointer and then move head = head->next then delete head 
+     
+#### **Deletion in DLL At END**
+- Go To Last Element curr-> next != nullptr then delete the curr node
+
+#### **Deletion in DLL At Position [Take 2 Pointer]**
+- Take Care Of Edge Case of Head
+- Go to desired position then prevNode->next = curr->next && curr->next->prev= prevNode
+- then delete currNode
+
+#### **Deletion in DLL At HEAD [Take 2 Pointer]**
+- Same as Position
 

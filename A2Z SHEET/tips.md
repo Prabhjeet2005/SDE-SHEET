@@ -97,7 +97,7 @@
 # Linked List [Think in Edge Cases]
 - Use Class for using OOPS concepts
 - template can be used here
-- 
+- For Insertion/Deletion at position or value Always take 2 nodes curr & prev
 - DELETION delete ptr_name OR free(ptr_name) ===> Free Up The space IMPORTANT
 
 # Heap [Priority Queue]
