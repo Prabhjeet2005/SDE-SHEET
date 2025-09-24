@@ -39,8 +39,8 @@ class Solution
     Node<int> *temp = head;
     while (head != nullptr)
     {
-      cout << head->data << ", ";
-      head = head->next;
+      cout << temp->data << ", ";
+      temp = temp->next;
     }
   }
   bool findElementLL(Node<int> *&head, int value)
