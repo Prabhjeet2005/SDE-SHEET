@@ -1546,12 +1546,13 @@
 - Go til curr->next != nullptr, create a new node here and do curr->next = newNode
 
 #### **INSERTION AT POSITION [Take 2 Pointer]**
-- ***EDGE CASE:*** Always take 2 nodes curr & prev
+
+- **_EDGE CASE:_** Always take 2 nodes curr & prev
 - Discover Edge Cases At Tail At End
 - Create 2 Nodes curr and prev
 - Initialize a counter and traverse till counter != targetPosition
 - then prev->next = newNode, newNode->next = curr
-- ***EDGE CASE:*** for insertion at end check counter == position - 1 then insert at end otherwise if counter is still less than position then node doesn't get inserted
+- **_EDGE CASE:_** for insertion at end check counter == position - 1 then insert at end otherwise if counter is still less than position then node doesn't get inserted
 
 #### **INSERTION AT VALUE [Take 2 Pointer]**
 
@@ -1563,14 +1564,15 @@
 
 #### **DELETION AT HEAD**
 
-- ***EDGE CASE:*** if head == nullptr then return otherwise store temp = head then move head = head->next then delete temp 
+- **_EDGE CASE:_** if head == nullptr then return otherwise store temp = head then move head = head->next then delete temp
 
 #### **DELETION AT TAIL**
 
-- traverse till temp -> next -> next becomes equal to nullptr then delete temp->next 
+- traverse till temp -> next -> next becomes equal to nullptr then delete temp->next
 
 #### **DELETION AT POSITION [NON INTUITIVE] [Take 2 Pointer]**
-- ***EDGE CASE: Try to Think of Deletion At End I need Some Pointer to Point after curr is deleted***
+
+- **_EDGE CASE: Try to Think of Deletion At End I need Some Pointer to Point after curr is deleted_**
 - Initialize counter
 - if head == nullptr return nullptr
 - if position == 1 then delete head and return head->next
@@ -1579,44 +1581,92 @@
 
 #### **DELETION AT VALUE [Take 2 Pointer]**
 
-- Same as Deletion at position 
+- Same as Deletion at position
 
 ## Problems LL
+
 ### 1. Delete Node LL Without head [NON INTUITIVE]
+
 - GIVEN: Deleted Node is not At Tail
 - Think of Deleting the next Node and Trasnfer its value to currNode
 
-## Doubly Linked List Concepts 
+## Doubly Linked List Concepts
+
 - Create with prev and next pointers
+
 ### INSERTION
+
 #### **Insertion in DLL At HEAD**
+
 - Check if head == nullptr
 - create a new node, newNode->next = head and head->prev = newNode and update head = newNode
 
 #### **Insertion in DLL At END**
+
 - traverse till curr-> next != nullptr, then newNode->prev = curr and curr->next = newNode
 
-#### **Insertion in DLL At POSITION [Take 2 Pointer]** 
+#### **Insertion in DLL At POSITION [Take 2 Pointer]**
+
 - Cover Edge Cases of Insertion at head and END[For end just check counter == targetPosition-1] then only insert at end
 - Take 2 pointers traverse till position
 - CASE 1: We Found Position then update newNode's pointers and exit;
 - Case 2: The Counter stopped at position-1 [INSERT AT END] ther we explicitly handle insert at end
 
 #### **Insertion in DLL At VALUE [Take 2 Pointer]**
+
 - Same As Position
+
 ### DELETION
+
 #### **Deletion in DLL At HEAD**
+
 - Take Care of Edge Case Of Head == nullptr
-- Save The head pointer and then move head = head->next then delete head 
-     
+- Save The head pointer and then move head = head->next then delete head
+
 #### **Deletion in DLL At END**
+
 - Go To Last Element curr-> next != nullptr then delete the curr node
 
 #### **Deletion in DLL At Position [Take 2 Pointer]**
-- Take Care Of Edge Case of Head
-- Go to desired position then prevNode->next = curr->next && curr->next->prev= prevNode
+
+- Take Care Of Edge Case of Head & Tail
+- Go to desired position then prevNode->next = curr->next && curr->next->prev= prevNode **_{IMPORTANT: DO THIS STEP ONLY WHEN curr->next != nullptr}_**
 - then delete currNode
 
-#### **Deletion in DLL At HEAD [Take 2 Pointer]**
+#### **Deletion in DLL At VALUE [Take 2 Pointer]**
+
 - Same as Position
+
+### 1. Reverse A Doubly Linked List [NON INTUITIVE]
+
+#### **UNOPTIMIZED APPROACH**
+
+- Manipulate the data points For Reversal -> STACK
+
+#### **OPTIMIZED APPROACH**
+
+- Take 2 pointer prevNode & currNode
+- for every currNode replace curr->prev = curr->next [Because we preserve prevNode so we can access it later] & curr->next = prevNode
+- Then Move Forward by curr = curr->prev [As Reversed]
+- **_EDGE CASE:_** Return the last node as head
+
+## MEDIUM Problems on Linked List
+
+### 1. Find Middle Of Linked List
+
+- We have to return the middle Odd->N/2, Even -> N/2 + 1 [Right Middle]
+- {Do either 0 or 1-Based Indexing and Return accordingly}
+
+#### **UNOPTIMIZED APPROACH**
+
+- Traverse & Find the Length Of LL
+- Again Traverse with a Counter & for Even give right middle & even N/2
+
+#### **OPTIMIZED APPROACH [Hare & Tortoise Method]**
+
+- ![alt text](images/diagram-export-9-25-2025-10_09_52-AM.svg)
+- Take 2 Pointer 1 Tortoise (Moves 1 Node), 1 Hare (Moves 2 Nodes)
+- When Hare Reaches the end we have got the Middle With tortoise pointer
+- stop when fast->next==nullptr && fast == nullptr
+
 

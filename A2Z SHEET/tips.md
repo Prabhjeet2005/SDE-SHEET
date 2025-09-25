@@ -82,9 +82,12 @@
 
 - ceil( (double)arr[i] / (double) i ) // DOUBLE is Important otherwise give floor value
 
-# Strings
+# REVERSAL
 
 - Try To Use Stack If Removal of something or reversing
+
+# Strings
+
 
 ## STRING STL
 
@@ -99,6 +102,9 @@
 - template can be used here
 - For Insertion/Deletion at position or value Always take 2 nodes curr & prev
 - DELETION delete ptr_name OR free(ptr_name) ===> Free Up The space IMPORTANT
+
+## Middle Of LL
+- HARE &  TORTOISE Method [Tortoise ptr move 1 position, Hare moves 2 position]
 
 # Heap [Priority Queue]
 
