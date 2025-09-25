@@ -126,10 +126,117 @@ class Solution
 
     return head;
   }
-  Node<int> *deleteHead(Node<int> *&head) {}
-  Node<int> *deleteTail(Node<int> *&head) {}
-  Node<int> *deletePosition(Node<int> *&head, int position) {}
-  Node<int> *deleteValue(Node<int> *&head, int element) {}
+  Node<int> *deleteHead(Node<int> *&head)
+  {
+    if (head == nullptr)
+    {
+      return nullptr;
+    }
+    if (head->next == nullptr)
+    {
+      delete head;
+      return nullptr;
+    }
+    Node<int> *tempHead = head;
+    head = head->next;
+    head->prev = nullptr;
+    delete tempHead;
+    return head;
+  }
+  Node<int> *deleteTail(Node<int> *&head)
+  {
+    if (head == nullptr)
+    {
+      return nullptr;
+    }
+    if (head->next == nullptr)
+    {
+      delete head;
+      return nullptr;
+    }
+    Node<int> *temp = head;
+    while (temp->next != nullptr)
+    {
+      temp = temp->next;
+    }
+    Node<int> *prevNode = temp->prev;
+    prevNode->next = nullptr;
+    delete temp;
+    return head;
+  }
+  Node<int> *deletePosition(Node<int> *&head, int position)
+  {
+    if (head == nullptr)
+    {
+      return nullptr;
+    }
+    if (position == 1)
+    {
+      Node<int> *tempHead = head;
+      head = head->next;
+      delete tempHead;
+      head->prev = nullptr;
+      return head;
+    }
+    Node<int> *currNode = head->next;
+    Node<int> *prevNode = head;
+    int counter = 1;
+    while (currNode != nullptr)
+    {
+      counter++;
+      if (counter == position)
+      {
+        prevNode->next = currNode->next;
+        if (currNode->next != nullptr)
+        {
+          currNode->next->prev = prevNode;
+        }
+        currNode->prev = nullptr;
+        currNode->next = nullptr;
+        delete currNode;
+        break;
+      }
+      prevNode = currNode;
+      currNode = currNode->next;
+    }
+    return head;
+  }
+  Node<int> *deleteValue(Node<int> *&head, int element)
+  {
+    if (head == nullptr)
+    {
+      return nullptr;
+    }
+    if (head->data == element)
+    {
+      Node<int> *tempHead = head;
+      head = head->next;
+      delete tempHead;
+      head->prev = nullptr;
+      return head;
+    }
+    Node<int> *currNode = head->next;
+    Node<int> *prevNode = head;
+
+    while (currNode != nullptr)
+    {
+      if (currNode->data == element)
+      {
+        prevNode->next = currNode->next;
+        if (currNode->next != nullptr)
+        {
+          currNode->next->prev = prevNode;
+        }
+        currNode->next = nullptr;
+        currNode->prev = nullptr;
+        delete currNode;
+        break;
+      }
+      prevNode = currNode;
+      currNode = currNode->next;
+    }
+    return head;
+  }
 
 public:
   void
@@ -140,10 +247,10 @@ public:
     // head = insertHead(head,1000);
     // head = insertEnd(head,1000);
     // head = insertPosition(head, 3, 1000);
-    head = deleteHead(head);
-    head = deleteTail(head);
-    head = deletePosition(head);
-    head = deleteValue(head);
+    // head = deleteHead(head);
+    // head = deleteTail(head);
+    // head = deletePosition(head, 2);
+    head = deleteValue(head, 6);
 
     printDLL(head);
   }
