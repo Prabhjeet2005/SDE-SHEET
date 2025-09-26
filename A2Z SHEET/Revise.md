@@ -1669,4 +1669,51 @@
 - When Hare Reaches the end we have got the Middle With tortoise pointer
 - stop when fast->next==nullptr && fast == nullptr
 
+### 2. Reverse Linked List
 
+#### **UNOPTIMIZED APPROACH**
+
+- Store Each Data in stack and then update all data of Linked List
+
+#### **OPTIMIZED APPROACH 1 [ITERATIVE]**
+
+- For Every Node Store prevNode and nextNode
+- change connection of curr->next = prevNode
+- Then update prevNode to currNode and move currNode = nextNode
+- update nextNode to currNode->next
+
+#### **OPTIMIZED APPROACH 2 [RECURSIVE] [NON INTUITIVE]**
+
+- ![alt text](images/diagram-export-9-26-2025-12_42_47-PM.svg)
+- _THINK OF SOLVING 2 Nodes which is Bare Minimum_
+- Solve Smaller Problem First
+- Base Case: head == nullptr || head->next == nullptr
+- Take 2 Nodes at a time [Smaller Problem]
+- RECURSION returns reversedLLHead
+- For each case we have actual currentHead
+  so head->next->next = head, head->next = nullptr
+
+### 3. Detect Loop LL
+
+#### **UNOPTIMIZED APPROACH**
+
+- Take A Visited Hashmap< Node< int >\*,int> or unordered_set< Node< int >\* > and store visited Nodes
+- if we encounter visited node then there is a loop
+
+#### **OPTIMIZED APPROACH**
+
+- Use Slow/Fast Pointer Approach
+- Go till fast != nullptr && fast->next != nullptr
+- if pointers don't meet then there is no loop
+
+### 4. Start Point Of Loop In Linked List
+
+#### **UNOPTIMIZED APPROACH**
+
+- Use unordered_set to mark nodes as visited and whenever we find the node as visited return that node as the answer
+
+#### **OPTIMIZED APPROACH**
+
+- ![alt text](images/diagram-export-9-26-2025-4_48_44-PM.svg)
+- Fast/Slow Approach
+- Wherever slow == fast , RESET slow pointer to head and then wherever they again meet is the starting point of LL

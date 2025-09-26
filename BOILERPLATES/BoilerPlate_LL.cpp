@@ -47,7 +47,6 @@ class Solution
       temp = temp->next;
     }
     cout << "\n";
-    ;
   }
 
 public:

@@ -103,8 +103,9 @@
 - For Insertion/Deletion at position or value Always take 2 nodes curr & prev
 - DELETION delete ptr_name OR free(ptr_name) ===> Free Up The space IMPORTANT
 
-## Middle Of LL
-- HARE &  TORTOISE Method [Tortoise ptr move 1 position, Hare moves 2 position]
+## Fast & Slow Pointer/ Hare & Tortoise Method
+- slow -> 1, fast move 2
+- DETECT LOOP, FIND MIDDLE
 
 # Heap [Priority Queue]
 
