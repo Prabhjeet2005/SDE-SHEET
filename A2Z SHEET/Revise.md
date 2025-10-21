@@ -537,7 +537,7 @@
 
 #### **STL APPROACH**
 
-- Use _next_permutation()_
+- Use _next\_permutation()_
 
 #### **OPTIMIZED APPROACH [ Break Point ]**
 

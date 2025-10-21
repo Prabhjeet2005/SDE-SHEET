@@ -9,7 +9,7 @@ Thanks Prabhjeet
 -----
 
 Hi 
-I'm a Computer Science student targeting a SWE internship at Microsoft Job_Id:1880847. With internship experience at Tech Mahindra where I built RESTful APIs and projects in MERN stack and ML, I believe my skills are a great fit. Would you be open to considering me for a referral? 
+I'm a Computer Science student targeting a SWE internship at Siemens Job_Id: 477249. With internship experience at Tech Mahindra where I built RESTful APIs and projects in MERN stack and ML, I believe my skills are a great fit. Would you be open to considering me for a referral?
 
 -----
 SUBJECT: Referral for Software Engineer Internship

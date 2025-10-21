@@ -14,6 +14,9 @@
         return a > b;
   });
 
+## SLIDING WINDOW
+- Always if all +ve elements
+
 # Duplicates -> _XOR_
 
 # Subarray/Array Sum -> [PREFIX SUM] _HashMap_ => store sum or element & indexes
