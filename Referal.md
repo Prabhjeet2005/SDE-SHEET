@@ -8,8 +8,10 @@ Thanks Prabhjeet
 
 -----
 
-Hi 
-I'm a Computer Science student targeting a SWE internship at Siemens Job_Id: 477249. With internship experience at Tech Mahindra where I built RESTful APIs and projects in MERN stack and ML, I believe my skills are a great fit. Would you be open to considering me for a referral?
+Hi , 
+I'm a CS student targeting the Microsoft SWE Intern role (ID: 200005595). With a 1933 LeetCode rating (Knight) and prior internship exp at Tech Mahindra, I’m confident in my technical prep. Would you be open to referring me? 
+Thanks, Prabhjeet
+
 
 -----
 SUBJECT: Referral for Software Engineer Internship
