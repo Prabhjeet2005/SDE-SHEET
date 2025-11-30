@@ -14,8 +14,22 @@
         return a > b;
   });
 
+
+
 ## SLIDING WINDOW
 - Always if all +ve elements
+
+# MAX HEAP OVERRIDE Custom Operator
+
+struct CustomCompare{
+  bool operator(Node* a,Node* b){
+    return a->val > b->val;
+  }
+}
+// Think of giving priority Question HEap asks is (a,b) out of a and b; is a smaller than b if so then enter into maxHeap b
+// TRUE -> Take b, FALSE Take a
+// Heap Asks if a->val smaller than b->val as by default it is maxHeap expects greater first
+// Eg: a=3, b=5 ; 3 > 5 -> False
 
 # Duplicates -> _XOR_
 
@@ -95,9 +109,11 @@
 ## STRING STL
 
 - .size(), .empty(), str[0], .front(), .back()
-- .push_back() -> Adds Only 1 char, .insert(index,"string"), .erase(index,len), .clear()
 - += best for appending a string to another string
-- str.find("string") -> return index, .substr(index,len)
+- .push_back() -> Adds Only 1 char, .insert(index,"string")
+- .erase(index,length), .clear()
+- str.find("any_string") != string::npos -> return index, .substr(index,len)
+### string::npos is constant representing "not found" 
 - to_string(42), stoi("42"), stod("4.2")
 
 # Linked List [Think in Edge Cases]
@@ -113,3 +129,43 @@
 # Heap [Priority Queue]
 
 - When Repeatedly find max or min and array constatntly Change then use HEAP
+
+
+# Stacks & Queues
+## STACKS [When Use]
+- LIFO(Reverse Order Processing)
+- Match Open/Close Symbols
+- Backtracking(DFS,Postfix)
+- Simulate Recursion Call Stack,
+- MONOTONIC STACK->Stack maintain same order like always increase or always decrease(Find prev/next/smaller/greater elements)[Eg: Daily Temperature, Largest Rectangle in Histogram]
+- IMPORTANT:  Deal with Most Recent Info like closing Bracket
+
+# BITMASK
+## When to use BITMASK?
+1. "Is N very small (<= 20)?" -> Think Bitmask DP (Toolbox #1 & #4). 
+2. "Does it involve finding a unique element?" -> Think XOR (Toolbox #3).
+3. "Is it about binary strings or bits?" -> Think Set/Clear/Check (The whole toolbox).
+- **What 1 << k does?[0-BASED INDEXING]** 
+- 1 << k create number with only K turned on eg 1<<2 creates 000100 
+## 1. The "Set Bit" Operation (Turn a switch ON)
+- Goal: Force the $k$-th bit to become 1.
+- ```Formula: num = num | (1 << k)```  <-- This is your Gray Code formula!
+- Logic:1 << k: Creates a "mask" with a single 1 at position k. (e.g., 00100)| (OR): If either bit is 1, the result is 1.
+- Result: It keeps all original bits, but forces the $k$-th bit to 1.
+## 2. The "Clear Bit" Operation (Turn a switch OFF)
+- ~ means NOT
+- Goal: Force the $k$-th bit to become 0.
+- Formula: ```num = num & ~(1 << k)```
+- Logic:~(1 << k): Creates a mask where position k is 0 and everything else is 1. (e.g., 11011)& (AND): Only keeps a bit if both are 1.
+- Result: Since the mask has a 0 at $k$, that bit gets wiped out. The 1s elsewhere preserve the original numbers.
+## 3. The "Toggle Bit" Operation (Flip a switch)
+- Goal: If it's 1, make it 0. If it's 0, make it 1.
+- Formula: ```num = num ^ (1 << k)```
+- Logic:^ (XOR): Returns 1 if bits are different.
+- Result: 1 ^ 1 = 0 (flips to off), 0 ^ 1 = 1 (flips to on).
+## 4. The "Check Bit" Operation (Is the switch ON?)
+- Goal: True/False check.
+- Formula: ```(num & (1 << k)) != 0```
+- Logic:It masks out everything except the $k$-th bit. If the result is non-zero, that bit must have been ON.
+
+# Recursion & Backtracking
