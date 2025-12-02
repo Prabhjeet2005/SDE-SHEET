@@ -1,84 +1,67 @@
-
-#include <iostream>
-#include <vector>
-
+#include<iostream>
+#include<vector>
+#include<iomanip>
 using namespace std;
 
-template <typename T>
-class Node
-{
-public:
-  T data;
-  Node<T> *next;
-  Node(T data)
-  {
-    this->data = data;
-    this->next = nullptr;
-  }
-};
+int main(){
+  int n_files,n_blocks;
+  
+  cout<<"Enter No. of Blocks: ";
+  cin>>n_blocks;
+  cout<<"\nEnter No. of Files: ";
+  cin>>n_files;
 
-class Solution
-{
-  Node<int> *createLL(vector<int> &arr)
-  {
-    if (arr.empty())
-    {
-      return nullptr;
-    }
-    Node<int> *head = new Node<int>(arr[0]);
-    Node<int> *temp = head;
-    for (int i = 1; i < arr.size(); i++)
-    {
-      temp->next = new Node<int>(arr[i]);
-      temp = temp->next;
-    }
-    return head;
+  vector<int>blocks(n_blocks,0),files(n_files,0),allocation(n_files,-1);
+  vector<bool>blocks_visited(n_blocks,0);
+
+  cout<<"\n";
+  for(int i=0; i<n_blocks; i++){
+    cout<<"Enter Block "<<i+1<<" : ";
+    cin>>blocks[i];
+    cout<<"\n";
   }
-  void printLL(Node<int> *&head)
-  {
-    if (head == nullptr)
-    {
-      return;
-    }
-    if (head->next == nullptr)
-    {
-      cout << head->data << ",";
-      return;
-    }
-    Node<int> *temp = head;
-    while (temp != nullptr)
-    {
-      cout << temp->data << " ";
-      temp = temp->next;
-    }
+  cout<<"\n";
+  for(int i=0; i<n_files;i++){
+    cout<<"Enter File "<<i+1<<" : ";
+    cin>>files[i];
   }
-  // N -> N -> N -> N -> N
-  Node<int> *reverseLLRecursive(Node<int> *&head)
+  cout<<"\n";
+
+
+  for (int i = 0; i < n_files; i++)
   {
-    if (head == nullptr || head->next == nullptr)
-    {
-      return head;
+    int max_frag = -1,worst_index=-1;
+    for(int j=0; j<n_blocks; j++){
+      if(!blocks_visited[j] && blocks[j] >= files[i]){
+        int frag = blocks[j] - files[i];
+
+        if(frag > max_frag){
+          worst_index = j;
+          max_frag = frag;
+        }
+      }
     }
-    Node<int> *reversedHead = reverseLLRecursive(head->next);
-    head->next->next = head;
-    head->next = nullptr;
-    return reversedHead;
+
+    if(worst_index != -1){
+      allocation[i] = worst_index;
+      blocks_visited[worst_index] = true;
+    }
+    
   }
 
-public:
-  void solution()
-  {
-    vector<int> arr = {1, 2, 3, 4, 5};
-    Node<int> *head = createLL(arr);
-    head = reverseLLRecursive(head);
-    printLL(head);
-  }
-};
+  cout<<"\nFileNo\tFileSize\tBlockNo\tBlockSize\tFragment\n";
 
-int main()
-{
-  Solution sol = Solution();
-  cout << "\n";
-  sol.solution();
-  cout << "\n";
+  for(int i=0; i<n_files; i++){
+    cout<<i+1<<"\t"<<files[i]<<"\t";
+
+    if(allocation[i] != -1){
+      int b_index = allocation[i];
+      cout<<b_index+1<<"\t"<<blocks[b_index]<<"\t"<<blocks[b_index] - files[i];
+    }else{
+      cout<<"N/A\t--\t--";
+    }
+    cout<<"\n";
+  }
+  
+
 }

@@ -9,7 +9,6 @@
 ## Basic Maths
 
 ### 1. Count Digits
-
 #### **UNOPTIMISED APPROACH**
 
 - Create A Counter, ÷ Each Number By 10 and Increase Counter
