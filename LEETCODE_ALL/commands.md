@@ -1,0 +1,1 @@
+leetcode-export --cookies "csrftoken=PASTE_CSRF_TOKEN; LEETCODE_SESSION=PASTE_LEETCODE_SESSION" --folder "./my_leetcode_solutions" --only-accepted

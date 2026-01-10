@@ -5,6 +5,29 @@
 - NON INTUITIVE -> No intuition almost WROTE Learning
 - CONCEPT -> Makes Many Question Clear
 
+# Custom Data Structure
+Suppose we need to return for a function 
+```
+<int,bool,string,double>
+```
+the we can Make a struct
+```
+struct Example{
+  int height;
+  bool is_balanced;
+  string name;
+  double ans;
+};
+
+Example eg_function(){
+  Example eg1 = eg_function()
+  Example eg2 = eg_function()
+  int new_height = eg1.height + eg2.height;
+  return {new_height,eg1.is_balanced,eg2.name,eg2.ans};
+}
+```
+
+
 # Array Declaration
 
 - int arr[25] = {0};
@@ -22,7 +45,7 @@
 # MAX HEAP OVERRIDE Custom Operator
 
 struct CustomCompare{
-  bool operator(Node* a,Node* b){
+  bool operator()(Node* a,Node* b){
     return a->val > b->val;
   }
 }
@@ -113,8 +136,43 @@ struct CustomCompare{
 - .push_back() -> Adds Only 1 char, .insert(index,"string")
 - .erase(index,length), .clear()
 - str.find("any_string") != string::npos -> return index, .substr(index,len)
+
 ### string::npos is constant representing "not found" 
 - to_string(42), stoi("42"), stod("4.2")
+
+### String Extract Numbers
+- ***EG: "2245 23 45 6 33"***
+- From this extract numbers like 2245, 23, 45, 6 ,33
+```
+METHOD 1. [EASIEST BUT INTERVIEWER AVOID THIS METHOD]
+#include<sstream>
+string str = "2245 23 45 6 33"
+stringstream stream_name(str);
+int num;
+while(stream_name >> num){
+  cout << num;
+}
+```
+```
+METHOD 2.
+string str = "2234 23 5  77 90 45";
+  str+=' ';
+  int curr_num = 0;
+  bool building_number = false;
+
+  for(auto &ch: str){
+    if(ch == ' '){
+      if(building_number){ // Avoid 0 output on Double Space
+        cout<<curr_num<<"\n";
+        building_number = false;
+        curr_num = 0;
+      }
+    }else{
+      curr_num = (curr_num*10) + (ch-'0');
+      building_number = true;
+    }
+  }
+```
 
 # Linked List [Think in Edge Cases]
 - Use Class for using OOPS concepts
@@ -169,3 +227,88 @@ struct CustomCompare{
 - Logic:It masks out everything except the $k$-th bit. If the result is non-zero, that bit must have been ON.
 
 # Recursion & Backtracking
+## 1. The "Binary Choice" Pattern (Pick / Not Pick)
+- Used For: ```Subsets, Combinations, generating subsequences.```
+- The Logic: At each step, you make a Yes/No decision for the current element.
+- Handling Duplicates (Subsets II):
+Sort the array first. On the "Not Pick" branch, use a while loop to skip all identical next elements.
+
+## 2. The "Iterative Choice" Pattern (Fill the Slots)
+- Used For: ```Permutations, Combinations (alternative), N-Queens, Sudoku.```
+- The Logic: You have a "slot" to fill. You iterate through all available candidates to put in that slot.
+- Permutations vs. Combinations:
+- Permutations (Order matters): Loop i starts from 0. Use a visited array.
+- Combinations (Order doesn't matter): Loop i starts from index (forward only). No visited array needed.
+
+- Handling Duplicates (Permutations II):
+Sort array. Inside the loop: if (i > 0 && nums[i] == nums[i-1] && !visited[i-1]) continue;
+
+## 3. The "Cutting" / Partitioning Pattern
+- Used For: ```Palindrome Partitioning, Word Break, Restore IP Addresses.```
+- The Logic: You are holding a knife at index. You try making a cut at every possible position i after it.
+- Structure:
+
+C++
+``` 
+for (int i = index; i < s.length(); i++) {
+    // 1. Identify the 'chunk' or 'slice'
+    string chunk = s.substr(index, i - index + 1);
+
+    // 2. Validate the chunk
+    if (isValid(chunk)) {
+        // 3. Recurse on the REST of the string
+        // NOTE: The rest starts at 'i + 1'
+        solve(i + 1);
+    }
+}
+```
+
+## 4. The Grid Search Pattern (DFS on Matrix)
+- Used For: ```Word Search, Rat in a Maze, Number of Islands, Max Gold.```
+- The Logic: Explore paths on a 2D grid.
+
+# Trees
+## BST
+### 1. Insertion
+- Normal Insertion just use recursion and whenever nullptr node found insert it here and return this new_node
+
+### 2. Searching
+- use recursion and whenever element found print it
+
+### 3. Deletion
+- There can be 3 cases: 0 Child [LEAF NODE], 1 Child, 2 Child
+1. **0 Child:** simply delete the node
+2. **1 Child:** store the left or right child then delete root node and return stored_child_node
+3. **2 Child:** Find **INORDER SUCCESSOR** (Right subtree smallest element) when found update root->value with inorder_successor->value then again use recursion on right subtree with element inorder_successor->value to automatically delete the Inorder Successor as it is no longer required
+
+### 4. Print Level Order [Queue]
+- Use Queue to store root then immediately push nullptr then 
+- while(!queue.empty()) repeatidly get front of queue then 
+- if front == nullptr [Level Ended] then if still queue has elements then add another nullptr 
+- else print front->value and add left and right child to queue if they exist
+
+### 5. Height Tree
+```
+int Height(Tree* root){
+  if(root == nullptr)return 0;
+  int left_height = Height(root->left);
+  int right_height = Height(root->right);
+
+  return 1 + max(left_height,right_height);
+}
+```
+
+- Height V/S Depth
+1. Height: How far from deepest leaf node
+2. Depth: How far from root
+
+### AVL V/S Red-Black Trees
+1. AVL: (Strictly Balanced) ==> At Most 1 difference between Heights of Left and Right Subtree
+2. Red-Black Trees: (Roughly Balanced) ==> ensure longest path no longer than twice shortest path
+
+### LCA 
+- If 2 Nodes then deepest nodes that is parent to both nodes
+
+### Diameter of Tree
+- Longest Path between 2 Nodes
+

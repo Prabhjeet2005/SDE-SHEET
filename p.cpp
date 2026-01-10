@@ -1,67 +1,71 @@
 #include<iostream>
 #include<vector>
-#include<iomanip>
+#include<queue>
 using namespace std;
 
-int main(){
-  int n_files,n_blocks;
-  
-  cout<<"Enter No. of Blocks: ";
-  cin>>n_blocks;
-  cout<<"\nEnter No. of Files: ";
-  cin>>n_files;
-
-  vector<int>blocks(n_blocks,0),files(n_files,0),allocation(n_files,-1);
-  vector<bool>blocks_visited(n_blocks,0);
-
-  cout<<"\n";
-  for(int i=0; i<n_blocks; i++){
-    cout<<"Enter Block "<<i+1<<" : ";
-    cin>>blocks[i];
-    cout<<"\n";
+struct TreeNode{
+  int val;
+  TreeNode* left;
+  TreeNode* right;
+  TreeNode(int val){
+    this->val = val;
+    left = nullptr;
+    right = nullptr;
   }
-  cout<<"\n";
-  for(int i=0; i<n_files;i++){
-    cout<<"Enter File "<<i+1<<" : ";
-    cin>>files[i];
+};
+
+class Solution{
+  TreeNode* create_tree(){
+    TreeNode *root = new TreeNode(10);
+    root->left = new TreeNode(20);
+    root->right = new TreeNode(30);
+    root->left->left = new TreeNode(40);
+    return root;
   }
-  cout<<"\n";
+  public:
+  void find_level_order(){
+    TreeNode* root = create_tree();
 
+    queue<TreeNode*>q;
+    vector<int>level_order;
+    if(!root)return;
+    q.push(root);
+    q.push(nullptr);
 
-  for (int i = 0; i < n_files; i++)
-  {
-    int max_frag = -1,worst_index=-1;
-    for(int j=0; j<n_blocks; j++){
-      if(!blocks_visited[j] && blocks[j] >= files[i]){
-        int frag = blocks[j] - files[i];
+    while(!q.empty()){
+      int size = q.size();
 
-        if(frag > max_frag){
-          worst_index = j;
-          max_frag = frag;
+      for(int i=0; i<size; i++){}
+        TreeNode* front = q.front();
+        q.pop();
+        if(front){
+          level_order.push_back(front->val);
+          if(front->left){
+            q.push(front->left);
+          }
+          if(front->right){
+            q.push(front->right);
+          }
+        }else{
+          // nullptr
+          if(!q.empty()){
+            q.push(nullptr);
+          }
         }
-      }
+
     }
 
-    if(worst_index != -1){
-      allocation[i] = worst_index;
-      blocks_visited[worst_index] = true;
+    for(auto & el: level_order){
+      cout<<el<<" ";
     }
-    
+
   }
+};
 
-  cout<<"\nFileNo\tFileSize\tBlockNo\tBlockSize\tFragment\n";
-
-  for(int i=0; i<n_files; i++){
-    cout<<i+1<<"\t"<<files[i]<<"\t";
-
-    if(allocation[i] != -1){
-      int b_index = allocation[i];
-      cout<<b_index+1<<"\t"<<blocks[b_index]<<"\t"<<blocks[b_index] - files[i];
-    }else{
-      cout<<"N/A\t--\t--";
-    }
-    cout<<"\n";
-  }
-  
+int main(){
+  Solution sol_obj = Solution();
+  cout<<"\n";
+  sol_obj.find_level_order();
+  cout<<"\n";
 
 }
