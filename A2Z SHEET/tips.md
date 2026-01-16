@@ -22,6 +22,7 @@ struct Example{
 Example eg_function(){
   Example eg1 = eg_function()
   Example eg2 = eg_function()
+  Example eg3 = {20,true,"eg",2.3};
   int new_height = eg1.height + eg2.height;
   return {new_height,eg1.is_balanced,eg2.name,eg2.ans};
 }
@@ -158,18 +159,18 @@ METHOD 2.
 string str = "2234 23 5  77 90 45";
   str+=' ';
   int curr_num = 0;
-  bool building_number = false;
+  bool first_space = false;
 
   for(auto &ch: str){
     if(ch == ' '){
-      if(building_number){ // Avoid 0 output on Double Space
+      if(first_space){ // Avoid 0 output on Double Space
         cout<<curr_num<<"\n";
-        building_number = false;
+        first_space = false;
         curr_num = 0;
       }
     }else{
       curr_num = (curr_num*10) + (ch-'0');
-      building_number = true;
+      first_space = true;
     }
   }
 ```
@@ -268,6 +269,26 @@ for (int i = index; i < s.length(); i++) {
 - The Logic: Explore paths on a 2D grid.
 
 # Trees
+## Perfect Binary Tree
+```
+Total Nodes in Perfect Binary Tree = (2^Height - 1)
+Eg: Height = 3
+2^3-1 ==> It will have 7 nodes
+```
+
+All internal Nodes have 2 children
+## Complete Binary Tree
+All internal nodes are present and all leaf nodes are close to left as possible
+```
+        1
+       / \
+      2   3
+     /\   /
+    4  5  6
+```
+
+
+
 ## BST
 ### 1. Insertion
 - Normal Insertion just use recursion and whenever nullptr node found insert it here and return this new_node
@@ -311,4 +332,127 @@ int Height(Tree* root){
 
 ### Diameter of Tree
 - Longest Path between 2 Nodes
+
+
+# Graphs
+
+## Graph representation
+All Graph Questions Given 2 Things:-
+1. N : No. of Nodes
+2. edges : [[1,2],[2,4],[1,5]] All Connected edges
+
+### Adjacency List
+- Array where every index eg: index 0 represent a node and store a list of all nodes directly connected to Node 0 
+```
+vector<vector<int>> adj_list = { {1, 4} , {0, 2, 3} };
+adj[0] = {1,4}
+adj[1] = {0,2,3}
+Means Nodes connected to 0 are 1,4 and Nodes connected to 1 are 0,2,3
+```
+
+### Undirected & Directed Graph Adjacency List Creation
+### UNDIRECTED graph [Bi-directional Edge]
+u <-> v
+- adj[u].push_back(v)
+- adj[v].push_back(u)
+
+### DIRECTED graph 
+u -> v
+- adj[u].push_back(v)
+
+### Weighted Graph {u,v,weight}
+```
+vector< vector< int >>edges = {{0, 1, 10}, {0, 4, 5}};
+vector<vector<pair<int,int>>> adj_list
+```
+- adj_list[u].push_back({v,w})
+- adj_list[v].push_back({u,w})
+
+### Nodes Access in GRAPHS
+- **TREE:** Use root->left, root->right
+- **GRAPHS**
+```
+for(int neighbour: adj[current_node]){
+  ...Do Something
+}
+```
+
+### Visited Array Concept: ***MARK VISITED AS SOON AS WE SEE THE NODE, NOT WHILE POPPING BUT IT'S FIRST OCCURENCE***
+
+### BFS V/s DFS Templates
+#### Disconnected Graphs
+For All Nodes Visit Run 
+```
+for(int i=0; i<n; i++){
+  if(!visited[i]){
+    bfs or dfs
+  }
+}
+```
+
+#### 1. BFS
+Use Visited Array + Queue
+- push first node from adj_list in queue
+- pop from queue and do some operation & visit it's neighbours if not yet visited & mark it as visited
+
+#### 2A. DFS [DEFAULT CALL STACK]
+[DEFAULT WAY] Use Visited Array
+- In DFS Helper
+- Mark VISITED
+- Process Node
+- Recurse for neighbours
+
+#### 2. DFS [Custom STACK]
+Same As BFS instead of queue use a stack + VISITED
+
+## Graph Algorithms
+### 1. Kahn's Algorithm [Topological Sort] [Inorder == 0 & BFS]
+- Concept: In-Degrees and Queues [Process Nodes with 0 Dependencies First]
+- BFS Based
+- Work Only on **DAG** [Directed Acyclic Graph]
+- If Cycle Present, Topological Sort is Impossible
+- USED FOR: 
+1. Dependency Resolution (Course Schedule, Alien Dictionary)
+2. Give Valid Sequence, Detects Cycle
+- Eg: Build Order, Do "Intro To CS" before you can take "DSA" subject
+
+#### ALGORITHM [Topo Sort [BFS BASED]]
+1. Calculate All Nodes InDegree
+2. Push Onto Queue All Nodes Indegree == 0
+3. Do BFS and while traversing Neighbours inorder[neighbour]--, if inorder[neighbour]==0 then push it onto queue
+4. if topo_vector.size() != N, then CYCLE PRESENT and return {}, otherwise return topo_vector
+
+### 2. Union-Find [DSU]
+- USED FOR: Grouping, Cycle Detection in Undirected Graph (Redundant Connections, Accounts Merge)
+- Concept: find(parent), union(u,v) with path compression
+
+### 3. Dijkstra Algorithm [Shortest Path Weighted graph +ve weights]
+- USED FOR: Shortest Path Weighted graph +ve weights
+- Concept: BFS + Min-Heap (Priority Queue). "Always expand the cheapest node next."
+
+### 4. Bellman Ford [Shortest Path Weighted Graph -ve weight also]
+- USED FOR: Shortest path with Negative Weights or limiting "K" stops (Cheapest Flights).
+
+### 5. Floyd Warshall [All Pairs Shortest Path]
+- USED FOR: Connecting all nodes with minimum cost.
+
+### 6. Prims [MST]
+- USED FOR: Connecting all nodes with minimum cost.
+
+### 7. Kruskal [MST]
+- USED FOR: Connecting all nodes with minimum cost.
+
+### 8. Bridges/ Articulation Points
+- Concept: **Tarjan's Algorithm** (Rank values)
+
+### 9. Bipartite
+
+
+
+
+
+
+
+
+
 
