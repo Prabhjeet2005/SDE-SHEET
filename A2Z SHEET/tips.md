@@ -38,18 +38,30 @@ Example eg_function(){
         return a > b;
   });
 
+# Custom Array SORT Declaration
+- IMPORTANT: it must be statically declared
+```
+bool static custom_compare(int &a,int &b){
+  return a<b;
+}
+
+sort(arr.begin(),arr.end(),custom_compare)
+```
 
 
 ## SLIDING WINDOW
 - Always if all +ve elements
 
-# MAX HEAP OVERRIDE Custom Operator
-
+# MIN HEAP OVERRIDE Custom Operator
+Heap -> Max By default
+```
+MIN HEAP
 struct CustomCompare{
   bool operator()(Node* a,Node* b){
     return a->val > b->val;
   }
 }
+```
 // Think of giving priority Question HEap asks is (a,b) out of a and b; is a smaller than b if so then enter into maxHeap b
 // TRUE -> Take b, FALSE Take a
 // Heap Asks if a->val smaller than b->val as by default it is maxHeap expects greater first
@@ -335,6 +347,7 @@ int Height(Tree* root){
 
 
 # Graphs
+## TOUGHEST TOPIC: BRIDGES[Tarjan's Algorithm]
 
 ## Graph representation
 All Graph Questions Given 2 Things:-
@@ -416,37 +429,251 @@ Same As BFS instead of queue use a stack + VISITED
 2. Give Valid Sequence, Detects Cycle
 - Eg: Build Order, Do "Intro To CS" before you can take "DSA" subject
 
-#### ALGORITHM [Topo Sort [BFS BASED]]
+#### ALGORITHM [Topo Sort [BFS BASED] [Indegree 0 First]]
 1. Calculate All Nodes InDegree
 2. Push Onto Queue All Nodes Indegree == 0
-3. Do BFS and while traversing Neighbours inorder[neighbour]--, if inorder[neighbour]==0 then push it onto queue
+3. Do BFS, Process it and while traversing Neighbours indegree[neighbour]--, if indegree[neighbour]==0 then push it onto queue
 4. if topo_vector.size() != N, then CYCLE PRESENT and return {}, otherwise return topo_vector
 
-### 2. Union-Find [DSU]
-- USED FOR: Grouping, Cycle Detection in Undirected Graph (Redundant Connections, Accounts Merge)
-- Concept: find(parent), union(u,v) with path compression
+### 2. Union-Find [DSU] [IMPLEMENT WITH ANOTHER CLASS] [IMPORTANT]
+- USED FOR: Grouping, Cycle Detection in Undirected Graph (Redundant Connections, Accounts Merge, Connected Components)
+- Time Complexity: Naive O(N), But Optimized is O(1)
 
-### 3. Dijkstra Algorithm [Shortest Path Weighted graph +ve weights]
+#### 1. find(parent) [With Path Compression]
+- O(1)
+- Node 3 looks for its leader 3 -> 2 -> 1 -> Root
+- Optimization: Make Node 3 Directly Point to Root, Next Lookup Instant
+
+#### 2. union(u,v) [With Rank/Size Merge "Big <- Small" ]
+- When Merging 2 Groups Always Attatch Shorter graph To Taller Graph
+
+#### ALGORITHM [Initialize Array By N+1 to cover 1-Based Indexing]
+- Initialize a parent array where every node its own parent initially
+- Initialize a Rank Array with each Node's Rank as 0 [Rank To Determine which Tree Big]
+
+1. find_parent(u)
+- if(node == parent[node])then return node
+- otherwise Path compress parent[node] = find_parent(parent[node])
+
+2. union(u,v)
+- First find parent_u & parent_v
+- Same parent then Early Return
+- 2 Cases:
+- A. Ranks or Heights Unequal then attach smaller Rank to Bigger Rank, No change in Rank
+- B. Ranks EQUAL then attach graph as both equal height and Rank of Leader + 1 because other graph of same height is attatched to leader which leads to total new height to be increased by 1
+
+```
+1. RANK UNEQUAL
+Graph A (Rank 2)        Graph B (Rank 0)
+      (A)                       (B)
+      /
+    (C)
+    /
+  (D)
+
+Attatch B To A
+
+      (A)  <-- Still Rank 2
+      / \
+    (C) (B) <-- B is just a new child, depth didn't exceed D's depth.
+    /
+  (D)
+```
+```
+2. RANK EQUAL
+Tree A (Rank 1)        Tree B (Rank 1)
+      (A)                    (B)
+       |                      |
+      (C)                    (D)
+
+Attatch B To A
+      (A)   <-- Must increase to Rank 2!
+      / \
+    (C) (B)
+         |
+        (D) <-- Look! D is now 2 steps away. The tree got taller.
+```
+
+
+### 3. Dijkstra Algorithm [Shortest Path Weighted graph +ve weights, SOURCE TO EVERYWHERE]
+- TC/SC: O(ElogV)/O(V)
 - USED FOR: Shortest Path Weighted graph +ve weights
+- DIRECTED + UNDIRECTED Graphs
 - Concept: BFS + Min-Heap (Priority Queue). "Always expand the cheapest node next."
+- Questions: Min time/ Min Cost
 
-### 4. Bellman Ford [Shortest Path Weighted Graph -ve weight also]
+- NOTE: I use LAZY DIJKSTRA w/o visited array, So my code can actually calculate for -ve Edges as well, but too many -ve edge causes it TC to be Exponential, Also, it can't detect -ve CYCLE
+
+#### Algorithm [BFS + Min Heap]
+1. Initialize a dist array all Nodes INT_MAX, dist[source] = 0
+2. Push into Priotity Queue [Min Heap] {node,weight}, initially push {0,weight}
+3. Visit the neighbours of pq.top() 
+4. IMPORTANT OPTIMALITY CHECK: if(popped_node_weight > dist[node])then continue 
+- if(dist_till_now + weight_neighbour < dist[neighbour]), Then update the dist[neighbour] = dist[u] + weight, and push it into priority_queue
+- [This process of updating the shortest path is called RELAXING AN EDGE]
+
+#### DIJKSTRA V/S DP
+
+##### 1. Grids [Movement Test]
+- All 4 Directions[up,down,left,right] -> Dijkstra
+- Only Down & Right -> DP [Standard DP Fails With Cycles]
+
+##### 2. Cycle test
+- Cycle Exist -> Dijkstra [It used Dist vector]
+- No Cylce (DAG) -> DP
+
+### 4. Bellman Ford [Shortest Path Weighted Graph -ve weight also, -ve CYCLE ALSO]
 - USED FOR: Shortest path with Negative Weights or limiting "K" stops (Cheapest Flights).
-
-### 5. Floyd Warshall [All Pairs Shortest Path]
+- Detect -ve Cycle: Relax/Update Edges N-1 Times if still can relax 1 more time the -ve CYCLE Present
+- HANDLE -ve Edges
+- Dijkstra Greedy Once Node Processed, Distance is Final
+- Bellman Ford Update (Relax) Every Edge N-1
 - USED FOR: Connecting all nodes with minimum cost.
 
-### 6. Prims [MST]
+
+#### Algorithm TC: O(V.E) 
+- WORKS ON EDGES 
+1. Update/Relax Edges N-1 Times with Dijkstra Logic Without Min Heap 
+2. if(dist[u] != INT_MAX && dist[u] + w < dist[v]) then dist[v] = dist[u] + w 
+- dist[u] != INT_MAX check is important because we actually need to visit that node
+3. In The end If again Able to Relax the Edge -> NEGATIVE CYCLE Present
+
+### 5. Floyd Warshall [All Pairs Shortest Path] [-ve Cycle DETECT]
+- Shortest Path From Everywhere To Everywhere
+- -ve Edge Handle, But Not Handle -ve CYCLE
+- Path Via ```i->k->j``` BETTER OR ```i->j```
+- For Every Pair Check is Path via K dist[i][k] + dist[k][j]  Better than Direct Path dist[i][j]
+
+#### TC/SC: O(V^3)/O(V^2)
+- NOTE K-> Unlock Shortcut 1 by 1
+
+#### ALGORITHM: 
+1. Dist Array of N x N Size
+2. Initial Edge Weight dist[u][v] = w, (dist[v][u]=w, if UNDIRECTED)
+3. 3 Loops K then I then J
+- Check i->k and k->j exists then dist[i][j] = min(dist[i][j],dist[i][k] + dist[k][j])
+4. -ve Cycle detect if dist[i][i] is -ve then -ve CYCLE PRESENT
+
+
+### 6. Prims [MST] [Prefer For DENSE Graphs -> More Edges]
 - USED FOR: Connecting all nodes with minimum cost.
+- Priority Queue + BFS
+- Similar To Dijkstra Just focus on Weights ( Not added Distance)
+- Unlike Dijkstra, Prim's uses a boolean visited array to ensure we don't re-add a node to the MST.
 
-### 7. Kruskal [MST]
+#### ALGORITHM:
+1. Keep Min heap + Visited Array
+2. Use BFS and push to pq {node,weight}
+
+### 7. Kruskal [MST] [Prefer For SPARSE Graphs -> Less Edges]
 - USED FOR: Connecting all nodes with minimum cost.
+- TC: O(ElogE)
+#### ALGORITHM 
+- USE DSU
+1. Sort The Edges By weight
+2. If Parents of u and v NOT same then UNION(u,v) them and add the weight to MST_SUM
 
-### 8. Bridges/ Articulation Points
-- Concept: **Tarjan's Algorithm** (Rank values)
+### 8. Bipartite Graph Check (Graph Coloring only 2 Colors [Use 0 & 1 to color & -1 Initially])
+- If able to color Graph with only 2 colors then it is Bipartite Graph
+- Use Colors vector and initialize it with -1 
+- whenever color the neighbour do color[neighbour] = !color[front]
+- NO ODD LENGTH CYCLES
 
-### 9. Bipartite
+#### ALGORITHM
+1. Initialize color vector with -1 -> Not Initialized, 0 -> 1st Color, 1 -> 2nd Color
+- Do Bipartite check, For All DISCONNECTED COMPONENTS & skip if color[i] != -1
+2. color[start_node] = 0, **Do BFS,** 
+- visit neighbour if(color[neighbour] == -1), then color it with !color[front]
+- if color[neighbour] == color[front], then Same Color Adjacent, NOT BIPARTITE
 
+
+### ***9. Bridges & Tarjan's Algorithm (Critical Connections) [V.V.IMP] [V.V.HARD]***
+- We Find The Bridge, Bridge is the Edge which can connect a node to it's parent
+- Bridge only when the NEIGHBOUR can't Reach back to curr_node
+
+#### ALGORITHM
+1. We initialize tin, low, timer [tin: Time of Insertion/Arrival, low: The lowest parent Which i can connect to]
+2. Initially For every node the tin and low are same as timer, and mark curr_node as visited
+3. We start with DFS on neighbours,
+- We Don't consider the parent edge for now while visiting Neighbours
+- If Neighbour is NOT VISITED, Do the DFS, and update your lowest with min(low[curr_node],low[neighbour])
+- Now in same IF(!visited) condition, Check BRIDGE if(low[neighbour] > tin[curr_node]) Means the Neighbour can reach Strictly Below me and Consider the edge as a BRIDGE, bridges.push_back({node,neighbour})
+- IMPORTANT: [Bridge Only when the neighbour can't go up to curr_node and there is no other way for neighbour to reach curr_node or to ancestors]
+- IF Neighbour was Already VISITED, Then it is a Back Edge [ONE JUMP ONLY take "tin" memorize this] you can take low[curr_node] = min(low[curr_node],tin[neighbour])
+
+```
+BRIDGES
+1 -  2 --- 3
+     |     |
+     |_____|
+
+1 --- 2 is a bridge strictly below Node 1
+
+ARTICULATION POINT
+2 is Articulation Point removing it will disconnect the Graph
+```
+
+### 10. Articulation Points - Variation of Bridges.
+- Same As Tarjan's Algorithm
+- But neighbour can reach either curr_node or below then it is a Articulation Point
+- For Bridge The neighbour has to strictly reach below curr_node
+#### IMPORTASNT: **EXPLICITLY HANDLE ROOT**
+
+- Only this condition Changed ">=" Check BRIDGE if(low[neighbour] >= tin[curr_node]) 
+- **SPECIAL CASE: If Root is taken & it has 1 Child then Root think it is articulation point but it is not because Removing it will leave the entire remaining graph connected**
+- If Root has more than 1 UNVISITED children then it will be an Articulation Point
+#### Formula Don't work For Root, Explicitly Check if Root have More than 1 Children Then Only root will be an Articulation point
+- Mark the Nodes Don't Push. Eg: 3 Branches for a node Each Seperately marks Curr_node as Articulation Point, But, we push_back in bridges {node,neighbour} because each branch is Unique
+
+### 11. 0-1 BFS (Deque Optimization, instead of Min Heap)
+- Concept: A modification of BFS/Dijkstra where edge weights are ONLY 0 or 1.
+- Eg: Walk to Neighbour for free (cost 0) or break the wall (cost 1)
+- Why: Dijkstra is O(Elog V). 0-1 BFS is O(E). It is strictly faster.
+- Logic: Use a deque (Double Ended Queue).
+- If weight is 0: Push to FRONT (Process immediately).
+- If weight is 1: Push to BACK (Process later).
+- Problem: Minimum Cost to Make at Least One Valid Path in a Grid (LeetCode 1368).
+
+#### Where Used?
+1. Grid Problems: Same Direction is 0 and breaking obstacle is 1
+
+#### ALGORITHM
+IT Use **DEQUE** Instead of **Min-HEAP**
+1. If Edge is 0 Add to Front of deque ["High Priority"]
+2. If Edge is 1 Add to Back of deque ["Low Priority"]
+- This Causes deque to Remain Sorted
+##### Do Same BFS as Dijkstra just carefully add into DEQUE 0 -> front, 1->back of Deque 
+
+
+### 12. Hierholzer’s Algorithm (Eulerian Path)
+- Concept: Find a path that visits every edge exactly once.
+- Why: It is the standard solution for the "Reconstruct Itinerary" problem (LeetCode 332).
+- Logic: DFS that adds nodes to the path after visiting all neighbors (Post-order addition).
+- Interview Status: Essential for specific "Route Reconstruction" problems.
+
+### 13. Max Flow (Ford-Fulkerson / Edmonds-Karp)
+- You must understand the concept of "Max Flow Min Cut Theorem".
+- Problem: "How many disjoint paths exist from S to T?
+- "Google Pattern: They might frame a problem as a flow network, but usually, a DFS/BFS solution exists. I recommend skipping the implementation of this unless you have mastered everything else.
+
+
+### NOTE: KRUSKAL & BELLMAN FORD -> Directly On Edges
+
+| Algorithm | Main Concept | TC | SC | When to Use (Pattern) |
+|---|---|---|---|---|
+| **BFS** | Queue + visited | $O(V+E)$ | $O(V)$ | Shortest Path in unweighted graphs (Unit distance). Level-order traversal. |
+| **DFS** | Recursion/Stack + visited | $O(V+E)$ | $O(V)$ | Connectivity, Finding ANY path, Cycle Detection, Backtracking logic. |
+| **Kahn's Algo** | Indegree Array + Queue | $O(V+E)$ | $O(V)$ | Dependencies, Prerequisites, Build Order. Fails if Cycle exists. (DAG only). |
+| **DSU (Union-Find)** | parent array + Path Comp. | $O(E \cdot \alpha(V)) \approx O(1)$ | $O(V)$ | Grouping, Dynamic Connectivity, Cycle Detection in Undirected Graph, Kruskal's. |
+| **Dijkstra** | Min-Heap + dist array | $O(E \log V)$ | $O(V+E)$ | Shortest Path in Weighted (+ve) graphs. "Min Cost/Time/Delay". |
+| **Bellman-Ford** | Relax all edges $(N-1)$ times | $O(V \cdot E)$ | $O(V)$ | Shortest Path with Negative Edges. Detects Negative Cycles. Max $K$ stops. |
+| **Floyd-Warshall** | 3 Nested Loops (k outer) | $O(V^3)$ | $O(V^2)$ | All-Pairs Shortest Path. Small graphs ($N \le 500$). Multi-source routing. |
+| **Prim's** | Min-Heap + visited | $O(E \log V)$ | $O(V+E)$ | MST (Dense Graphs). Connect all points cheaply. Logic like Dijkstra. |
+| **Kruskal's** | Sorting + DSU | $O(E \log E)$ | $O(V)$ | MST (Sparse Graphs). Connect all points cheaply. Logic like Union-Find. |
+| **Bipartite** | BFS/DFS + 2 Colors | $O(V+E)$ | $O(V)$ | Check for Odd Cycle. Split nodes into 2 independent sets. |
+| **Tarjan's (Bridge)** | tin, low, DFS | $O(V+E)$ | $O(V)$ | Find Critical Connections. Edges that disconnect graph if removed. |
+| **Tarjan's (AP)** | tin, low, Child Count | $O(V+E)$ | $O(V)$ | Find Critical Nodes. Vertices that disconnect graph if removed. |
+| **Kosaraju** | DFS Order + Transpose + DFS | $O(V+E)$ | $O(V)$ | Strongly Connected Components (SCC) in Directed Graph. |
 
 
 

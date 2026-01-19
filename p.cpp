@@ -1,71 +1,35 @@
+
 #include<iostream>
 #include<vector>
-#include<queue>
-using namespace std;
-
-struct TreeNode{
-  int val;
-  TreeNode* left;
-  TreeNode* right;
-  TreeNode(int val){
-    this->val = val;
-    left = nullptr;
-    right = nullptr;
-  }
-};
-
-class Solution{
-  TreeNode* create_tree(){
-    TreeNode *root = new TreeNode(10);
-    root->left = new TreeNode(20);
-    root->right = new TreeNode(30);
-    root->left->left = new TreeNode(40);
-    return root;
-  }
+class DSU{
+  vector<int>parent;
+  vector<int>rank;
   public:
-  void find_level_order(){
-    TreeNode* root = create_tree();
-
-    queue<TreeNode*>q;
-    vector<int>level_order;
-    if(!root)return;
-    q.push(root);
-    q.push(nullptr);
-
-    while(!q.empty()){
-      int size = q.size();
-
-      for(int i=0; i<size; i++){}
-        TreeNode* front = q.front();
-        q.pop();
-        if(front){
-          level_order.push_back(front->val);
-          if(front->left){
-            q.push(front->left);
-          }
-          if(front->right){
-            q.push(front->right);
-          }
-        }else{
-          // nullptr
-          if(!q.empty()){
-            q.push(nullptr);
-          }
-        }
-
-    }
-
-    for(auto & el: level_order){
-      cout<<el<<" ";
-    }
-
+  DSU(int n){
+    parent.resize(n+1);
+    rank.resize(n+1,0);
   }
+
+  int find_parent(int node){
+    if(node == parent[node])return node;
+    return parent[node] = find_parent(parent[node]);
+  }
+
+  void union_nodes(int u, int v){
+    int parent_u = find_parent(u);
+    int parent_v = find_parent(v);
+
+    if(parent_u == parent_v)return;
+
+    if(rank[parent_u] < rank[parent_v]){
+      parent[parent_u] = parent_v;
+    }else if(rank[parent_u] > rank[parent_v]){
+      parent[parent_v] = parent_u;
+    }else{
+      // Rank Same Increase Parent Rank by 1
+      parent[parent_u] = parent_v;
+      rank[parent_v]++;
+    }
+  }
+
 };
-
-int main(){
-  Solution sol_obj = Solution();
-  cout<<"\n";
-  sol_obj.find_level_order();
-  cout<<"\n";
-
-}
