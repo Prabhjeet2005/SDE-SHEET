@@ -439,6 +439,9 @@ Same As BFS instead of queue use a stack + VISITED
 - USED FOR: Grouping, Cycle Detection in Undirected Graph (Redundant Connections, Accounts Merge, Connected Components)
 - Time Complexity: Naive O(N), But Optimized is O(1)
 
+#### CYCLE DETECTION
+If Edge already has same parents then there is cycle
+
 #### 1. find(parent) [With Path Compression]
 - O(1)
 - Node 3 looks for its leader 3 -> 2 -> 1 -> Root
@@ -638,18 +641,24 @@ ARTICULATION POINT
 1. Grid Problems: Same Direction is 0 and breaking obstacle is 1
 
 #### ALGORITHM
-IT Use **DEQUE** Instead of **Min-HEAP**
+IT Use **DEQUE** Instead of **Min-HEAP** to maintain SORTED Property
 1. If Edge is 0 Add to Front of deque ["High Priority"]
 2. If Edge is 1 Add to Back of deque ["Low Priority"]
 - This Causes deque to Remain Sorted
-##### Do Same BFS as Dijkstra just carefully add into DEQUE 0 -> front, 1->back of Deque 
-
+##### Do Same BFS as Dijkstra just carefully add into DEQUE 0 -> front, 1->back of Deque. Thus, maintaining it's Sorted Property
 
 ### 12. Hierholzer’s Algorithm (Eulerian Path)
+#### **EULERIAN PATH :** Don't trace same edge twice
 - Concept: Find a path that visits every edge exactly once.
 - Why: It is the standard solution for the "Reconstruct Itinerary" problem (LeetCode 332).
 - Logic: DFS that adds nodes to the path after visiting all neighbors (Post-order addition).
 - Interview Status: Essential for specific "Route Reconstruction" problems.
+
+- Eg: Draw a STAR without lifting pen
+
+#### ALGORITHM EXAMPLE [Get Stuck, Then Backtrack]
+- Keep Going To next Node till DEAD END [When DEAD END push_front]
+- Then Backtrack and take another path
 
 ### 13. Max Flow (Ford-Fulkerson / Edmonds-Karp)
 - You must understand the concept of "Max Flow Min Cut Theorem".
@@ -657,14 +666,14 @@ IT Use **DEQUE** Instead of **Min-HEAP**
 - "Google Pattern: They might frame a problem as a flow network, but usually, a DFS/BFS solution exists. I recommend skipping the implementation of this unless you have mastered everything else.
 
 
-### NOTE: KRUSKAL & BELLMAN FORD -> Directly On Edges
+### NOTE: KRUSKAL & BELLMAN FORD & DSU -> Directly On Edges
 
 | Algorithm | Main Concept | TC | SC | When to Use (Pattern) |
 |---|---|---|---|---|
 | **BFS** | Queue + visited | $O(V+E)$ | $O(V)$ | Shortest Path in unweighted graphs (Unit distance). Level-order traversal. |
 | **DFS** | Recursion/Stack + visited | $O(V+E)$ | $O(V)$ | Connectivity, Finding ANY path, Cycle Detection, Backtracking logic. |
 | **Kahn's Algo** | Indegree Array + Queue | $O(V+E)$ | $O(V)$ | Dependencies, Prerequisites, Build Order. Fails if Cycle exists. (DAG only). |
-| **DSU (Union-Find)** | parent array + Path Comp. | $O(E \cdot \alpha(V)) \approx O(1)$ | $O(V)$ | Grouping, Dynamic Connectivity, Cycle Detection in Undirected Graph, Kruskal's. |
+| **DSU (Union-Find)** | parent array + Path Comp. | $O(E \cdot \alpha(V)) \approx O(1)$ | $O(V)$ | Component, Cycle Detection in Undirected Graph, Grouping, Kruskal's. |
 | **Dijkstra** | Min-Heap + dist array | $O(E \log V)$ | $O(V+E)$ | Shortest Path in Weighted (+ve) graphs. "Min Cost/Time/Delay". |
 | **Bellman-Ford** | Relax all edges $(N-1)$ times | $O(V \cdot E)$ | $O(V)$ | Shortest Path with Negative Edges. Detects Negative Cycles. Max $K$ stops. |
 | **Floyd-Warshall** | 3 Nested Loops (k outer) | $O(V^3)$ | $O(V^2)$ | All-Pairs Shortest Path. Small graphs ($N \le 500$). Multi-source routing. |
@@ -675,10 +684,96 @@ IT Use **DEQUE** Instead of **Min-HEAP**
 | **Tarjan's (AP)** | tin, low, Child Count | $O(V+E)$ | $O(V)$ | Find Critical Nodes. Vertices that disconnect graph if removed. |
 | **Kosaraju** | DFS Order + Transpose + DFS | $O(V+E)$ | $O(V)$ | Strongly Connected Components (SCC) in Directed Graph. |
 
+## PATTERNS GRAPHS
+### 1. Multi Source BFS
+1. Push all source nodes into queue
+2. Now traverse them along with FOR loop of size = q.size()
+
+### 2. Grid
+1. Graph 2D GRID, use (row,col) to traverse not the adjacency list
 
 
+# Heaps
+It is a Complete Binary Tree (filled level-by-level, left-to-right).
+- Max-Heap: Every parent is >= its children. Root Maximum.
+- Min-Heap: Every parent is <= its children. Root Minimum.
+## Array Representation (0-indexed)
+index i:
+- Left Child: ```2*i + 1```
+- Right Child: ```2*i + 2```
+- Parent: ```(i - 1) / 2```
 
+## Core Operations (The "Heapify" Logic)
+### 1. Insertion (push): O(log N)
+- Add the new element to the End of the array (bottom-right leaf).
+- Keep Comparing with Parent. If order  wrong (e.g., Child > Parent in Max-Heap), Swap.Repeat until the order is correct or Root is reached.
 
+### 2. Deletion (pop - Removing Root): O(log N)
+- Swap the Root (index 0) with the Last Element (index size-1).
+- Remove the last element (the old root).
+- (Heapify): Look at the new Root. Compare with Children, Swap with the larger child (in Max-Heap).Repeat down the tree until the order is correct.
+
+### 3. Build Heap (from random array): O(N)
+1. **STREAMING:** If Element come 1 by 1 then call ```.push()``` repeatidly ```TC: O(NlogN)```
+2. **OFFLINE:** If Array Already present then apply HEAPIFY from Non Leaf Nodes to 0 and we automatically get the heap ```TC:O(N)```
+
+## HEAPIFY O(N) [Already Present array]
+- From n/2 -1 to 0 [Non Leaf Nodes] reapeatidly do Heapify b/w Curr,Left Child, Right Child get the smallest/greatest
+
+## Max Heap
+```
+priority_queue<int>pq;
+```
+## Min Heap
+```
+priority_queue<int,vector<int>,greater<int>>pq;
+```
+## Custom Compare
+```
+struct CustomCompare{
+  bool operator()(int a,int b){
+    return a > b;    // MIN HEAP
+  }
+};
+```
+
+## HEAP SORT O(NlogN)
+- Build Max Heap then repeatidly get top and swap in the end
+- Then call heapify from 0 to n-1 [as max element fixed to last position]
+
+## PATTERNS HEAP
+
+### Pattern A: Top K Elements (The Reverse Logic)
+- **Problem**: Find the K Largest elements.
+- Use a MIN-Heap of size K.
+- **Algo** 
+- Initialize with First K with Min Heap
+- For rest of elements if bigger than root of min heap then pop and push
+Rule:
+- Find Largest K -> Min-Heap.
+### For K Smallest
+- MAX HEAP
+- First K Initialize Max Heap
+- If less than root comes then pop and push into heap
+- Find Smallest K -> Max-Heap.
+
+### Pattern B: Merge K Sorted Lists
+- **Problem**: Merge K sorted arrays/lists.
+- **Algo**: 
+- Min-Heap, Push the head of all K lists into the Min-Heap.
+- Pop the smallest (Root). Add to result.
+- Push the next element from the list that the popped node came from.
+
+### Pattern C: Two Heaps (Median)
+- **Problem**: Find Median of a stream.
+- **Algo**: 
+- Maintain Max-Heap (Left half of data) and Min-Heap (Right half).
+- Balance sizes so they differ by at most 1, 
+- Median is the top of the larger heap (or average of both).
+
+### Pattern D: Greedy Interval / Scheduling
+- **Problem**: Task Scheduler, Meeting Rooms.
+- **Algo**: Sort by Start Time, use Min-Heap to track End Times (Availability).
 
 
 

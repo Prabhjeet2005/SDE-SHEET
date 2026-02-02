@@ -128,13 +128,26 @@ public:
 
     cout << "\n---Articulation Points [Similar tarjan]---\n";
     adj_list_tarjan.clear();
-
     edges_tarjan = {{0, 1}, {1, 2}, {2, 0}, {3, 0}};
     n_tarjan = 4;
     adj_list_tarjan.resize(n_tarjan + 1);
     create_adj_list(edges_tarjan, adj_list_tarjan);
     tarjan_articulation_points(adj_list_tarjan, n_tarjan);
-    cout << "\n---DFS---\n";
+
+    cout<<"Here 0";
+    cout << "\n---BFS[0-1] [Similar To Dijkstra, Use DEQUE 0->front, 1->Rear]---\n";
+    vector<vector<int>> edges_bfs_01 = {
+        {0, 1, 0}, {0, 7, 1}, {1, 2, 1}, {1, 7, 1}, {2, 3, 0}, {2, 5, 0}, {2, 8, 1}, {3, 4, 1}, {3, 5, 1}, {4, 5, 1}, {5, 6, 1}, {6, 7, 1}, {7, 8, 1}};
+    ;
+    // OUTPUT: 0 0 1 1 2 1 2 1 2
+    int n_bfs01=9;
+
+    vector<vector<pair<int, int>>> adj_list_bfs_01(n_bfs01+1);
+
+    create_adj_list_undirected(edges_bfs_01, adj_list_bfs_01);
+
+    dijkstra_bfs_01(adj_list_bfs_01,n_bfs01);
+
     cout << "\n---DFS---\n";
     cout << "\n---DFS---\n";
   }
@@ -770,6 +783,44 @@ private:
     {
       articulation_points[curr_node] = true;
     }
+  }
+
+  void dijkstra_bfs_01(vector<vector<pair<int,int>>>&adj_list,int n){
+    vector<int>dist(n+1,INT_MAX);
+    deque<pair<int,int>>dq;
+    // {v,w}
+    int source = 0;
+    dq.push_front({source,0});
+    dist[source] = 0;
+
+    while(!dq.empty()){
+      pair<int,int> front = dq.front();
+      dq.pop_front();
+
+      if(dist[front.first] < front.second )continue;
+
+      for(auto& neighbour: adj_list[front.first]){
+        int v = neighbour.first;
+        int w = neighbour.second;
+        if(dist[front.first] + w < dist[v] ){
+          dist[v] = dist[front.first]+w;
+          if(w == 0){
+            // 0 is High Priority
+            dq.push_front({v,dist[v]});
+          }else if(w == 1){
+            // 1 is Low Priority
+            dq.push_back({v,dist[v]});
+          }
+        }
+
+      }
+    }
+
+    cout<<"Dist: ";
+    for(auto & d: dist){
+      cout<<d<<", ";
+    }
+
   }
 };
 
