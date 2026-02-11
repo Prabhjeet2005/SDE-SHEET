@@ -28,6 +28,10 @@ public:
     vector<int>array = {20,10,50,60,30};
     MaxHeap max_heap = MaxHeap();
     max_heap.heap_sort(array);
+    cout<<"\nSorted Arr [Using Max Heap]: ";
+    for(auto &element:array){
+      cout<<element<<", ";
+    }
   }
 
 private:
@@ -97,7 +101,54 @@ private:
     }
   };
 
-  class MaxHeap{};
+  class MaxHeap{
+    vector<int>heap;
+    int get_parent(int index){return (index-1)/2;}
+    int get_left_index(int index){return 2*index+1;}
+    int get_right_index(int index){return 2*index+2;}
+
+    public:
+    void build_heap(vector<int>&arr){
+      heap = arr;
+      int n = heap.size();
+
+      for(int i=(n/2)-1 ; i>=0; i--){
+        // Non Leaf to Root
+        heapify(i,n);
+      }
+    }
+    void heapify(int i,int n){
+      int left_index = get_left_index(i);
+      int right_index = get_right_index(i);
+      int greatest_index = i;
+
+      if(left_index < n && heap[left_index] > heap[greatest_index]){
+        greatest_index = left_index;
+      }
+      if(right_index < n && heap[right_index] > heap[greatest_index]){
+        greatest_index = right_index;
+      }
+      
+      if(greatest_index != i){
+        swap(heap[i], heap[greatest_index]);
+        heapify(greatest_index,n);
+      }
+    }
+
+    void heap_sort(vector<int>&arr){
+      heap = arr;
+      int n = arr.size();
+      build_heap(arr);
+
+      for(int i=n-1; i>0; i--){
+        swap(heap[0],heap[i]);
+        heapify(0,i);
+      }
+
+      arr = heap;
+
+    }
+  };
 };
 
 int main()

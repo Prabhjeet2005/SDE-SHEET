@@ -738,8 +738,14 @@ struct CustomCompare{
 ```
 
 ## HEAP SORT O(NlogN)
-- Build Max Heap then repeatidly get top and swap in the end
-- Then call heapify from 0 to n-1 [as max element fixed to last position]
+- Build Max Heap by Heapify then repeatidly get top and swap in the end
+- Then call heapify from n-1 to 0 [as max element fixed to last position]
+
+### Algorithm [Heap Sort O(NlogN) -> Max Heap]
+```heap_sort(array)```
+1. Build The Heap from given array Non Leaf to 0  [n/2-1 to 0]
+2. from n-1 to 1 index ```SWAP(heap[0],heap[i])``` [Get Max Element At End] \& apply ```heapify```
+3. Reassign arr = heap
 
 ## PATTERNS HEAP
 
@@ -747,14 +753,13 @@ struct CustomCompare{
 - **Problem**: Find the K Largest elements.
 - Use a MIN-Heap of size K.
 - **Algo** 
-- Initialize with First K with Min Heap
-- For rest of elements if bigger than root of min heap then pop and push
+- Get Minimum out of Largest K Elements
+- ```(Why Min Heap? because keep on Discarding the Minimum Value when Overflow K Sized Heap and Eventually get Top K Elements)```
 Rule:
 - Find Largest K -> Min-Heap.
 ### For K Smallest
 - MAX HEAP
-- First K Initialize Max Heap
-- If less than root comes then pop and push into heap
+- Get Maximum out of smallest K element
 - Find Smallest K -> Max-Heap.
 
 ### Pattern B: Merge K Sorted Lists
@@ -764,6 +769,13 @@ Rule:
 - Pop the smallest (Root). Add to result.
 - Push the next element from the list that the popped node came from.
 
+### Pattern B[ii]: [Ugly Numbers 2]
+#### **DYNAMICALLY KEEP TRACK OF MINIMUM**
+- if i generate order manually and even after keeping track i can't track Nth Smallest Without Heap. 
+- Eg: 1 then 2,3,5 are added now for 2-> 4,6,10 are added thus making [3,5,4,6,10] here we lose the Minimum so keep track using Min Heap and Take care of duplicates
+- ```IMPORTANT: Don't Lose Sorted Order When New Elements Come```
+
+
 ### Pattern C: Two Heaps (Median)
 - **Problem**: Find Median of a stream.
 - **Algo**: 
@@ -771,9 +783,22 @@ Rule:
 - Balance sizes so they differ by at most 1, 
 - Median is the top of the larger heap (or average of both).
 
-### Pattern D: Greedy Interval / Scheduling
+### Pattern D: Scheduling [V.IMPORTANT]
 - **Problem**: Task Scheduler, Meeting Rooms.
-- **Algo**: Sort by Start Time, use Min-Heap to track End Times (Availability).
+- Sort by Start Time, use Min-Heap to track End Times (Availability).
+#### **ALGORITHM**
+- TC/SC: O(NlogN)/O(26)
+- PATTERN [Hard]: SCHEDULING [Map + Max_Heap + Queue]
+  - Where Map used for char->freq
+  - Max_heap for Max Frequency First to Save IDLE Time
+  - Queue For LOCKING till release_time
+
+- First Free up resource from Queue if release_time and current_time matches
+- Then Take top of Max_heap process it and store + Lock rest of Frequency-1 in Queue
+- If max_heap is empty at any moment then IDLE time present
+
+
+
 
 
 
