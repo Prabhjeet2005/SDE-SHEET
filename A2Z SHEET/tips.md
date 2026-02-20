@@ -782,13 +782,15 @@ Rule:
 - Maintain Max-Heap (Left half of data) and Min-Heap (Right half).
 - Balance sizes so they differ by at most 1, 
 - Median is the top of the larger heap (or average of both).
+- ALWAYS PUSH TO LEFT First, then transfer top left to right and maintain N or N+1 elements in LEFT
 
 ### Pattern D: Scheduling [V.IMPORTANT]
-- **Problem**: Task Scheduler, Meeting Rooms.
+- **Problem**: Task Scheduler, Meeting Rooms/ Locking Resource
 - Sort by Start Time, use Min-Heap to track End Times (Availability).
 #### **ALGORITHM**
 - TC/SC: O(NlogN)/O(26)
-- PATTERN [Hard]: SCHEDULING [Map + Max_Heap + Queue]
+- PATTERN [Hard]: SCHEDULING/ Locking Resource 
+- ***[Map + Max_Heap + Queue]***
   - Where Map used for char->freq
   - Max_heap for Max Frequency First to Save IDLE Time
   - Queue For LOCKING till release_time
@@ -798,8 +800,140 @@ Rule:
 - If max_heap is empty at any moment then IDLE time present
 
 
+# Dynamic Programming [DP]
+
+**RULE OF THUMB DP**
+- Always return something 
+- Don't use void with reference
+```
+int solve(int i){
+  // BASE CASES
+  ...
+  int total = solve(i+1) + solve(i+2);
+  ...
+}
+```
+## "Why MEMOIZATION give TLE?" ```[V.V.V.IMPORTANT]```
+```
+Sometimes range like -10^4 <= cell[i][j] <= 10^4
+Here if DP initialize to -1 then give TLE because Memoization Breaks...
+Always Initialize with IMPOSSIBLE to REACH Value"
+```
+
+- Recursion : All Possibilities
+- Memoization[Top-Down]: Before return result -> Write in Array. Before Computing -> Check Array.
+- Tabulation [Bottom-Up]: Fill array Iteratively from Base Case up to answer
+
+## Tabulation: Recursion in Reverse
+CONVERT Recursive Solution -> Memoization -> TABULATION -> Space Optimization
+1. Explicitly write base cases
+2. Write a for loop after skipping INITIAL Case 
+eg: 2 to N
+3. IMPORTANT: declare a dp Table and fill With BASE CASE
 
 
+## DP STATE FRAMEWORK
+1. **State**: What variables change in my recursive function? (index, weight, prev_val...). These become your DP array dimensions.
+
+2. **Transitions**: How do I move from state to next_state? (Pick vs Skip, Move Right vs Down).
+
+3. **Base Case**: When do I stop? (Index out of bounds, Target reached).
+
+## Decide DP V/S GRAPHS V/S GREEDY
+### 1. The "Count/Min/Max" Trigger
+- Does the problem ask for:
+  - "Total number of ways..." (Count)
+  - "Minimum cost/steps..." (Min)
+  - "Maximum profit/length..." (Max)
+  - "Is it possible to..." (True/False)
+- If YES, it is likely DP or Graph.
+
+### 2. The "Structure" Test (DP vs Graph)
+- Graph: The input is explicit connections (Edges, Adjacency List) OR a Grid where you can move in all 4 directions (***Cycles possible***).
+- DP: The problem has a Direction.
+  - "Move only Right and Down" (Grid DP).
+  - "Sequence i depends only on i-1" (1D DP).
+  - "DAG (Directed Acyclic Graph)" logic.
+- Key: No LOOPS, it is DP.
+
+### 3. The "Choice" Test (DP vs Greedy)
+- Greedy: "I can greedily pick the biggest/smallest item now, and I never regret it." (e.g., Activity Selection).
+- DP: "I have choices (Pick/Skip, Buy/Sell). If I pick this now, it might prevent me from picking something better later. I need to **try ALL choices**."
+
+
+## DP PATTERNS
+
+### Pattern 1: 1D / Linear DP (Fibonacci Style)
+Used for: Climbing Stairs, House Robber.
+
+```
+// Memoization
+int solve(int i, vector<int>& dp) {
+    if (i < 0) return 0;
+    if (i == 0) return 1; // Base Case
+    if (dp[i] != -1) return dp[i];
+    
+    // Transition: Try all steps (e.g., take 1 step or 2 steps)
+    return dp[i] = solve(i-1, dp) + solve(i-2, dp);
+}
+```
+
+### Pattern 2: Knapsack (Pick / Skip)
+- Used for: Subset Sum, Partition, 0/1 Knapsack.
+- State: dp[index][current_weight]
+
+```
+// Memoization
+int solve(int i, int w, vector<vector<int>>& dp) {
+    if (i == 0) return (items[0] <= w); // Base Case
+    if (dp[i][w] != -1) return dp[i][w];
+    
+    int notPick = solve(i-1, w, dp);
+    int pick = 0;
+    if (items[i] <= w) pick = value[i] + solve(i-1, w - items[i], dp);
+    
+    return dp[i][w] = max(pick, notPick);
+}
+```
+
+### Pattern 3: String DP (LCS)
+- Used for: Longest Common Subsequence, Edit Distance.
+- State: dp[i][j] (index in string 1, index in string 2).
+```
+int solve(int i, int j, vector<vector<int>>& dp) {
+    if (i < 0 || j < 0) return 0; // Base Case
+    if (dp[i][j] != -1) return dp[i][j];
+    
+    if (s1[i] == s2[j]) 
+        return dp[i][j] = 1 + solve(i-1, j-1, dp); // Match
+    
+    // Mismatch: Try skipping char from s1 OR skipping char from s2
+    return dp[i][j] = max(solve(i-1, j, dp), solve(i, j-1, dp));
+}
+```
+
+### Pattern 4: ```Digit DP``` (The 4D/5D Monster) ```[V.Important]```
+- Used for: "Count numbers in range [L, R] that satisfy property X".
+- State: dp[index][tight_constraint][leading_zeros][...property...]
+
+```
+long long solve(string& s, int idx, bool tight, int sum, vector<vector<vector<int>>>& dp) {
+    if (idx == s.size()) return sum; // Base Case
+    if (dp[idx][tight][sum] != -1) return dp[idx][tight][sum];
+    
+    int limit = tight ? (s[idx] - '0') : 9;
+    long long ans = 0;
+    
+    for (int digit = 0; digit <= limit; digit++) {
+        // Update tight constraint for next position
+        bool nextTight = tight && (digit == limit);
+        ans += solve(s, idx + 1, nextTight, sum + digit, dp);
+    }
+    return dp[idx][tight][sum] = ans;
+}
+```
+
+###
 
 
 
