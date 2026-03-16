@@ -1,6 +1,6 @@
-<h1>882 - Peak Index in a Mountain Array</h1><h2>Difficulty: Medium - <a href="https://leetcode.com/problems/peak-index-in-a-mountain-array/">peak-index-in-a-mountain-array</a></h2><p>You are given an integer <strong>mountain</strong> array <code>arr</code> of length <code>n</code> where the values increase to a <strong>peak element</strong> and then decrease.</p>
+<h1>882 - Peak Index in a Mountain Array</h1><h2>Difficulty: Medium - <a href="https://leetcode.com/problems/peak-index-in-a-mountain-array/">peak-index-in-a-mountain-array</a></h2><p>You are given an integer <strong>mountain</strong> array <code>arr</code> of length <code>n</code> where the values increase to a <strong></strong> and then decrease.</p>
 
-<p>Return the index of the peak element.</p>
+<p>Return the index of the .</p>
 
 <p>Your task is to solve it in <code>O(log(n))</code> time complexity.</p>
 

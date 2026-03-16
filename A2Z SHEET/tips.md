@@ -87,6 +87,32 @@ struct CustomCompare{
 
 # Binary Search
 
+```
+USE THIS TEMPLATE
+When Safely discard MID & No Longer Use
+while(start <= end) start = mid+1, end = mid-1
+```
+
+```
+USE THIS TEMPLATE
+When Not Safely discard MID & Can use later
+while(start <= end) start = mid+1, end = mid
+```
+
+## Lower Bound (>=) Greater or Equal
+```
+arr = {3,5,7,7,7,8,9,10}
+lower_bound(7)
+-> First Element 7's index
+```
+
+## Upper Bound (>) Strictly Greater
+```
+arr = {3,5,7,7,7,8,9,10}
+upper_bound(7)
+-> Element 8's index
+```
+
 - **_Binary Search on 1D_** Use Some Trick to Move in Either of Half (Recognize some pattern)
 - **_ANSWER SPACE: _** For Finding Min/Max, Find Min Value, Max Value and apply Binary Search While looping from min <= max look if each possible otherwise go to other half
 - One Limit to Another Limit Consecutive Try Apply Binary Search Eg. [minElement,maxElement] or [1,n]
@@ -820,6 +846,9 @@ Here if DP initialize to -1 then give TLE because Memoization Breaks...
 Always Initialize with IMPOSSIBLE to REACH Value"
 ```
 
+## ```Memoization``` -> Can Give ```Univisited``` States
+## ```Tabulation``` -> All Previous ```Visited``` States
+
 - Recursion : All Possibilities
 - Memoization[Top-Down]: Before return result -> Write in Array. Before Computing -> Check Array.
 - Tabulation [Bottom-Up]: Fill array Iteratively from Base Case up to answer
@@ -838,6 +867,15 @@ eg: 2 to N
 2. **Transitions**: How do I move from state to next_state? (Pick vs Skip, Move Right vs Down).
 
 3. **Base Case**: When do I stop? (Index out of bounds, Target reached).
+
+## ```DP Dimension``` How To Calculate ?
+Only make Dimensions for changing variables
+- ```get_max_weight(weight, value, n, remaining_weight, index)```
+### Changing Variables
+1. ```weight```, ```value```, ```n```: These are the rules of the game. They never change across recursive calls. (They are constants/references).
+2. ```index```: This changes. You go from n-1 to n-2 etc.
+3. ```remaining_weight```: This changes. You go from 50kg to 40kg to 35kg etc.
+- **Because exactly TWO variables change, you need a 2D DP Array.**
 
 ## Decide DP V/S GRAPHS V/S GREEDY
 ### 1. The "Count/Min/Max" Trigger
@@ -862,6 +900,49 @@ eg: 2 to N
 
 
 ## DP PATTERNS
+```
+1. Knapsack Pattern (0/1 and Unbounded) 
+These problems involve selecting items to maximize value or achieve a target within capacity constraints. 
+Key Patterns: 0/1 Knapsack (each item once), Unbounded Knapsack (items reused), Subset Sum.
+Must-Do Questions:
+[0/1 Knapsack Problem ,Partition Equal Subset Sum ,Coin Change Problem (Minimum Coins) ,Rod Cutting Problem ,Target Sum ]
+
+2. Longest Common Subsequence (LCS) 
+Used for comparing strings or sequences, particularly in bioinformatics or text processing, often with a 2D DP table. 
+Must-Do Questions:
+[Longest Common Subsequence, Edit Distance, Longest Palindromic Subsequence, Shortest Common Supersequence, Distinct Subsequences] 
+
+3. Longest Increasing Subsequence (LIS) 
+Tests ability to find the longest subsequence where elements are in sorted order, often requiring optimization. 
+
+Must-Do Questions:
+[Longest Increasing Subsequence, Russian Doll Envelopes, Maximum Length of Pair Chain, Maximum Sum Increasing Subsequence ]
+
+4. Fibonacci Numbers & Linear DP (1D) 
+The foundation of DP, where the current state depends on one or two previous states. 
+Must-Do Questions:
+[Climbing Stairs, House Robber I & II, Min Cost Climbing Stairs, Decode Ways, Maximum Subarray Sum (Kadane's Algorithm) ]
+
+5. Grid DP 
+Very common in interviews, testing 2D array manipulation and state transitions from neighbors. 
+Must-Do Questions:
+[Unique Paths I & II, Minimum Path Sum, Maximal Square, Dungeon Game] 
+
+6. Interval DP 
+Problems requiring optimal decision-making over ranges or subsets of an array. 
+Must-Do Questions:
+[Matrix Chain Multiplication, Burst Balloons, Palindrome Partitioning II, Longest Palindromic Substring ]
+
+7. State Machine / Stock Trading
+Models scenarios with specific, restricted state transitions (e.g., buying, selling, holding stock). 
+Must-Do Questions:
+[Best Time to Buy and Sell Stock (with transaction fee/cooldown), Best Time to Buy and Sell Stock III (At most two transactions) ]
+
+8. Advanced Patterns 
+Bitmask DP: Traveling Salesman Problem, Partition to K Equal Sum Subsets.
+Tree DP: Binary Tree Maximum Path Sum, House Robber III.
+Digit DP: Number of Digit One, Count Numbers with Unique Digits. 
+```
 
 ### Pattern 1: 1D / Linear DP (Fibonacci Style)
 Used for: Climbing Stairs, House Robber.
@@ -896,21 +977,77 @@ int solve(int i, int w, vector<vector<int>>& dp) {
 }
 ```
 
+### ```1```-Based Indexing -> ```2 String DP```
+- eg: LCS on str1 = "abcde", str2 = "ace"
+### ```0```-Based Indexing -> ```1 String DP```
+- eg: Plaindromic Substring on str="racecar" , use [start_index,end_index]
+
 ### Pattern 3: String DP (LCS)
+- SUBSEQUENCE: Can Skip Characters but keep relative ORDER [Eg: abcde , ace is valid a -> c -> e]
 - Used for: Longest Common Subsequence, Edit Distance.
 - State: dp[i][j] (index in string 1, index in string 2).
+
+#### ALGORITHM
+- start comparing from the very end of both strings: ```i = text1.length() - 1, j = text2.length() - 1```
+1. SCENERIO 1: Both i and j MATCH -> ```return 1 + lcs(i-1,j-1)```
+2. SCENERIO 2: Don't MATCH str1[i] != str2[j]
+    - Choice 1: Move only i
+    - Choice 2: Move only j
+    - Then return ```max(choice1,choice2)```
+
 ```
 int solve(int i, int j, vector<vector<int>>& dp) {
     if (i < 0 || j < 0) return 0; // Base Case
     if (dp[i][j] != -1) return dp[i][j];
     
+    // MATCH
     if (s1[i] == s2[j]) 
         return dp[i][j] = 1 + solve(i-1, j-1, dp); // Match
     
-    // Mismatch: Try skipping char from s1 OR skipping char from s2
+    // NOT MATCH: Try skipping char from s1 OR skipping char from s2
     return dp[i][j] = max(solve(i-1, j, dp), solve(i, j-1, dp));
 }
 ```
+
+### Pattern 4: Longest Palindromic Subsequence
+- 1 String: i=0, j=n-1
+- Tabulation: 1-String : ```0-Based Indexing```
+
+#### ALGORITHM
+- **BASE CASES**
+1. i==j: Return 1 because single Character
+- Scenario A: 
+    - The characters MATCH! 🎉
+    - If s[i] == s[j]:
+    - found the two outer edges of a palindrome, add 2 to our length.
+    - Code: ```2 + solve(i + 1, j - 1)```
+- Scenario B: 
+    - The characters DO NOT MATCH 💔
+    - If s[i] != s[j]:
+    - can't be the outer edges. We must throw one of them away.
+    - **Choice 1:** 
+        - solve(i + 1, j)
+    - **Choice 2:** 
+        - solve(i, j - 1)
+    - Code: ```max(solve(i + 1, j), solve(i, j - 1))```
+
+
+### Pattern 5: Palindromic ```SUBSTRINGS```
+- SUBSTRING: Continous
+- LOGIC: ```IsPalindrome = (Outer Letters Match) AND (Inner Word is Palindrome)```
+
+#### ALGORITHM
+O(N^2) Loop Substrings + check_palindrome
+- Base Cases: Odd Window "a" and Even Window: "aa" so ```(i>=j)return true```
+- Answer depends on s[i] == s[j] AND inner window (i+1, j-1).
+
+### Pattern 6: LIS [Longest Increasing Subsequence] [V.V.IMP]
+- Subsequence with Rules (Strictly Increasing)
+- ```Previous Choice Matters -> Use FOR Loop```
+
+#### ALGORITHM
+- Check Every Index [Every Index LIS on it's own]
+- Track The max and look previous elements and select shorter
 
 ### Pattern 4: ```Digit DP``` (The 4D/5D Monster) ```[V.Important]```
 - Used for: "Count numbers in range [L, R] that satisfy property X".
