@@ -21,7 +21,7 @@ HackWithInfy loves giving you an array of 10^5 elements and asking you to do 100
 The Trap: You have an array of size $10^5$. The question gives you $10^5$ queries. Each query says "Find the sum (or XOR) from index $L$ to index $R$". If you use a for loop from $L$ to $R$ for every query, the time complexity is $O(Q \times N) = 10^{10}$. TLE.
 
 - **For Sum:** Sum of range ```[L, R] = Prefix[R] - Prefix[L-1]```
-- **For XOR** (Question 5 in your PDF): Exactly the same! XOR of range ```[L, R] = Prefix[R] ^ Prefix[L-1]``` (Because XORing a number twice cancels it out!)
+- **For XOR** (Question 5 in your PDF): Exactly the same! XOR of range ```[L, R] = Prefix[R] ^ Prefix[L-1]``` (Because XORing 0 to L and 0 to R cancels out 0 to L and gives XOR L to R)
 - if ```L is 0 then return R ```
 - {Why L-1 because to include Left Sum}
 
@@ -31,7 +31,9 @@ If you loop from $L$ to $R$ adding $V$, it takes $O(Q \times N) = 10^{10}$. TLE.
 
 #### TIP: Difference Array
 - not necessarily array elements in Question all 0 initially
-- but create difference_Arr with all 0, do diff[L] += Value and diff[R+1] -= Value
+- but create difference_Arr with all 0, 
+- ```SOURCE: diff[L] += Value```
+- ```DRAIN: diff[R+1] -= Value```
 - Prefix_Sum Calculate
 - final_Ans[i] = arr[i] + diff[i]
 

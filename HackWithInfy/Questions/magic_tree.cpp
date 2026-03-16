@@ -36,6 +36,7 @@ public:
     for(int i=0; i<queries.size(); i++){
       int l = queries[i][0];
       int r = queries[i][1];
+      // R - [L-1] but for 1-based indexing add 1 to both
       int range_sum = prefix_sum[r+1] - prefix_sum[l-1+1];
       if(range_sum%2 == 0)gold_count++;
     }
