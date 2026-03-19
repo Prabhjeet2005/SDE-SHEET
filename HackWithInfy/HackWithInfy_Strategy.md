@@ -108,6 +108,61 @@ Look at Part 2 of your PDF. They love asking queries about "Subtrees".
 
 ### Day 4: DP on Trees & Subtree Queries. 
 How to use DFS to calculate values for an entire subtree in O(N) time.
+- USE: **```POSTORDER DFS O(N)```** -> every Subtree Question
+- KEYWORDS:
+  - "There are $N$ cities/nodes connected by $N-1$ roads/edges." 
+  - "The network is rooted at node 1 (or node 0)."
+  - "You are given $Q$ queries. For each query, find the ```sum/maximum/count``` in the subtree of node $U$."
+  - Query always ask about a Single Node U
+
+- The Time Limit Trap: 
+  - If you get $10^5$ queries, and for every query you run a fresh search to find the subtree answer, it takes $O(N \times Q) = 10^{10}$ operations. You will TLE (Time Limit Exceeded).
+  - The Solution: You must pre-calculate the answer for every single subtree in exactly one pass ($O(N)$), store it in an array, and then answer the $Q$ queries instantly ($O(1)$).
+
+- CODE:-
+  - **adj_list + node_value + subtree_value**
+  - in DFS -> Subtree[curr_node] = curr_node_val + curr_node_child_subtree
+  - **UNDIRECTED EDGES**
+  - DFS Logic Change:
+    - The Start: ```subtree[curr_node] = values[curr_node];```
+      - Sum/Count Problems: You start with your own value.
+      - Max/Min Problems: You start with your own value.
+      - Distance Problems: You start at 0 (because distance to yourself is 0).
+    - MERGE:  ```subtree[curr_node] += subtree[child];```
+      - Sum/Count Problems: ```+=```
+      - Maximum in Subtree: subtree[curr_node] = max(subtree[curr_node], subtree[child]);
+      - XOR of Subtree: subtree[curr_node] ^= subtree[child]
+
+      
+```
+// Global or Class variables
+vector<vector<int>> adj; // The Adjacency List (Who is connected to who)
+vector<long long> subtree_ans; // Stores the final answer for every node
+vector<int> values; // The individual values of each node
+
+// The "Corporate Chain of Command" Function
+void dfs(int current_node, int parent_node) {
+    
+    // Step 1: Start with my own personal value
+    subtree_ans[current_node] = values[current_node];
+    
+    // Step 2: Ask all my direct reports (children)
+    for(int child : adj[current_node]) {
+        
+        // Don't accidentally ask your boss! (Infinite loop)
+        if(child != parent_node) {
+            
+            // Tell the child to calculate their department first
+            dfs(child, current_node); 
+            
+            // Step 3: The child is done. Merge their answer into mine!
+            subtree_ans[current_node] += subtree_ans[child]; 
+        }
+    }
+}
+```
+
+
 ### Day 5: Shortest Path Variations. 
 Dijkstra modified for "Delivery Drones" (Q8 in your PDF).
 ### Day 6: Blind Story-Stripping (Tree/Graph Edition).
