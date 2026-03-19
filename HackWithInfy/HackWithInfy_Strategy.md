@@ -240,15 +240,17 @@ We aren't doing random DP; we are doing HackWithInfy DP.
 (Part 3 PDF: "Exercises to get tired"). Sorting combined with priority queues.
 ### Day 9: Blind Story-Stripping (DP/Greedy Edition).
 
+# Other Hack With INFY Topics [SP3]
+- DP: 0/1 knapsack, LCS, digit DP, matrix exponentiation
+- TRIE: Autocomplete, Word Dictionary
+- Segment Trees & Fenwick Trees(Binary Indexed Tree)
+- Heavy Light Decomposition (for trees)
+- XOR + Bitmasking
+- Game Theory
+- String Matching Algo(KMP, Z Algos)
 
-# 1. Prefix Arrays & Math: 
-(Q1, Q4, Q5 in your Question Bank). They love asking for XORs in a range or sums with odd/even conditions.
-
-# 2. Difference Arrays / Lazy Propagation: 
-(Q3: "increment every element in A[l] to A[r] by val"). If you do this with a for loop, you get TLE. You must know the Difference Array trick.
 
 # 3. Greedy + Sorting: 
 (Part 3 PDF: "Minimum exercises to get tired"). This isn't DP; it's just sorting the array descending and subtracting!
 
-# 4. Trees & Subtrees: 
-(Part 2 PDF: "Query in the subtree of node S"). 
+ 
