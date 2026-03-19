@@ -133,7 +133,7 @@ How to use DFS to calculate values for an entire subtree in O(N) time.
       - Maximum in Subtree: subtree[curr_node] = max(subtree[curr_node], subtree[child]);
       - XOR of Subtree: subtree[curr_node] ^= subtree[child]
 
-      
+
 ```
 // Global or Class variables
 vector<vector<int>> adj; // The Adjacency List (Who is connected to who)
@@ -164,7 +164,71 @@ void dfs(int current_node, int parent_node) {
 
 
 ### Day 5: Shortest Path Variations. 
+#### NOTE:
+```
+Dijkstra -> O(ElogV)
+Use BELLMAN FORD O(V.E) when unsure and contraints allow in OA Round
+```
 Dijkstra modified for "Delivery Drones" (Q8 in your PDF).
+- KEYWORDS:
+  - "Find the ```minimum time/cost/distance``` to travel from ```POINT A``` to ```POINT B```"
+  - "There are ```N``` cities and ```M``` roads. Each road has a ```weight/cost```."
+  - "You can travel in ```any direction```."
+#### ALGORITHM:-
+1. distances array, initialized to INFINITY
+2. starting node with distance 0 in PRIORITY_QUEUE(Min-Heap)
+3. Neighbours
+  - Take Closest neighbour
+  - if ```curr_dist + Road Cost < Known distance neighbour``` -> SHORTCUT
+
+#### CODE:
+```
+#include <vector>
+#include <queue>
+using namespace std;
+
+vector<int> dijkstra(int N, int start_node, vector<vector<pair<int, int>>>& adj) {
+    // 1. The Notebook (Initialize all distances to Infinity)
+    vector<int> dist(N + 1, 1e9); 
+    dist[start_node] = 0;
+    
+    // 2. The Min-Heap (Stores pairs of {accumulated_cost, current_node})
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+    pq.push({0, start_node}); // Cost is 0 to reach the start node
+    
+    // 3. The Expansion
+    while(!pq.empty()) {
+        int current_cost = pq.top().first;
+        int current_node = pq.top().second;
+        pq.pop();
+        
+        // If we found a slower path in the queue, ignore it
+        if(current_cost > dist[current_node]) continue;
+        
+        // Look at all neighbors
+        for(auto& edge : adj[current_node]) {
+            int neighbor = edge.first;
+            int road_weight = edge.second;
+            
+            // Is this a shortcut?
+            if(current_cost + road_weight < dist[neighbor]) {
+                dist[neighbor] = current_cost + road_weight; // Write it in the notebook
+                pq.push({dist[neighbor], neighbor}); // Add to queue to explore later
+            }
+        }
+    }
+    return dist;
+}
+```
+
+---
+### Negative Weights Graphs [```Bellman Ford Algorithm```]
+- Use: BELLMAN FORD Algorithm
+#### ALGORITHM
+1. Relax/update Edges N-1 times
+  - if(dist[u] + w < dist[v]) then update 
+2. If still able to relax/update then ```-ve Cycle Present```
+
 ### Day 6: Blind Story-Stripping (Tree/Graph Edition).
 
 ## Block 3: The CP Dynamic Programming & Greedy (Days 7 - 9)
