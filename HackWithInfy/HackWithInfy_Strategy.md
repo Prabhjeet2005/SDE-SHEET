@@ -234,11 +234,93 @@ vector<int> dijkstra(int N, int start_node, vector<vector<pair<int, int>>>& adj)
 ## Block 3: The CP Dynamic Programming & Greedy (Days 7 - 9)
 We aren't doing random DP; we are doing HackWithInfy DP.
 
-### Day 7: State Machine DP & Subsets. 
+### Day 7: State Machine DP & Subsets. [1D Array + Strict Restriction]
 (House Robber III, Stock Cooldown, and Q2/Q9 from your PDF).
+
+#### KEYWORDS:
+1. 1D DP: Array size N, represents timeline (move left or right)
+2. State DP : Recognize max or min with ```"BUT"``` -> ```STRICT RESTRICTION```
+  - Eg: "Find the max sum... **BUT** you cannot pick adjacent elements."
+  - "Find the max profit... **BUT** you must wait 1 day after selling."
+  - "Find the min cost... **BUT** you can only hold 1 item at a time."
+
+#### Greedy V/s DP
+- Eg: [10,20,15] -> No Adjacent Elements Pick
+- GREEDY: Pick best choice 20 but is blocked
+- DP: Picks 10 and then 15 to get higher sum
+- Greedy Fails, Pick DP
+
+#### ANALOGY [Stock with Cooldown]
+
+**The "What button can I click?" Method.**
+
+#### How to Create ```States``` from Scratch [IMPORTANT]
+
+Forget arrays. Forget math. Imagine you are playing a video game. A "State" is just the answer to one simple question: **Based on my current situation, what buttons light up on my controller?**
+
+**Stock with Cooldown** problem just by pretending we are playing the game. We will start with a blank piece of paper and write down the states as they happen.
+
+**1. The Start of the Game:**
+* You wake up on Day 1. You have no stock. You have no penalties.
+* What button is lit up on your controller? **[BUY]** (or you can just do nothing).
+* *Let's write this situation down on our paper:* 👉 **STATE 1: "Ready to Buy"**
+
+**2. You press the [BUY] button:**
+* The game changes. You now have a stock in your hand. The rules say "you can only hold one stock at a time."
+* Because you have a stock, the [BUY] button goes dark. You cannot press it.
+* What button lights up instead? **[SELL]**. 
+* *This is a brand new situation. Let's write it down:*
+  👉 **STATE 2: "Holding"**
+
+**3. You press the [SELL] button:**
+* The game changes again. You hand the stock over and get your profit. 
+* Can you press [BUY]? No, the rules say "after selling, you must wait 1 day."
+* Can you press [SELL]? No, you don't have a stock anymore.
+* What buttons are lit up? **None.** You are forced to just hit **[NEXT TURN]** to rest. 
+* *This is a brand new situation. Let's write it down:*
+  👉 **STATE 3: "Cooldown"**
+
+**4. You press [NEXT TURN] (Your 1 day of rest finishes):**
+* The penalty is gone. You don't have a stock. 
+* What button lights up? **[BUY]**. 
+* Have we seen this situation before? Yes! This is exactly State 1. The loop is closed.
+
+**Look at your paper.** You just naturally discovered the 3 states without memorizing anything. 
+The states are just the different "modes" your controller can be in!
+1. Mode 1: [BUY] is active. ("Ready")
+2. Mode 2: [SELL] is active. ("Holding")
+3. Mode 3: Everything is locked. ("Cooldown")
+
+***
+
+### Let's Test This Method Together
+
+I am going to give you a brand new story. I don't want you to write any code. I don't want you to do any math. 
+
+I just want you to use the **"What button can I click?"** method to trace the game and tell me how many States there are.
+
+ **The Story: The Gladiator Training**
+ You are a gladiator preparing for a tournament. Every day, you can choose to click the **[TRAIN]** button to gain stats, or the **[REST]** button to do nothing.
+ 
+ **The Rule:** Training is exhausting. If you click **[TRAIN]** for exactly 2 days in a row, your body breaks down. On the next day, the [TRAIN] button will be locked, and you are forced to click **[REST]**.
+
+**Your Turn:**
+Imagine you are playing this game. Wake up on Day 1. Trace your button clicks. Tell me the different "Situations" (States) your character can find themselves in. How many are there?
+
+
+
 ### Day 8: Advanced Greedy. 
 (Part 3 PDF: "Exercises to get tired"). Sorting combined with priority queues.
 ### Day 9: Blind Story-Stripping (DP/Greedy Edition).
+
+
+
+
+
+
+
+
+
 
 # Other Hack With INFY Topics [SP3]
 - DP: 0/1 knapsack, LCS, digit DP, matrix exponentiation
@@ -248,6 +330,53 @@ We aren't doing random DP; we are doing HackWithInfy DP.
 - XOR + Bitmasking
 - Game Theory
 - String Matching Algo(KMP, Z Algos)
+
+# HWI Video Preperation
+## EASY (1/4th of total marks)
+- Segment Tree
+- Fenwick Tree
+- Red Black Tree
+- Radix Tree
+- KD Tree
+- B,B+ Tree
+- Any other on similar lines
+
+## MEDIUM (1/3rd of total marks)
+Advanced problems involving multiple steps & optimizations
+- On top of EASY
+- Greedy
+- DP
+
+## HARD [Primarily DP]
+- On top of Medium
+- DP problem with additional shortlisted Technique:-
+  - Bit-mask
+  - Hashing
+  - Backtracking
+  - Lazy Propogation
+  - Prefix Sum
+  - Experimental
+    - Sum over substes
+    - MO's algorithm
+  - Graph Theory
+    - Any other families, eg: Bipartite, flow networks
+    - Any other on similar lines
+
+## Navigator Session 1
+- Segment Tree
+  - Find in approx 1 or 2 or 3 Efficient Operation
+  - When Use [Fast Range Queries & Updates sum/min/max] on arrays
+- Fenwick Tree
+  - Find Sum of element in Range [a,b], Inversion Count
+- TRIE O(L) -> Insert/Search/Delete
+  - String Presence in array
+  - Autocomplete, Spell Checker, Prefix Search
+  - Eg: Phone Dictionary, Word Search
+
+## Navigator Session 2 [Dynamic Programming]
+
+- DP + Graphs [Type 1 and Type 2 Query type questions]
+
 
 
 # 3. Greedy + Sorting: 

@@ -482,7 +482,7 @@ If Edge already has same parents then there is cycle
 
 1. find_parent(u)
 - if(node == parent[node])then return node
-- otherwise Path compress parent[node] = find_parent(parent[node])
+- otherwise ```Path compress``` parent[node] = find_parent(parent[node])
 
 2. union(u,v)
 - First find parent_u & parent_v
