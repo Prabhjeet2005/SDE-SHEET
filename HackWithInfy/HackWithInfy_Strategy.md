@@ -234,8 +234,10 @@ vector<int> dijkstra(int N, int start_node, vector<vector<pair<int, int>>>& adj)
 ## Block 3: The CP Dynamic Programming & Greedy (Days 7 - 9)
 We aren't doing random DP; we are doing HackWithInfy DP.
 
-### Day 7: State Machine DP & Subsets. [1D Array + Strict Restriction]
-(House Robber III, Stock Cooldown, and Q2/Q9 from your PDF).
+### Day 7: State Machine DP & Subsets. [1D Array Timeline + Strict Restriction] 
+* ```STATE```: What each day Represent. ```Eg: travelling_illussionist.cpp```
+
+* (House Robber III, Stock Cooldown, and Q2/Q9 from your PDF).
 
 #### KEYWORDS:
 1. 1D DP: Array size N, represents timeline (move left or right)
@@ -250,63 +252,37 @@ We aren't doing random DP; we are doing HackWithInfy DP.
 - DP: Picks 10 and then 15 to get higher sum
 - Greedy Fails, Pick DP
 
-#### ANALOGY [Stock with Cooldown]
-
-**The "What button can I click?" Method.**
-
 #### How to Create ```States``` from Scratch [IMPORTANT]
+* Think of Different days i could be in
+* Then for new just think how i can be on that stage
 
-Forget arrays. Forget math. Imagine you are playing a video game. A "State" is just the answer to one simple question: **Based on my current situation, what buttons light up on my controller?**
+**EXAMPLE**
+* Initially well rested
+* Grand Rest Earlier, take full element
+* Basic done Consecutively, take half floor(arr[i]/2)
+```
+void solution(int N, vector<int>&arr){
+    // A Day Could be either of Following
+    long long rest = 0;         // INITIALLY WELL RESTED so 0
+    long long grand = -1e15;    
+    long long basic = -1e15;
 
-**Stock with Cooldown** problem just by pretending we are playing the game. We will start with a blank piece of paper and write down the states as they happen.
+    for(int i=0; i<N; i++){
+      // if grand today then previously i must rest
+      long long new_grand = rest + arr[i] ; 
+      // basic today then previous basic and rest allowed
+      long long new_basic = max(basic,rest) + floor(arr[i]/2) ; 
+      // rest today then previously i could rest, grand or basic
+      long long new_rest = max({grand,rest,basic}) + 0 ; 
 
-**1. The Start of the Game:**
-* You wake up on Day 1. You have no stock. You have no penalties.
-* What button is lit up on your controller? **[BUY]** (or you can just do nothing).
-* *Let's write this situation down on our paper:* 👉 **STATE 1: "Ready to Buy"**
+      grand = new_grand;
+      basic = new_basic;
+      rest = new_rest;
 
-**2. You press the [BUY] button:**
-* The game changes. You now have a stock in your hand. The rules say "you can only hold one stock at a time."
-* Because you have a stock, the [BUY] button goes dark. You cannot press it.
-* What button lights up instead? **[SELL]**. 
-* *This is a brand new situation. Let's write it down:*
-  👉 **STATE 2: "Holding"**
-
-**3. You press the [SELL] button:**
-* The game changes again. You hand the stock over and get your profit. 
-* Can you press [BUY]? No, the rules say "after selling, you must wait 1 day."
-* Can you press [SELL]? No, you don't have a stock anymore.
-* What buttons are lit up? **None.** You are forced to just hit **[NEXT TURN]** to rest. 
-* *This is a brand new situation. Let's write it down:*
-  👉 **STATE 3: "Cooldown"**
-
-**4. You press [NEXT TURN] (Your 1 day of rest finishes):**
-* The penalty is gone. You don't have a stock. 
-* What button lights up? **[BUY]**. 
-* Have we seen this situation before? Yes! This is exactly State 1. The loop is closed.
-
-**Look at your paper.** You just naturally discovered the 3 states without memorizing anything. 
-The states are just the different "modes" your controller can be in!
-1. Mode 1: [BUY] is active. ("Ready")
-2. Mode 2: [SELL] is active. ("Holding")
-3. Mode 3: Everything is locked. ("Cooldown")
-
-***
-
-### Let's Test This Method Together
-
-I am going to give you a brand new story. I don't want you to write any code. I don't want you to do any math. 
-
-I just want you to use the **"What button can I click?"** method to trace the game and tell me how many States there are.
-
- **The Story: The Gladiator Training**
- You are a gladiator preparing for a tournament. Every day, you can choose to click the **[TRAIN]** button to gain stats, or the **[REST]** button to do nothing.
- 
- **The Rule:** Training is exhausting. If you click **[TRAIN]** for exactly 2 days in a row, your body breaks down. On the next day, the [TRAIN] button will be locked, and you are forced to click **[REST]**.
-
-**Your Turn:**
-Imagine you are playing this game. Wake up on Day 1. Trace your button clicks. Tell me the different "Situations" (States) your character can find themselves in. How many are there?
-
+    }
+    cout<< max({grand,rest,basic});
+  }
+```
 
 
 ### Day 8: Advanced Greedy. 
