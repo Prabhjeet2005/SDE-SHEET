@@ -237,6 +237,11 @@ We aren't doing random DP; we are doing HackWithInfy DP.
 ### Day 7: State Machine DP & Subsets. [1D Array Timeline + Strict Restriction] 
 * ```STATE```: What each day Represent. ```Eg: travelling_illussionist.cpp```
 
+* For Eg: See 
+  * ```alchemy_reactor.cpp```
+  * ```lunar_solar_grid.cpp```
+  * ```syndicate_courier.cpp```
+
 * (House Robber III, Stock Cooldown, and Q2/Q9 from your PDF).
 
 #### KEYWORDS:
@@ -287,7 +292,130 @@ void solution(int N, vector<int>&arr){
 
 ### Day 8: Advanced Greedy. 
 (Part 3 PDF: "Exercises to get tired"). Sorting combined with priority queues.
-### Day 9: Blind Story-Stripping (DP/Greedy Edition).
+* ```Free Up availabilty as fast as POSSIBLE```
+
+**KEYWORDS ```intergalactic_merchant.cpp```**
+* ```Fractions``` Allowed, start/end time, infinte supply, Divisible
+* Taking Item A doesn't restrict from picking Item B
+* **```CONSTRAINTS```** check for constraints. Eg: if weight:10^5, value:10^6 -> DP Not Possible dp[weight][value] give TLE 10^11
+
+**How?**
+* Value To Weight Ratio (Value/Weight[i])
+* Earliest Finish Time first
+
+**Greedy ANALOGY ```[IMPORTANT]``` ```cyber_bounty_hunter.cpp```**
+* ***Take Everything Right Now if die UNDO biggest mistake***
+
+#### Patterns [GREEDY]
+**1. ```SORTING ALLOWED``` (Pattern 1)**
+
+* The Mask: Interval Scheduling (Sorting by end time), Fractional Knapsack (Sorting by Ratio), or Constructive Strings (Sorting largest blocks first, like your Mock Test).
+
+* The Core: You have all the data up front. find mathematical "best" metric, sort it, and sweep left-to-right.
+
+**2. ```SORTING NOT ALLOWED``` (Pattern 2)**
+
+* The Mask: Any problem where you must process items in a ```strict sequence``` (like moving through a dungeon or time), and you have a ```limited resource``` (health, fuel, money).
+
+* The Core: You use a Min/Max Heap to aggressively take everything, and "undo" your worst decisions only when you are about to fail.
+
+
+**TEMPLATE [ADVANCED GREEDY]**
+* 1. Group the data together in a struct
+```
+
+struct Job {
+    int start;
+    int end;
+};
+```
+
+
+* 2. Build the "Custom Rule" function. 
+
+```
+static bool compareJobs(Job a, Job b) {
+    // We want the earliest end time first!
+    return a.end < b.end; 
+}
+```
+
+* 3. Main Code
+
+```
+
+int main() {
+    vector<Job> jobs = {{1, 10}, {2, 4}, {3, 6}, {5, 8}};
+    
+    // 3. Sort the array using your custom rule
+    sort(jobs.begin(), jobs.end(), compareJobs);
+    
+    // Now the array is perfectly arranged for a Greedy sweep!
+    int jobs_done = 0;
+    int current_time = -1; // Keep track of when you are free
+    
+    for(int i = 0; i < jobs.size(); i++) {
+        // If the job starts AFTER I am free, take it!
+        if(jobs[i].start >= current_time) {
+            jobs_done++;
+            current_time = jobs[i].end; // My new free time is when this job ends
+        }
+    }
+    
+    cout << "Max Jobs: " << jobs_done << "\n";
+    return 0;
+}
+```
+
+
+# MAANG `Important Topics`
+* Segment Trees
+* BitMasking
+* String Manipulation
+* Tries
+
+# 1. Segment Trees (The Range Masters) 
+**`patterns/Segment_Tree/segment_tree.cpp`**
+
+**`patterns/Segment_Tree/neon_grid_crisis.cpp`**
+
+**The Core Concept:** answer queries about a specific range `[L, R]` (like the sum, minimum, or maximum) AND `update` elements in the array, both in `O(log N)` time.
+
+**Contest Identifying Triggers:**
+* The problem asks you to perform **both** "`updates`" and "`queries`" on an array.
+* The constraints are usually $10^5$, meaning an `O(N)` scan per query will result in a Time Limit Exceeded (TLE). 
+* Keywords: "Range", "Subarray [L, R]", "Update index i", "Find the maximum between L and R".
+
+**Patterns to Crush:**
+* **Point Update & Range Query:** The vanilla segment tree (e.g., update one element, find the sum of a range).
+* **Range Update & Range Query (Lazy Propagation):** The interviewer's favorite. You need to update an entire range `[L, R]` at once without tanking your time complexity.
+* **Segment Tree as a Search Tree:** Finding the $K$-th smallest element or the first element greater than $X$ in a range.
+
+**Segment Tree STRUCTURE**
+* Root Stores Sum of Left + Right Half
+* Leaves Actual array element
+* ***`Each Parent Node in tree store SUMMARY of Left and Right Child`***
+
+**NOTE**
+* Tree -> 1D Array of Size **$4 \times N$**
+* Root -> Sum [0,N-1], Left Half -> Sum [0,mid], Right Half -> Sum [mid+1,N-1]
+* Left Child: `2*index+1`
+* Right Child: `2*index+2`
+
+**`[L,R]` is the Question and `[start,end]` is Range of each Node**
+
+**`Query` Functions**
+* **Completely Outside**
+  * Stop & Return 0 (Sum Query) or Infinity (Min query)
+  * Eg: [L,R] = [3,5], [start,end] = [0,2]
+* **Completely Inside**
+  * Stop & Return tree[node] Value
+  * `[IMPORTANT]` All Remaining Range given by other Nodes
+  * Eg: [L,R] = [1,5], [start,end] = [2,4]
+* **Paritally Overlap**
+  * Some values it has some it doesn't
+  * Keep Breaking It down till it reaches `Completely Inside` or `Completely Outside`
+  * Eg: [L,R] = [2,5], [start,end] = [1,3]
 
 
 
@@ -297,6 +425,66 @@ void solution(int N, vector<int>&arr){
 
 
 
+
+---
+
+# 2. Bitmasking (The State Compressors)
+**The Core Concept:** Using the binary representation of an integer to represent a subset or a combination of items. 
+
+**Contest Identifying Triggers:**
+* **Extremely small constraints.** If you see `N <= 20` or `N <= 15`, it is almost a 100% guarantee that it is a Bitmasking problem (often combined with DP).
+* Keywords: "All possible subsets", "Permutations", "Combinations", "Assign N people to N tasks".
+* Heavy use of the `XOR`, `AND`, or `OR` operators in the problem description.
+
+**Patterns to Crush:**
+* **Bitwise Magic:** Properties of XOR (e.g., $A \oplus A = 0$), checking if a bit is set, Brian Kernighan’s algorithm (counting set bits).
+* **Subset Generation:** Iterating through all $2^N$ subsets using a simple `for` loop.
+* **DP with Bitmasking:** The Travelling Salesman Problem (TSP), Job Assignment Problem. (This is a guaranteed "Hard" level question on OAs).
+
+---
+
+# 3. Advanced String Manipulation (The Greedy & Pattern Matchers)
+**The Core Concept:** Solving string problems by either finding optimal arrangements (Greedy) or efficiently finding substrings/palindromes without checking every possibility.
+
+**Contest Identifying Triggers:**
+* Keywords: "Lexicographically smallest/largest", "Substring", "Subsequence", "Anagram", "Palindrome".
+* Length of string `S` is up to $10^5$, meaning `O(N^2)` brute-force matching will fail.
+* Problems involving prefix and suffix overlaps.
+
+**Patterns to Crush:**
+* **String Greedy:** Appending, reversing, or sorting characters to build the optimal string (like Question 1 on your mock test).
+* **String Hashing (Rabin-Karp):** The ultimate cheat code to compare two strings in `O(1)` time after preprocessing.
+* **KMP Algorithm / Z-Algorithm:** Finding a pattern within a massive text efficiently.
+* **Palindromic Substrings:** Expanding around the center or using Manacher's Algorithm.
+
+---
+
+# 4. Tries (The Prefix Trees)
+**The Core Concept:** A tree data structure specifically built to store and search strings efficiently based on their prefixes. 
+
+**Contest Identifying Triggers:**
+* Keywords: "Prefix", "Dictionary", "Autocomplete", "Word break".
+* You are given a large list of words and need to perform multiple searches against that list.
+* **The sneaky variation:** Finding the "Maximum XOR pair" in an array. (You convert numbers to binary strings and put them in a Trie).
+
+**Patterns to Crush:**
+* **Standard String Trie:** Insert, Search, and StartsWith operations.
+* **Bitwise Trie:** Storing binary representations of numbers to solve XOR optimization problems.
+* **Trie + DFS/Backtracking:** Word Search II (Boggle) style problems where you navigate a grid looking for dictionary words.
+
+---
+
+
+
+
+
+
+
+
+
+
+
+# Bit Manipulation, Segment Trees [PRIORITY]
 
 # Other Hack With INFY Topics [SP3]
 - DP: 0/1 knapsack, LCS, digit DP, matrix exponentiation
