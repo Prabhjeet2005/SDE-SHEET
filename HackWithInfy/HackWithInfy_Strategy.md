@@ -389,7 +389,6 @@ int main() {
 **Patterns to Crush:**
 * **Point Update & Range Query:** The vanilla segment tree (e.g., update one element, find the sum of a range).
 * **Range Update & Range Query (Lazy Propagation):** The interviewer's favorite. You need to update an entire range `[L, R]` at once without tanking your time complexity.
-* **Segment Tree as a Search Tree:** Finding the $K$-th smallest element or the first element greater than $X$ in a range.
 
 **Segment Tree STRUCTURE**
 * Root Stores Sum of Left + Right Half
@@ -418,11 +417,95 @@ int main() {
   * Eg: [L,R] = [2,5], [start,end] = [1,3]
 
 
+## Lazy Segment Tree `[Lazy Propogation]` For Range Query + `Range Updates`
+* `HackWithInfy/patterns/Segment_Tree/segment_tree_lazy_propogation.cpp`
+* `HackWithInfy/Questions/operation_ghost_grid.cpp`
+
+**Standard Segment Tree:** 
+* You use this when you have `Range Queries + Point Updates`
+* (e.g., "Change the power at sector 3 to 10").
+
+**Lazy Propagation:** 
+* You use this when you have `Range Queries + Range Updates` 
+* (e.g., "Add 10 to every sector from index 2 to 8").
+
+**NOTE:`[IMPORTANT]`**
+* For Sum do `tree[node] += lazy[node] * (end - start + 1)` -> Increase sum children by Number
+* For Max or Min just add `tree[node] += lazy[node]`
+
+### Lazy Segment Tree V/s Standard Segment Tree
+*(What changes from a Standard Segment Tree)*
+
+**1. The Two Workstations**
+You only ever apply updates in exactly two places: 
+* `push_down()`
+* `update()` (specifically in the "Completely Inside" case).
+
+**2. The Standard Action (The 1-2 Punch)**
+Whenever you are at those two workstations, you always do the exact same two things:
+* **Step 1:** Update `tree[node]` immediately. (For Range Sum: `+= value * (end - start + 1)`).
+* **Step 2:** Add the value to `lazy[left_child]` and `lazy[right_child]`. **Never touch the children's `tree` directly.**
+
+**3. The `push_down` Rule**
+* **Where:** It must be the absolute **first line** inside your `update` and `query` recursive functions. 
+* **What it does:** Checks if `lazy[node]` has a value. If yes, it does the "1-2 Punch" using `lazy[node]`, then resets `lazy[node] = 0`.
+
+**4. The `update` Function Overhaul**
+* Because Range Updates cover intervals, `update` no longer acts like Binary Search.
+* It now uses the **exact same 3 overlap cases** (Completely Outside, Completely Inside, Partially Inside) as the `query` function. 
+* You stop recursion and do the "1-2 Punch" at the **Completely Inside** case.
+
+### Lazy Segment Tree `Dynamic Increase` [Actually asked 90%] `[Very Important]`
+
+* **Arithmetic Progression (AP) in Lazy Segment Trees**
+* **Increase in [L,R] everytime by X (e.g: 2,10+2,23+4, 52+6 ... Everytime increase by 2)**
+
+**NOTE:**
+* Always Calculate First 3 Terms
+* Eg: Formula -> (i - L + 1) * A[L]
+  * 1st term : (L - L + 1) * A[L]         -> `A[L]`
+  * 2nd term : ((L + 1) - L + 1) * A[L]   -> `2*A[L]`
+  * 3rd term : ((L + 2) - L + 1) * A[L]   -> `3*A[L]`
+
+**TYPES LAZY PROPOGATION**
+#### 1. The Static Family (Level 1)
+* **Signatures:** "Add V to range", "Replace range with V".
+* **The Math:** `tree[node] += V * elements` or `tree[node] = V * elements`.
+* **The Sticky Note:** Just one variable (`lazy`).
+
+#### 2. The AP Family (Level 2) 
+**SAMPLE CODE:** 
+* `HackWithInfy/HackWithInfy_SamplePaper_Questions/multiplier_matrix.cpp`
+* `HackWithInfy/Questions/overlapping_waves.cpp`
+***
+**`TIP:`** Always Write AP Formula First then think of variables required for it and then write code IT is MUCH EASIER THIS WAY
+***
+* **Signatures:** "Add X + i * Y", "Replace with (i-L) * V".
+* **The Math:** The AP Sum Formula `(n/2) * (2a + (n-1)d)`, **Nth Term:** `a + (n * d)`.
+* **The Sticky Note:** Two variables (`lazy_start`, `lazy_diff`). Left child gets `start`, right child gets `start + (left_elements * diff)`.
 
 
 
+**Formulas(`First write formula then Take Variables Required for it`):**
+* `a` and `d` come directly from Question
+* Sum AP:  `(n * (2 * a + (n-1) * d)) / 2`
+* Right Start Value: `a + (n) * d` -> Here +1 otherwise it will give last element of Left Side
+* Here n = `(end - start + 1)` and for right_start = `a + (left_number_element * d)` and left_number_elements = `mid - start + 1`
 
 
+
+#### 3. The `Bitwise` Family (The Boss Level) `[IMPORTANT]` 
+* **Signatures:** "XOR all elements in range with X", "Flip all bits (0 to 1, 1 to 0) in the range".
+* **The Math:** You don't use AP formulas here. 
+    * *Example (Flipping Bits):* If a node represents 10 elements, and its current sum is 3 (meaning there are three `1`s and seven `0`s). If you flip the range, the seven `0`s become `1`s. The new sum is simply `Total Elements - Old Sum` **(10 - 3 = 7)**.
+    * *Example (XOR):* If you XOR a range with a value X, the result depends on whether the number of elements in that range is odd or even!
+* **The Sticky Note:** A single variable (e.g., `lazy_flip` boolean, or `lazy_XOR` value). 
+
+
+
+--------------------------
+BITWISE SEGMENT TREE HERE
+--------------------------
 
 
 
@@ -437,9 +520,99 @@ int main() {
 * Heavy use of the `XOR`, `AND`, or `OR` operators in the problem description.
 
 **Patterns to Crush:**
+* **Core Bit Manipulation:** Shifts, Masks, Bit is Set and XOR
 * **Bitwise Magic:** Properties of XOR (e.g., $A \oplus A = 0$), checking if a bit is set, Brian Kernighan’s algorithm (counting set bits).
-* **Subset Generation:** Iterating through all $2^N$ subsets using a simple `for` loop.
+* **Subset Generation:** Iterating through all 2^N subsets using a simple `for` loop.
+* **Bitwise Segment Tree:** `push_down` and  `update`
 * **DP with Bitmasking:** The Travelling Salesman Problem (TSP), Job Assignment Problem. (This is a guaranteed "Hard" level question on OAs).
+
+## Bit Manipultation
+### Basic Operations
+**1. And (&)**
+* USED: `Checking`, `Clearing` Bits
+* Example: 1010 & 0010 = 0010
+* `IMPORTANT:` While checking `(num1 & num2) != 0` should be done (as it can either give 0 or some decimal number)
+
+**2. OR (|)**
+* USED: `Setting` bits
+* Example: 1010 | 0101 = 1111
+
+**3. XOR (^)**
+* USED: Toggle and Find Unique Elements (Different Remain Same, Same Become 0)
+* Example: 1010 ^ 0110 = 1100
+
+**4. Left Shift (<<)**
+* USED: Fast Multiply by 2
+* Example: 0011 << 1 = 0110 (3 become 6)
+
+**5. Right Shift (>>)**
+* USED: Fast Division by 2
+* Example: 0110 >> 1 = 0011 (6 become 3)
+
+### 🏆 The MAANG Bitwise Cheat Sheet [Important Bit Formulas]
+**TERMINOLOGY**
+* `Set Bit` : 1
+* `Unset Bit` : 0
+* `Lowest` : Rightmost
+* `Lowest Set Bit` : Rightmost 1
+
+**1. Drop Lowest Set Bit** `patterns/bit_manipulation/bit_manipulation_question.cpp`
+* **FORMULA:** `N & (N-1)`
+* MEANING: Only Turn Rightmost 0 
+* [`Application`: **Count Set Bits** `while(num!=0){N = N & (N-1); count++}`]
+* [`Application`: **Check Power of 2** `(N & (N-1)) == 0` because power of 2 only have one '1' (e.g: 8 in Binary 1000 -> if drop only rightmost 1 then become 0)]
+* Eg: 12 -> `1100` -> N & (N-1) -> `1000`
+
+**2. Isolate Lowest Set Bit**
+* **FORMULA:** `N & -N`
+* MEANING: Only have Rightmost 1
+* Eg: 12 -> `1100` -> N & (-N) -> `0100`
+
+---
+### 🕵️‍♂️ The OA Strategy: How to read a problem
+
+When the clock starts in a MAANG Online Assessment, follow this exact flowchart:
+
+1. **Check the Constraints First:** Is N <= 20? If yes, immediately stop thinking about anything else. It is **Lens 3 (Bitmasking)**.
+2. **Look for "Duplicates":** Does the problem mention numbers appearing multiple times? If yes, it is **Lens 1 (Annihilator)** or **Lens 2 (Vertical Sweep)**.
+3. **Look for "Pairs/Sum/Max":** Does it ask for the sum of all XORs, or the max XOR? It is **Lens 2 (Vertical Sweep)** (often combined with a Trie).
+4. **Look for "Counting/Powers":** Does it ask about the bits themselves? It is **Lens 4 (Bit Stripper)**.
+---
+
+### 🧠 The Four Bitwise Lenses (Your Mental Framework)
+
+#### Lens 1: The Annihilator (XOR Magic) 
+* `patterns/bit_manipulation/bit_manipulation_question.cpp`
+* **The Identifying Triggers:** * "Every number appears K times, except one/two."
+  * "Find the missing number."
+  * "Find the unique element."
+* **The Thought Process:** Can I make the duplicates destroy each other? If it's pairs, `A ^ A = 0` solves it instantly. If it's two unique numbers, I use `N & -N` to separate them into two buckets and XOR them again.
+
+#### Lens 2: The Vertical Sweep (32-Bit Columns) `IMPORTANT`
+*(This is how you solve the "Triple Threat" problem I gave you previously!)*
+* **The Identifying Triggers:** * The Annihilator fails (e.g., numbers appear 3 times instead of 2).
+  * "Sum of XORs of all pairs in the array."
+  * "Maximum XOR pair in an array."
+* **The Thought Process:** Stop looking at the array as a list of decimal numbers. Imagine it as a grid of 32 vertical columns. I will write a `for (int i = 0; i < 32; i++)` loop. For each column, I will count how many `1`s and `0`s there are. I will build my final answer bit-by-bit from these counts. 
+
+#### Lens 3: The Subset Generator (Bitmasking)
+* **The Identifying Triggers:** * **N <= 20.** (This is the biggest giveaway in all of competitive programming).
+  * "Find all combinations."
+  * "Assign N workers to N tasks."
+  * "Travelling Salesman Problem."
+* **The Thought Process:** I need to represent a combination of choices. An integer has 32 bits. I can use an integer from $0$ to $2^N - 1$. If the $i$-th bit is `1`, I "pick" the item. If it's `0`, I "skip" the item. 
+
+#### Lens 4: The Bit Stripper (Brian Kernighan's Math)
+* **The Identifying Triggers:** * "Count the number of 1s."
+  * "Hamming Weight" or "Hamming Distance."
+  * "Check if it's a Power of 2."
+  * "Find the next power of 2."
+* **The Thought Process:** The problem specifically asks about the *properties* of the bits themselves, not combinations. I will use `N & (N - 1)` to repeatedly drop the lowest set bit, or `N & -N` to isolate it.
+
+
+
+
+
 
 ---
 
