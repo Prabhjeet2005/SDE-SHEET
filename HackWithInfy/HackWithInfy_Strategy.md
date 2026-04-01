@@ -531,7 +531,7 @@ BITWISE SEGMENT TREE HERE
 **1. And (&)**
 * USED: `Checking`, `Clearing` Bits
 * Example: 1010 & 0010 = 0010
-* `IMPORTANT:` While checking `(num1 & num2) != 0` should be done (as it can either give 0 or some decimal number)
+* `IMPORTANT:` While checking `(num1 & num2) != 0` should be done (as it can either give 0 or some decimal number, it doesn't give 0 or 1 it give 0 or actual DECIMAL NUMBER like 10,45...etc)
 
 **2. OR (|)**
 * USED: `Setting` bits
@@ -609,43 +609,52 @@ When the clock starts in a MAANG Online Assessment, follow this exact flowchart:
   * "Find the next power of 2."
 * **The Thought Process:** The problem specifically asks about the *properties* of the bits themselves, not combinations. I will use `N & (N - 1)` to repeatedly drop the lowest set bit, or `N & -N` to isolate it.
 
+---
+### Application Lenses
+**Lens 1: Array Duplicates and 2 unique numbers**
+* If it's pairs, `A ^ A = 0` solves it instantly. If it's two unique numbers, I use `N & -N` to separate them into two buckets and XOR them again.
 
+**Lens 2: Vertical Sweep**
 
-
+```
+arr = {2,2,2,7,7,7,3};
+2  ->  0 0 1 0
+2  ->  0 0 1 0
+2  ->  0 0 1 0
+7  ->  0 1 1 1
+7  ->  0 1 1 1
+7  ->  0 1 1 1
+3  ->  0 0 1 1
+----------------
+SUM->  0 3 7 4 
+HERE Divisible by 3 because 3 times number coming
+```
+* Loop 32 Times
+* Iterate each and Create a `mask` for `1` at $i^{th}$ position `int mask = 1 << i`
+* For each element check if $`i^{th}`$ bit turned on `num[i] & mask != 0`, if so then increase bit_sum
+* if bit_sum % 3 != 0 then here exists bit for UNIQUE Number `(3 because there are 3 reptition of a number)` `!= 0 is used because (num[i] & mask) give 'decimal number' not 0 or 1`
+  * If So, then set the bit of `unique_number = unique_number | mask`
 
 
 ---
 
-# 3. Advanced String Manipulation (The Greedy & Pattern Matchers)
-**The Core Concept:** Solving string problems by either finding optimal arrangements (Greedy) or efficiently finding substrings/palindromes without checking every possibility.
+# Trie
+* O(L) Time 
+* Create `vector<TrieNode*>children` with 26 Pointers and `end_of_word` flag
+* **Insert** -> use index and add the word at end put `end_of_word=true`
+* **Search** -> Search Entire Word and at end check if end_of_word
+* **start_with** -> Prefix Search and return false if path break and at end return true
+* **delete** -> Just traverse to last character and make `end_of_word = false`
 
-**Contest Identifying Triggers:**
-* Keywords: "Lexicographically smallest/largest", "Substring", "Subsequence", "Anagram", "Palindrome".
-* Length of string `S` is up to $10^5$, meaning `O(N^2)` brute-force matching will fail.
-* Problems involving prefix and suffix overlaps.
+## Bitwise Trie
+`Max Xor between 2 numbers`
 
-**Patterns to Crush:**
-* **String Greedy:** Appending, reversing, or sorting characters to build the optimal string (like Question 1 on your mock test).
-* **String Hashing (Rabin-Karp):** The ultimate cheat code to compare two strings in `O(1)` time after preprocessing.
-* **KMP Algorithm / Z-Algorithm:** Finding a pattern within a massive text efficiently.
-* **Palindromic Substrings:** Expanding around the center or using Manacher's Algorithm.
+**When**
+* Max Xor, Min Xor, Subarray Max XOR, Find A ^ B >= K
 
----
 
-# 4. Tries (The Prefix Trees)
-**The Core Concept:** A tree data structure specifically built to store and search strings efficiently based on their prefixes. 
 
-**Contest Identifying Triggers:**
-* Keywords: "Prefix", "Dictionary", "Autocomplete", "Word break".
-* You are given a large list of words and need to perform multiple searches against that list.
-* **The sneaky variation:** Finding the "Maximum XOR pair" in an array. (You convert numbers to binary strings and put them in a Trie).
-
-**Patterns to Crush:**
-* **Standard String Trie:** Insert, Search, and StartsWith operations.
-* **Bitwise Trie:** Storing binary representations of numbers to solve XOR optimization problems.
-* **Trie + DFS/Backtracking:** Word Search II (Boggle) style problems where you navigate a grid looking for dictionary words.
-
----
+# DP + Bitmasking
 
 
 
@@ -714,9 +723,5 @@ Advanced problems involving multiple steps & optimizations
 
 - DP + Graphs [Type 1 and Type 2 Query type questions]
 
-
-
-# 3. Greedy + Sorting: 
-(Part 3 PDF: "Minimum exercises to get tired"). This isn't DP; it's just sorting the array descending and subtracting!
 
  
