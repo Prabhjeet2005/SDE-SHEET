@@ -652,10 +652,25 @@ HERE Divisible by 3 because 3 times number coming
 **When**
 * Max Xor, Min Xor, Subarray Max XOR, Find A ^ B >= K
 
+**Technique**
+Go From `Most Significant Bit` to `Least Significant Bit` because XOR 1 More important in MSB than at a LSB position 
+1. Maximizing XOR is getting OPPOSITE Bits like 1 ^ 0 = 1
+2. Always keep on taking `opposite bits to Maximize XOR`
+
+* If X has a 1 at the current bit, you desperately want to go down the 0 path in the Trie.
+* If X has a 0 at the current bit, you desperately want to go down the 1 path.
+* If your desired path doesn't exist, you are forced to take the other path (the same bit), which results in a 0 for that bit in your final XOR answer.
 
 
-# DP + Bitmasking
 
+# DP
+1. Max / Min / Count / Number Ways
+
+2. Things Changing are Dimensions of my DP
+  * Moving through arr `index`
+  * Limited Resource (energy, meal, swaps) `remaining_capacity`
+  * Restricted by `prev_state`
+  * Eg: `index` and `remaining_weight` is `2D KNAPSACK`
 
 
 
