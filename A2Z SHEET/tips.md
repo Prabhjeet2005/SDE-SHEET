@@ -67,6 +67,23 @@ struct CustomCompare{
 // Heap Asks if a->val smaller than b->val as by default it is maxHeap expects greater first
 // Eg: a=3, b=5 ; 3 > 5 -> False
 
+
+# Calculate power (base, exp)
+```
+int calc_pow(int base,int exp){
+  long long result = 1;
+  base %= MOD;
+  while(exp > 0){
+    if(exp % 2==1){
+      result = (result * base) % MOD;
+    }
+    base = (base*base)%MOD;
+    exp/=2;
+  }
+  return result;
+}
+```
+
 # Duplicates -> _XOR_
 
 # Subarray/Array Sum -> [PREFIX SUM] _HashMap_ => store sum or element & indexes
