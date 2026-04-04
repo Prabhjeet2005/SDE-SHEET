@@ -13,6 +13,11 @@ I'm a CS student targeting the Microsoft SWE Intern role (ID: 200005595). With a
 Thanks, Prabhjeet
 
 
+----
+
+Hi , I am targeting SWE Intern role JOB ID: . As CS student (9.5 CGPA), LeetCode Knight, Top 1500 in Google Big Code, and hackathon winner, my prep is solid. I have also interned at multiple companies like Tech Mahindra, Delhi Police. Would you be open to referring me? Thanks, Prabhjeet
+
+
 -----
 SUBJECT: Referral for Software Engineer Internship
 Hi 
