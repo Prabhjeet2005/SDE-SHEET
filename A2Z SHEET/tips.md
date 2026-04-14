@@ -1058,13 +1058,142 @@ O(N^2) Loop Substrings + check_palindrome
 - Base Cases: Odd Window "a" and Even Window: "aa" so ```(i>=j)return true```
 - Answer depends on s[i] == s[j] AND inner window (i+1, j-1).
 
-### Pattern 6: LIS [Longest Increasing Subsequence] [V.V.IMP]
+### Pattern 6: LIS [Longest Increasing Subsequence] [V.V.IMP] `leetcode 300`
+
+- If Anytime Increasing pattern is observed use LIS
+
+**MAIN CONDITION**
+* 1. The dp is initialized as `vector<int>dp(n,1)` size 1 as every element LIS of 1
+* 2. the main Condition `if(dp[i] < 1+dp[j] && nums[j] < nums[i])`
+  * dp[i] < 1+dp[j] is `LONGEST`
+  * nums[j] < nums[i] is `INCREASING`
+
+**MOST OPTIMAL [EASY V.V.IMPORTANT] Binary Search O(NlogN)**
+- take `vector<int>temp`
+- Maintain `temp as sorted`
+- if temp.back() < nums[i] then temp.push_back(nums[i])
+- else `LOWER_BOUND` (<=) Overwrite
+
+**Standard LIS [Use It everywhere]**
+- Initially `Every Element LIS of their Own` vector<int>dp(n+1,1)
+- 2 Loops i=0 -> N-1 and j=0 < i
+- if nums[j] < nums[i] then `dp[i] = max(dp[i],1+dp[j])`
+- IMPORTANT `TRAP`
+  - return max of all dp (WRONG: if only give dp[n-1] then give with included Last Element but we want out of all LIS ) 
+
+**PRINT LIS [Extension of Standard Lis]**
+`Trace Back LIS` using `hash` + `dp`
+- hash stores Last Index of previous Index of LIS
+
+```
+int lengthOfLIS(vector<int>& nums) {
+        // STANDARD LIS
+        int length_LIS = 0;
+        int n = nums.size();
+        vector<int>dp(n+1,1);
+        vector<int>parent(n+1);   // To Trace Back LIS
+        int last_index=-1;
+
+        for(int i=0; i<n; i++){
+            parent[i] = i;
+            for(int j=0; j<i; j++){
+                if(nums[j]<nums[i] &&   // INCREASING
+                1+dp[j] > dp[i]){       // LONGEST
+                    dp[i] = 1 + dp[j];
+                    parent[i] = j;
+                }
+            }
+            if(dp[i] > length_LIS){
+                length_LIS = dp[i]; 
+                last_index = i;
+            }
+        }
+
+        vector<int>lis;
+        
+        lis.push_back(nums[last_index]);
+        while(parent[last_index] != last_index){
+            last_index = parent[last_index];
+            lis.push_back(nums[last_index]);
+        }
+        reverse(lis.begin(),lis.end());
+        for(auto & element:lis){
+            cout<<element<<", ";
+        }
+        cout<<"\n";
+
+
+    // FIX: All elements Maximum otherwise WRONG: if dp[n-1] only give with Last Element INCLUDED
+        return length_LIS;
+    }
+```
+
+**PRACTICE LIS**
+- **1. Russian Dolls (Leetcode 354)** 
+  - [TRICKY: Ascending order sort width, Descending Height(To apply STRICTLY width and height greater), then apply Binary Search LIS on Height only because width already handle by sorting ]
+- **2. Min Removals to make Mountain Array (Leetcode 1671)**
+  - 
+- **3. Number LIS (Leetcode 673)**
+  - 
+- **4. Max Length Pair Chain (Leetcode 646)**
+  - 
+
+
+#### Extra Don't Remember ONLY Remember Standard DP and Binary Search Answer
 - Subsequence with Rules (Strictly Increasing)
-- ```Previous Choice Matters -> Use FOR Loop```
+**Recursion**
+- `find_LIS(int index,int prev_index){}`
+
+**MEMOIZATION `[Coordinate Shift]`**
+- prev_index can be -1 in beginning so make it `dp[index][prev_index+1]` add 1
+
+**TABULATION**
+- LOOP index=n-1 to >= 0 
+- INNER LOOP prev_index = index-1 to >= -1 
+
+**SPACE OPTIMIZATION**
+- Use curr and next
+
 
 #### ALGORITHM
 - Check Every Index [Every Index LIS on it's own]
 - Track The max and look previous elements and select shorter
+
+### Pattern 7: Buy & Sell Stock with Cooldown [State Machine DP]
+- Buy then Sell, but can't buy before sold
+- Cooldown 1 day before buy again
+
+`find_profit(int index,int buy){}` where buy can be 0 (Not able to Buy) or 1 (Able To Buy)
+
+
+### Pattern 8: Partition DP | MCM [Matrix Chain Multiplication]
+- Burst Ballons, Palindrome Partitioning, Min Cost to cut Stick
+
+**MCM** -> `2D DP`
+**Palindrome/Word Break** -> `1D DP`
+
+**The 3 Rules to Memorize This Forever [MCM]**
+
+* The Boundaries (i and j): For MCM, `i` starts at `1` and `j` starts at `N-1`. Why? Because the dimensions of the $i$-th item are arr[i-1] x arr[i]. If i started at 0, arr[-1] would crash your code.
+* The Base Case: if `(i == j) return 0`;. You can't cut a single item into smaller pieces.
+* The Knife Loop (k): It always goes from `i` up to `j-1` (j-1 because partition is (i,k) and (k+1,j) where k is from (i,j-1) otherwise k+1 out of range if only j). Your `left chunk` is always `(i, k)` and your `right chunk` is always `(k+1, j)`.
+
+**Changing Variables:** i and j so `2D DP`
+
+**`PARTITION DP`**
+* USE: String/Timeline Valid CHUNKS
+
+**1. Word Break** `1D Dp Partition` 
+* Cuts K in FOR Loop inside Recursion
+* **BASE CASE:** if `index >= str.size()` then return true since all `CUTS VALID`
+* Identify The Slice `curr += str[k]`
+* IF Slice Valid [Exists in Dictionary] -> Recurse from K + 1 if That Also True then return true
+* Finally Return false
+
+
+
+
+
 
 ### Pattern 4: ```Digit DP``` (The 4D/5D Monster) ```[V.Important]```
 - Used for: "Count numbers in range [L, R] that satisfy property X".

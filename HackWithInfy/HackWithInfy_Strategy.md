@@ -162,6 +162,46 @@ void dfs(int current_node, int parent_node) {
 }
 ```
 
+**Tree DP Pattern 2**
+- PICK/SKIP Pattern 
+- Eg: `House Robber III`
+
+```
+class Solution {
+public:
+    int rob(TreeNode* root) {
+        // Start the Postorder DFS from the root
+        pair<int, int> result = dfs(root);
+        
+        // The answer is the maximum of either robbing the root, or skipping the root
+        return max(result.first, result.second);
+    }
+
+private:
+    // Returns a pair: {Max if Robbed, Max if Skipped}
+    pair<int, int> dfs(TreeNode* node) {
+        // Base Case: An empty house yields 0 money no matter what you do
+        if (!node) return {0, 0};
+
+        // POSTORDER: Go down to the leaves first and get their pairs
+        pair<int, int> left_child = dfs(node->left);
+        pair<int, int> right_child = dfs(node->right);
+
+        // CHOICE 1: Rob this node
+        // We take this node's value, but we are FORCED to use the "skipped" values of the children
+        int rob_it = node->val + left_child.second + right_child.second;
+
+        // CHOICE 2: Skip this node
+        // We take 0 here, but we get to choose the absolute best outcome from both children
+        int skip_it = max(left_child.first, left_child.second) + 
+                      max(right_child.first, right_child.second);
+
+        // Return the pair up to the parent
+        return {rob_it, skip_it};
+    }
+};
+```
+
 
 ### Day 5: Shortest Path Variations. 
 #### NOTE:
@@ -259,7 +299,7 @@ We aren't doing random DP; we are doing HackWithInfy DP.
 
 #### How to Create ```States``` from Scratch [IMPORTANT]
 * Think of Different days i could be in
-* Then for new just think how i can be on that stage
+* Then for new just think how i can be on that stage at END OF DAY
 
 **EXAMPLE**
 * Initially well rested
@@ -672,6 +712,27 @@ Go From `Most Significant Bit` to `Least Significant Bit` because XOR 1 More imp
   * Restricted by `prev_state`
   * Eg: `index` and `remaining_weight` is `2D KNAPSACK`
 
+
+## MCM (Matrix Chain Multiplication) + Partition DP
+
+**MCM** -> `2D DP`
+**Palindrome/Word Break** -> `1D DP`
+
+**The 3 Rules to Memorize This Forever**
+
+* The Boundaries (i and j): For MCM, `i` starts at `1` and `j` starts at `N-1`. Why? Because the dimensions of the $i$-th item are arr[i-1] x arr[i]. If i started at 0, arr[-1] would crash your code.
+* The Base Case: if `(i == j) return 0`;. You can't cut a single item into smaller pieces.
+* The Knife Loop (k): It always goes from i up to j-1. Your `left chunk` is always `(i, k)` and your `right chunk` is always `(k+1, j)`.
+
+## Bitmask DP
+
+## 3D DP
+
+# Videos
+
+* Video 48: `Matrix Chain Multiplication (MCM)` - Watch this solely to understand the "Partitioning" concept. How to place a cut at index k and recurse on (i, k) and (k+1, j).
+
+* Video 51: `Burst Balloons` - This is an infamously hard problem that companies love to copy. It shows you how to think in reverse (what is the last balloon to burst?) to solve partitioning constraints.
 
 
 
