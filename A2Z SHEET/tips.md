@@ -64,17 +64,17 @@ struct CustomCompare{
 // Eg: a=3, b=5 ; 3 > 5 -> False
 
 
-# Calculate power (base, exp)
+# Calculate power (base, pow)
 ```
-int calc_pow(int base,int exp){
+int calc_pow(int base,int pow){
   long long result = 1;
   base %= MOD;
-  while(exp > 0){
-    if(exp % 2==1){
+  while(pow > 0){
+    if(pow % 2==1){
       result = (result * base) % MOD;
     }
     base = (base*base)%MOD;
-    exp/=2;
+    pow/=2;
   }
   return result;
 }
