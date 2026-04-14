@@ -8,9 +8,12 @@ Thanks Prabhjeet
 
 -----
 
-Hi , 
-I'm a CS student targeting the Microsoft SWE Intern role (ID: 200005595). With a 1933 LeetCode rating (Knight) and prior internship exp at Tech Mahindra, I’m confident in my technical prep. Would you be open to referring me? 
-Thanks, Prabhjeet
+
+
+
+----
+Hi name, I am targeting SWE Intern role at Amazon JOB ID: 3015604 . As CS student (9.5 CGPA), LeetCode Knight(1933), Top 1500 in Google Big Code my prep is solid. I have also interned at multiple companies like Tech Mahindra, Delhi Police. Would you be open to referring me? Thanks, Prabhjeet
+
 
 
 -----
