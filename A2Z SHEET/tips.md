@@ -33,10 +33,6 @@ Example eg_function(){
 
 - int arr[25] = {0};
 - STL Sort Override
-- std::sort(students.begin(), students.end(), [](const Student& a, const Student& b) {
-        // For descending order, we want 'a' to come before 'b' if a.score is greater.
-        return a > b;
-  });
 
 # Custom Array SORT Declaration
 - IMPORTANT: it must be statically declared
