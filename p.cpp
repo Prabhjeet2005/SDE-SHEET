@@ -1,35 +1,23 @@
-
 #include<iostream>
-#include<vector>
-class DSU{
-  vector<int>parent;
-  vector<int>rank;
-  public:
-  DSU(int n){
-    parent.resize(n+1);
-    rank.resize(n+1,0);
+using namespace std;
+
+int MOD = 1e9+7;
+
+
+int main(){
+  vector<int>arr = {1,2,3,4,5};
+
+  int n = arr.size();
+  vector<int>prefix_sum(n+1,0);
+  int sum = 0;
+
+  for(int i=1; i<=n; i++){
+    sum += arr[i-1];
+    prefix_sum[i] = sum;
   }
 
-  int find_parent(int node){
-    if(node == parent[node])return node;
-    return parent[node] = find_parent(parent[node]);
-  }
+  // Query: {0,3} -> Range L:0, R:3 -> OUTPUT: 10
 
-  void union_nodes(int u, int v){
-    int parent_u = find_parent(u);
-    int parent_v = find_parent(v);
+  cout<<"Range Query: "<<prefix_sum[3+1] - prefix_sum[0];
 
-    if(parent_u == parent_v)return;
-
-    if(rank[parent_u] < rank[parent_v]){
-      parent[parent_u] = parent_v;
-    }else if(rank[parent_u] > rank[parent_v]){
-      parent[parent_v] = parent_u;
-    }else{
-      // Rank Same Increase Parent Rank by 1
-      parent[parent_u] = parent_v;
-      rank[parent_v]++;
-    }
-  }
-
-};
+}

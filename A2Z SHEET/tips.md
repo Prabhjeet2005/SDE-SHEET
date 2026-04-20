@@ -70,11 +70,11 @@ int calc_pow(int base,int pow){
   long long result = 1;
   base %= MOD;
   while(pow > 0){
-    if(pow % 2==1){
+    if(pow % 2==1){   // CHECK if ODD then take Base into Result
       result = (result * base) % MOD;
     }
-    base = (base*base)%MOD;
-    pow/=2;
+    base = (base*base)%MOD; // Regardless ODD or NOT Number Move Forward
+    pow/=2;   // Rightmost Bit remove
   }
   return result;
 }
@@ -210,10 +210,10 @@ METHOD 2.
 string str = "2234 23 5  77 90 45";
   str+=' ';
   int curr_num = 0;
-  bool first_space = false;
+  bool first_space = false; 
 
   for(auto &ch: str){
-    if(ch == ' '){
+    if(ch == ' '){      // ONLY ALLOW FIRST SPACE
       if(first_space){ // Avoid 0 output on Double Space
         cout<<curr_num<<"\n";
         first_space = false;
@@ -458,7 +458,7 @@ Use Visited Array + Queue
 Same As BFS instead of queue use a stack + VISITED
 
 ## Graph Algorithms
-### 1. Kahn's Algorithm [Topological Sort] [Inorder == 0 & BFS]
+### 1. Kahn's Algorithm [Topological Sort] [Inorder == 0 & BFS] `DAG Only`
 - Concept: In-Degrees and Queues [Process Nodes with 0 Dependencies First]
 - BFS Based
 - Work Only on **DAG** [Directed Acyclic Graph]
@@ -1213,6 +1213,102 @@ long long solve(string& s, int idx, bool tight, int sum, vector<vector<vector<in
 ```
 
 ###
+The Graph Gauntlet
+
+Multi-source BFS (Grid Simulation)
+Topological Sort (Dependency Resolution)
+Union-Find (Network Connectivity)
+Dijkstra with States (Shortest Path + Constraints)
+Bipartite Graph Check (Coloring)
+Minimum Spanning Tree (Prim's/Kruskal's)
+DFS Cycle Detection (Deadlock Resolution)
+Bellman-Ford (Negative Weight Routing)
+Floyd-Warshall (All-Pairs Shortest Path)
+Word Ladder (Implicit Graph BFS)
+
+Phase 2: The DP Arsenal
+11. 0/1 Knapsack & Unbounded Knapsack (Subset Sum, Coin Change)
+12. 1D Pick/Skip (House Robber I & II, Decode Ways)
+13. 2D Grid DP (Unique Paths, Minimum Path Sum)
+14. Subsequence DP (Longest Common Subsequence, Edit Distance)
+15. LIS Family (Standard, Russian Doll, Bitonic Mountain)
+16. Partition / MCM (Burst Balloons, Cut Stick)
+17. Front Slice Partitioning (Word Break, Palindrome Partitioning)
+18. Tree DP (Max Path Sum, House Robber III, Diameter)
+19. State Machine DP (Stock Buy/Sell with Cooldown/Fees)
+20. Game Theory DP (Stone Game, Predict the Winner)
+
+Phase 3: The OA Hybrids (Mixed Patterns)
+21. Sliding Window + Hash Map (Longest Substring variations)
+22. Two Pointers + Prefix Sum (Subarray Sums)
+23. Binary Search on Answer (Koko Eating Bananas, Allocate Books)
+24. Monotonic Stack (Next Greater Element, Largest Rectangle) 
+25. Priority Queue / Heap (Top K Elements, Merge K Lists)
+26. Trie (Prefix Tree Search, Word Search II)
+27. Line Sweep Algorithm (Meeting Rooms, Interval Merging)
+28. Greedy + Sorting (Task Scheduler, Minimum Arrows)
+29. Bit Manipulation Tricks (Single Number, Subsets)
+30. The "Implement It" Simulation (LRU Cache, Design Tic-Tac-Toe)
+
+
+# QUESTIONS PRACTICE
+
+### Phase 1: The Core FAANG Arsenal (High Frequency)
+These 10 questions represent the absolute foundation. If you cannot instantly recognize the pattern in these, you will struggle with the harder variations. 
+
+1. **Course Schedule II** (LeetCode 210)            // FIX: Indegree Calculation
+2. **Coin Change** (LeetCode 322)                   // FIX: Base Case if less index then not possible return 1e8
+3. **Jump Game II** (LeetCode 45)                   
+4. **Number of Islands** (LeetCode 200)             // IMPORTANT
+5. **Word Break** (LeetCode 139)                    // FIX: 1D DP Not Correctly Implement [Minor Mistakes]
+6. **Clone Graph** (LeetCode 133)                   // COMPLETELY UNKNOWN
+
+---
+#### INTERVAL BASED
+7. **Non-overlapping Intervals** (LeetCode 435)     // IMPORTANT: COMPLETELY UNKNOWN [Sort by End Times and Track previous END Time and if Overlap then pick earlier END TIME so maximum future idle time present]
+1. **Insert Interval (LeetCode 57)**
+2. **Minimum Number of Arrows to Burst Balloons (LeetCode 452)**  // COMPLETELY UNKNOWN : Sort End Time, burst ballon by end time point arrow if next start less greater than last arrow end time position then increase arrow count
+
+**TODO:**
+3. **Car Pooling (LeetCode 1094)**
+4. **Interval List Intersections (LeetCode 986)**
+5. **Minimum Interval to Include Each Query (LeetCode 1851)**
+6. **Meeting Rooms II (LeetCode 253)**
+---
+
+
+8. **Longest Increasing Subsequence** (LeetCode 300)  // FIX: start <= end, in BS: temp[mid] >= element
+9. **Pacific Atlantic Water Flow** (LeetCode 417)     // Just a Glance Reqd: 2 queue and visited [I didn't make 2]
+10. **House Robber III** (LeetCode 337)               
+
+### Phase 2: The Assessment Filters (Tricky States & Identifications)
+This is where OAs start filtering candidates. The stories get weirder, and the distinction between a Greedy approach and a DP approach becomes dangerously blurry.
+
+11. **Network Delay Time** (LeetCode 743) // Fix: Dijkstra {v,w} small typo access b/w min_heap and adj_list
+12. **Edit Distance** (LeetCode 72)       // FIX: Add 1 Operation Cost [MINOR]
+13. **Gas Station** (LeetCode 134)    // Completely Unknown TRICK: sum(gas) >= sum(cost) -> Valid, keep adding gas - cost to sum till sum < 0, Meaning it can always reach till here then try next start point (i+1)
+14. **Alien Dictionary** (LeetCode 269) // Very Tough Completely Unknown
+15. **Minimum Path Sum** (LeetCode 64)
+16. **Task Scheduler** (LeetCode 621)
+17. **Maximum Product Subarray** (LeetCode 152)
+18. **Redundant Connection** (LeetCode 684)
+19. **Partition Equal Subset Sum** (LeetCode 416)
+20. **Binary Tree Maximum Path Sum** (LeetCode 124)
+
+### Phase 3: The Final Bosses (Advanced OA Traps)
+These are the questions that separate the top 1% of candidates. They require advanced pattern execution (like 2D string matrices, disjoint sets, and MCM squeezing) or a combination of multiple patterns at once.
+
+21. **Minimum Cost to Cut a Stick** (LeetCode 1547)
+22. **Burst Balloons** (LeetCode 312)
+23. **Word Ladder** (LeetCode 127)
+24. **Jump Game VI** (LeetCode 1696)
+25. **Cheapest Flights Within K Stops** (LeetCode 787)
+26. **Regular Expression Matching** (LeetCode 10)
+27. **Candy** (LeetCode 135)
+28. **Bus Routes** (LeetCode 815)
+29. **Interleaving String** (LeetCode 97)
+30. **Minimum Number of Taps to Open to Water a Garden** (LeetCode 1326)
+
 
 
 
