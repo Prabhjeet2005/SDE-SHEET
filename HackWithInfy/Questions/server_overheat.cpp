@@ -28,33 +28,36 @@ public:
     vector<vector<int>> queries = {{0, 2, 50}, {2, 4, 30}};
     int k_threshold = 70;
     int n = arr.size();
-    vector<int>difference_arr(n+1,0);
+    vector<int> difference_arr(n + 1, 0);
 
-    for(int i=0; i<queries.size(); i++){
+    for (int i = 0; i < queries.size(); i++)
+    {
       int l = queries[i][0];
       int r = queries[i][1];
       int val = queries[i][2];
 
-      difference_arr[l] += val; 
-      difference_arr[r+1] -= val; // DRAIN
+      difference_arr[l] += val;
+      difference_arr[r + 1] -= val; // DRAIN
     }
 
     // 1. Build Diff -> 2. Prefix Sum Diff -> 3. Apply to Original
 
-    for(int i=1; i<n; i++){
-      difference_arr[i] += difference_arr[i-1];
+    for (int i = 1; i < n; i++)
+    {
+      difference_arr[i] += difference_arr[i - 1];
     }
 
     int servers_melt = 0;
-    for(int i=0; i<n; i++){
+    for (int i = 0; i < n; i++)
+    {
       int final_temp = arr[i] + difference_arr[i];
-      if(final_temp > k_threshold){
+      if (final_temp > k_threshold)
+      {
         servers_melt++;
       }
     }
 
-    cout<<"Servers Melt: "<<servers_melt;
-
+    cout << "Servers Melt: " << servers_melt;
   }
 };
 
