@@ -1,5 +1,17 @@
-name = input("Enter your name: ")
+def count_char():
+  char_count = {}
+  with open("eg.txt","r") as file:
+    content = file.read()
 
-age = int(input("Enter your age: "))
+    for char in content:
+      if char in char_count:
+        char_count[char] += 1
+      else:
+        char_count[char] = 1
+  return char_count
 
-print(f"Hello {name}! You are {age} years old. Welcome to Python programming.")
+char_count = count_char()
+
+for char,count in char_count.items():
+  print(f"character: {char}, count: {count}")
+
