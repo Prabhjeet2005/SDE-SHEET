@@ -326,6 +326,47 @@ int main(){
 
 ### CHUNK 1 `[THEORY ONLY]`
 
+**KEYWORDS:**
+* `Row Operations:` Like Add/Subtract from 2 Rows trick SQL by Using `JOIN` and get data in Same Row
+* `LENGTH(col_name)`
+* `IS NULL, IS NOT NULL`
+* `!=` -> Not Equal to
+* `LEFT JOIN` -> Keep all Data from Left Table
+* `ROUND(some_calc,2)` -> Rounds to 2 Decimal Place
+* `SUM(condn_or_columnName)` -> Sums all rows satisfying condition
+* `DATEDIFF(today,yesterday) = 1` -> Date Difference of 1
+* Multiple `ON` Conditions: it allows to bucket according to Student name and specific Exam (LEETCODE 1280)
+* `ONLY_FULL_GROUP_BY: [IMPORTANT]` If Column in SELECT statement, then it must be under AGGREGATE Function or it must be in Group By {MEANS: everything in SELECT query must be either in aggregate function or in GROUP BY}
+* `IFNULL(some_calculation,0)` Fills Null with 0 and add SAFETY CHECK
+
+* `How to solve Row Calculations Using Joins?: [IF, CASE WHEN THEN ELSE END]` 
+  * **STEP 1:** Use LEFT JOIN
+  * **STEP 2:** Use Group By
+  * **STEP 3:** Use `IF` or `CASE WHEN` where all true are 1 and else they are 0
+  * `AVG(IF(c.action = 'confirmed',true_value,false_value))`
+  * `CASE WHEN THEN ELSE END`
+    * ```
+      SELECT Order_id,
+        CASE 
+          WHEN Price < 20 THEN 'Low Cost'
+          WHEN Price BETWEEN 20 AND 40 THEN 'Medium Cost'
+          ELSE 'High Cost'
+        END AS PriceCategory
+      FROM Products;
+      ```
+
+
+**LIKE**
+* `%` Matches Rest 
+* `_` Matches Exactly Once
+
+```
+SELECT *
+From table
+WHERE name LIKE 'a%'    -- STARTS WITH a Apple
+  OR name LIKE '%a_'    -- Last Second Character a
+```
+
 **PRIMARY KEY**
 
 * Uniquely identify row in table 
@@ -556,7 +597,312 @@ Take your time. Reply with your proposed tables and the columns for each scenari
 
 ```
 SELECT state, SUM(population) FROM Census
-WHERE gender = males
+WHERE gender = 'Male'
 GROUP BY state
 HAVING SUM(population) > 10000;
 ```
+
+**JOINS**
+
+**1. INNER JOIN**
+
+* Matches `Common` Entries from Left and Right Table Only
+```
+SELECT * from table1
+INNER JOIN table2
+ON table1.id = table2.id;
+```
+
+**2. LEFT JOIN**
+
+* Matches `ALL LEFT` + `MATCHING RIGHT` Entries Only
+```
+SELECT * 
+FROM table1
+LEFT JOIN table2
+ON table1.id = table2.id;
+```
+
+**3. SELF JOIN `[V.IMP]`**
+
+* It is `INNER JOIN` or `LEFT JOIN`, Where join Table to Copy of itself
+* Use When `Hierarchial Data [like Manager and Employee]` Stored in One table
+* Requires `ALIAS` otherwise Database Engine throw Ambiguity ERROR
+
+* **`[IMPORTANT] Given Employees Table with Emp_id, Name, Salary, Manager_id. Write Query to find all employees who earn more than their Manager.`**
+
+**The Table:**
+| Emp_ID | Name | Salary | Manager_ID |
+| :--- | :--- | :--- | :--- |
+| 1 | Bossman | $200,000 | NULL |
+| 2 | Prabhjeet| $250,000 | 1 |
+| 3 | Amit | $150,000 | 1 |
+
+**The Logic:**
+You have to pretend there are two tables: A `Worker` table and a `Manager` table. 
+We join the `Worker`'s `Manager_ID` to the `Manager`'s `Emp_ID`.
+
+
+```
+SELECT Workers.name
+FROM Employees AS Workers
+INNER JOIN Employees AS Managers
+ON Workers.Manager_ID = Managers.Emp_ID
+WHERE Workers.Salary > Managers.Salary;
+```
+
+**4. Natural JOIN [NEVER USE DANGEROUS]**
+
+* Join Automatically based on `columns with Same Name`, No need to Write `ON` Clause
+* `DANGEROUS:` If column is `Created_at` then Natural Join tries joining and Query breaks or return 0 results
+
+```
+SELECT * FROM Employees
+NATURAL JOIN Departments;
+```
+
+**5. Full Outer JOIN**
+
+* No OUTER JOIN in MySQL, so use LEFT JOIN *UNION* RIGHT JOIN
+* Return every Row from both tables, 
+  * Matches -> Links Them
+  * Not Match -> Missing Side Fill NULL
+* **PREFER:** Find missing Records both sides or Discrepencies
+* **CAUTION:** Very Heavy on Database, 2 tables million rows spike Server CPU
+
+* Most Commonly Used: Database Anamoly,` Write Query to find All Anaomalies: Employees who are missing department and Departments with 0 Employees`
+
+```
+SELECT Employee.name,Employee.department_name
+FROM Employee 
+LEFT JOIN Department ON Employee.dept_id = Department.dept_id
+WHERE Department.dept_id IS NULL
+UNION ALL
+SELECT Employee.name,Employee.department_name
+FROM Employee 
+RIGHT JOIN Department ON Employee.dept_id = Department.dept_id
+WHERE Employee.dept_id IS NULL;
+```
+
+**6. CROSS JOIN**
+
+* Every single Row Table 1 match Every Single Row Table 2
+* **PREFER:** Generate Combinations, grid or calendar table
+* **CAUTION:** Cross Join Table1 with 1000 rows and table2 with 10,000 rows will CRASH DATABASE as total Rows is 10,000,000
+* Most Commonly Asked: Building e-commerce store, Table1 -> "Colors" and Table2 -> "Sizes", Write Query to generate every possible variation of new Tshirt
+
+```
+SELECT * FROM colors
+CROSS JOIN sizes;
+```
+
+### The Ultimate SQL Join Cheat Sheet
+
+Here is your concise comparison table highlighting exactly when to use each join and the associated risks.
+
+| Join Type | How it Works | Prefer When... | Caution / Look Out For |
+| --- | --- | --- | --- |
+| **INNER JOIN** | Strict match only. | You only want valid, complete records (e.g., Users who have actually placed an order). | Accidental data loss. If a valid user has a `NULL` order, they disappear from the results entirely. |
+| **LEFT JOIN** | Keeps all left, matches right. | You need to preserve a base table while fetching optional data (e.g., All users, plus their orders if they have any). | Filtering on the right table in the `WHERE` clause can accidentally turn it into an `INNER JOIN`. |
+| **RIGHT JOIN** | Keeps all right, matches left. | Virtually never. | Readability. It forces engineers to read queries backward. Just swap the table order and use `LEFT JOIN`. |
+| **FULL OUTER** | Keeps absolutely everything. | Auditing data migrations, finding mismatched or orphaned records in both tables. | High performance cost. Do not use for standard application feature retrieval. |
+| **SELF JOIN** | Joins a table to itself. | Dealing with hierarchical data (Managers/Employees) or comparing rows within the same table. | Requires aliases (e.g., `Table T1`, `Table T2`), otherwise the database engine throws an ambiguity error. |
+| **CROSS JOIN** | Multiplies every row by every row. | Generating combinations (Sizes x Colors) or filling gaps in reporting dates. | Exponential row explosion. Can easily take down a database server if applied to large tables. |
+| **NATURAL JOIN** | Implicitly joins identical column names. | Textbook exercises. | **Strictly avoid.** Silent failures if schema changes. Always explicitly define conditions with `ON`. |
+
+
+### SUBQUERIES 
+
+**PURPOSE:** Sometimes can't directly write `WHERE` because don't know Exact Value yet, EG: Find employee with Highest salary, Then can't write WHERE Salary = 1000 because don't know yet, So write another SUBQUERY to calculate max salary then feed into main query
+
+**TYPE 1: Uncorrelated SubQuery**
+* Inner Query Independent of Outer Query
+* Eg: `Find Employees who make more than company average`
+
+```
+SELECT Name, Salary FROM Employees
+WHERE Salary > (
+  SELECT AVG(Salary) FROM Employees 
+);
+```
+
+
+**TYPE 2: Correlated SubQuery**
+* It is the Looper
+* Inner Query execute over and over for every single row in Outer Table
+* Eg: Find employees who make more than average salary of their specific department
+
+```
+SELECT Outer.Name, Outer.Salary
+FROM Employees AS Outer
+WHERE Outer.Salary > (
+  SELECT AVG(Inner.Salary) 
+  FROM Employees AS Inner
+  WHERE Outer.dept_id = Inner.dept_id
+);
+```
+
+**TRAPS: `=` v/s `IN`**
+
+* If Subquery Returns Multiple Rows then use `IN` Operator
+* Eg: `WHERE Dept_id IN (SELECT Dept_id FROM Departments WHERE location = 'Delhi');`
+
+
+**MOST ASKED Question [SUBQUERY]**
+* Find names of all Departments currently having 0 employees. Solve using Subquery, Not Using Join, you have Departments and Employees table
+
+```
+SELECT Name
+FROM Departments
+WHERE Dept_ID NOT IN (
+  SELECT DISTINCT Dept_ID FROM Employees
+  WHERE Dept_ID IS NOT NULL
+);
+```
+
+**SubQuery v/s CTE(Common Table Expressions)**
+* CTE makes it more readable
+* CTE moves Inner Subquery to TOP using the `WITH` Keyword
+* `CTE creates a Virtual Table`
+
+```
+WITH ActiveDepartments AS (
+  SELECT DISTINCT Dept_ID FROM Employees 
+  WHERE Dept_ID IS NOT NULL
+)
+
+SELECT Name
+FROM Departments
+WHERE Dept_ID NOT IN (Select Dept_ID FROM ActiveDepartments);
+```
+
+---
+
+### Chunk 4: Window Functions & Ranking `[V.Imp MAANG 99% Chance]`
+
+`NOTE:` Always Write Window Functions using `WITH`, because DataBase Engine execute them at `SELECT` 
+
+**`WINDOW FUNCTION` GROUP BY v/s PARTITION BY**
+
+* **WINDOW FUNCTION:** perform calculation across set of related rows without squashing them into single grouped Row
+
+* **GROUP BY:** Group by Department then all Employees Squished into single Row per Department (Losing Individual Name)
+* **PARTITION BY:** Doesn't Collapse Data(Keeps Rows Intact),PARTITION BY is Window Version of GROUP BY
+
+* **SYNTAX:** `DENSE_RANK() OVER(PARTITION BY column ORDER BY column) AS alias_name`
+  * **PARTITION BY:** Groups Data into Chunks of Departments
+
+
+**RANKINGS**
+* **ROW_NUMBER()** 1,2,3,4 doesn't skip strictly Sequential, Useful for Guaranteed Unique Id for Every Row
+* **RANK()** 1,1,3,4 It skips Rank for Ties
+* **DENSE_RANK() `PREFERRED`** 1,1,2,3 Doesn't Skip Rank for Ties
+
+**LAG/LEAD**
+* **LAG():** Looks backward to previous Row (If First row then give NULL)
+  * `SYNTAX:` LAG(Amount) OVER (PARTITION BY Account_ID ORDER BY Date)
+* **LEAD():** Looks forward to next Row
+
+
+**MOST ASKED MAANG [`V.IMP`]**
+* Ques. Second Highest Salary Per Department
+
+```
+WITH RankedSalaries AS (
+  SELECT 
+  Name, 
+  Department, 
+  Salary,
+  DENSE_RANK() OVER(PARTITION BY Department ORDER BY Salary DESC) AS Salary_Rank
+  FROM Employees
+)
+
+SELECT Name, Department, Salary
+FROM RankedSalaries
+WHERE Salary_Rank = 2;
+```
+
+* Ques. You are a Data Engineer at a FinTech company. The product team wants to build a new feature that shows users their transaction history, their running balance, and how much their spending changed compared to their last transaction.
+
+* **The Table:** `Transactions`
+
+| Txn_ID | Account_ID | Txn_Date | Amount |
+| --- | --- | --- | --- |
+| 1 | A100 | 2026-05-01 | 500 |
+| 2 | A100 | 2026-05-02 | -50 |
+| 3 | A100 | 2026-05-03 | 200 |
+| 4 | B200 | 2026-05-01 | 1000 |
+
+* **Your Task:**
+Write a single SQL query that returns:
+
+1. `Account_ID`
+2. `Txn_Date`
+3. `Amount`
+4. `Running_Balance` (The cumulative sum of the amount for that specific account over time).
+5. `Previous_Amount` (The amount of the transaction that happened right before this one, for that specific account).
+
+How would you construct the `SELECT` statement using `SUM()` and `LAG()` to solve this?
+
+```
+WITH Helper AS(
+  SELECT 
+    Account_Id, 
+    Txn_Date,
+    Amount,
+    SUM(Amount) OVER(PARTITION BY Account_ID ORDER BY Txn_Date) AS Running_Sum,
+    LAG(Amount) OVER(PARTITION BY Account_ID ORDER BY Txn_Date) AS Previous_Amount
+    FROM Transactions
+)
+
+SELECT Account_ID, Txn_Date, Amount, Running_Sum, Previous_Amount
+FROM Helper; 
+```
+
+
+
+### Chunk 5: Performance Optimization & Architecture
+
+**LIMIT & OFFSET**
+* **LIMIT X:** Only Give X Rows
+* **OFFSET Y:** Skip First Y Rows
+
+```
+SELECT Name, Salary
+FROM Employees
+ORDER BY Salary DESC
+LIMIT 10 OFFSET 10
+```
+
+* Skips First 10 then gives next 10
+* **Common Trap:** Is LIMIT 10 OFFSET 100000 fast? -> No because Database Physically read 100000 rows just to throw them away
+  * We can also use WHERE id > 100000 LIMIT 10
+
+**INDEXING [`VERY IMPORTANT`]**
+
+* **Full Table Scan O(N):** Every Row 1 by 1
+
+* **Index 2 Types: Clustered & Non-Clustered**
+
+* **Clustered Index: (Change Physical Order of Rows)**
+  * Physically Reorder Rows to match Index
+  * Only 1 per table
+
+* **Non-Clustered Index: (Don't Change Physical Order of Rows)**
+  * Create seperate list of pointers to data
+  * Multiple Allowed
+
+* **INDEX TRAP:** If Index make reading fast, why not Index every column in database?
+  * **ANSWER:** Index slows `WRITES`, everytime INSERT/DELETE/UPDATE (eg: 20 indexed columns) then database update every index then simple Insert operation becomes 20 + 1 operations. So, Only Index columns which are FREQUENTLY used.
+
+
+**Stop `SELECT *`**
+* Fetches Every Column Wasting Bandwidth
+* Use: Select name, email (*only required columns fetch*)
+
+**No Functions On Indexed Columns**
+
+* **BAD CODE:** `YEAR(Hire_Date)` It fails because Function applied on Every Row (*Makes Index Useless*)
+* **GOOD CODE:** `Hire_Date >= '2026-01-01 AND Hire_Date <='2027-01-01'` Database Engine use Index to directly jump to start Date
+
+
