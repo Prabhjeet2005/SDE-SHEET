@@ -331,6 +331,8 @@ int main(){
 * `LENGTH(col_name)`
 * `IS NULL, IS NOT NULL`
 * `!=` -> Not Equal to
+* `SELF JOIN:` Use When **ROWS Depend On Each Other**
+* `Single Table + GROUP BY:` Rows Don't Depend on Each Other and Squash multiple Rows like into Department
 * `LEFT JOIN` -> Keep all Data from Left Table
 * `ROUND(some_calc,2)` -> Rounds to 2 Decimal Place
 * `SUM(condn_or_columnName)` -> Sums all rows satisfying condition
@@ -338,6 +340,9 @@ int main(){
 * Multiple `ON` Conditions: it allows to bucket according to Student name and specific Exam (LEETCODE 1280)
 * `ONLY_FULL_GROUP_BY: [IMPORTANT]` If Column in SELECT statement, then it must be under AGGREGATE Function or it must be in Group By {MEANS: everything in SELECT query must be either in aggregate function or in GROUP BY}
 * `IFNULL(some_calculation,0)` Fills Null with 0 and add SAFETY CHECK
+* `AVG(rating/position) [IMPORTANT]` Here Inner Math On Each Row FIRST rating/position done then take average of those Calculations of each row 
+  * Eg: Row 1: rating/position, Row 2: rating/position then After All Row Operation done Calculate Avg (Row1 + Row2)/ Total Count
+  * **First generate Answer for Each Row, then apply average on the calculation sum / TOTAL**
 
 * `How to solve Row Calculations Using Joins?: [IF, CASE WHEN THEN ELSE END]` 
   * **STEP 1:** Use LEFT JOIN
