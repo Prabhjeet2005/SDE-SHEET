@@ -337,6 +337,8 @@ int main(){
 * `ROUND(some_calc,2)` -> Rounds to 2 Decimal Place
 * `SUM(condn_or_columnName)` -> Sums all rows satisfying condition
 * `DATEDIFF(today,yesterday) = 1` -> Date Difference of 1
+* `SELECT LEFT('2018-12-01',7)` gives `2018-12`
+* `DATE_FORMAT('2018-12-01','%Y-%m')` gives `2018-12`
 * Multiple `ON` Conditions: it allows to bucket according to Student name and specific Exam (LEETCODE 1280)
 * `ONLY_FULL_GROUP_BY: [IMPORTANT]` If Column in SELECT statement, then it must be under AGGREGATE Function or it must be in Group By {MEANS: everything in SELECT query must be either in aggregate function or in GROUP BY}
 * `IFNULL(some_calculation,0)` Fills Null with 0 and add SAFETY CHECK
@@ -349,7 +351,7 @@ int main(){
   * **STEP 2:** Use Group By
   * **STEP 3:** Use `IF` or `CASE WHEN` where all true are 1 and else they are 0
   * `AVG(IF(c.action = 'confirmed',true_value,false_value))`
-  * `CASE WHEN THEN ELSE END`
+  * `CASE WHEN THEN ELSE END` 
     * ```
       SELECT Order_id,
         CASE 
@@ -359,7 +361,8 @@ int main(){
         END AS PriceCategory
       FROM Products;
       ```
-
+* `Window function:` Use them when Put them into Buckets and Order them
+  * WITH name AS (SELECT ROW_NUMBER() OVER(PARTITION BY cust_id ORDER BY date) AS order_rank)
 
 **LIKE**
 * `%` Matches Rest 
