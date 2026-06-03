@@ -1,17 +1,8 @@
-def count_char():
-  char_count = {}
-  with open("eg.txt","r") as file:
-    content = file.read()
+import pprint
 
-    for char in content:
-      if char in char_count:
-        char_count[char] += 1
-      else:
-        char_count[char] = 1
-  return char_count
+data = {"z": 1, "a": 2, "b": {"nested_key": "value", "another": [1, 2, 3]}}
 
-char_count = count_char()
+# Returns a formatted string
+formatted_string = pprint.pformat(data, indent=4)
 
-for char,count in char_count.items():
-  print(f"character: {char}, count: {count}")
-
+print(formatted_string)

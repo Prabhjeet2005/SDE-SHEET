@@ -192,6 +192,14 @@ upper_bound(7)
 ### string::npos is constant representing "not found" 
 - to_string(42), stoi("42"), stod("4.2")
 
+# String LOWERCASE `tolower()`
+```
+string str = "Racecar";
+for(auto &ch:str){
+  ch = tolower(ch);
+}
+```
+
 ### String Extract Numbers
 - ***EG: "2245 23 45 6 33"***
 - From this extract numbers like 2245, 23, 45, 6 ,33
