@@ -331,13 +331,13 @@ int main(){
 * `LENGTH(col_name)`
 * `IS NULL, IS NOT NULL`
 * `!=` -> Not Equal to
-* `SELF JOIN:` Use When **ROWS Depend On Each Other**
+* `SELF JOIN:` Use When **ROWS Depend- On Each Other**
 * `Single Table + GROUP BY:` Rows Don't Depend on Each Other and Squash multiple Rows like into Department
 * `LEFT JOIN` -> Keep all Data from Left Table
 * `ROUND(some_calc,2)` -> Rounds to 2 Decimal Place
 * `SUM(condn_or_columnName)` -> Sums all rows satisfying condition
 * `DATEDIFF(today,yesterday) = 1` -> Date Difference of 1
-* `SELECT LEFT('2018-12-01',7)` gives `2018-12`
+* `SELECT LEFT('2018-12-01',7)` gives `2018-12` 
 * `DATE_FORMAT('2018-12-01','%Y-%m')` gives `2018-12`
 * Multiple `ON` Conditions: it allows to bucket according to Student name and specific Exam (LEETCODE 1280)
 * `ONLY_FULL_GROUP_BY: [IMPORTANT]` If Column in SELECT statement, then it must be under AGGREGATE Function or it must be in Group By {MEANS: everything in SELECT query must be either in aggregate function or in GROUP BY}

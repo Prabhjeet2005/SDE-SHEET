@@ -85,7 +85,7 @@ int calc_pow(int base,int pow){
 # Subarray/Array Sum -> [PREFIX SUM] _HashMap_ => store sum or element & indexes
 
 - Map Should Be Used For **_LONGEST_**
-- ![alt text](images/diagram-export-8-21-2025-11_00_47-PM.svg)
+- ![alt text](<images/diagram-export-8-21-2025-11_00_47-PM.svg>)
 
 # 2sum/3sum/4sum
 
@@ -109,7 +109,7 @@ while(start <= end) start = mid+1, end = mid-1
 ```
 USE THIS TEMPLATE
 When Not Safely discard MID & Can use later
-while(start <= end) start = mid+1, end = mid
+while(start < end) start = mid+1, end = mid
 ```
 
 ## Lower Bound (>=) Greater or Equal
@@ -247,6 +247,68 @@ string str = "2234 23 5  77 90 45";
 # Heap [Priority Queue]
 
 - When Repeatedly find max or min and array constatntly Change then use HEAP
+
+# SUBARRAY `[Complex]` `After JTG Interview`
+
+**Subarray vs Subsequence vs Graph/Grid**
+* **Subarray/Substring "Contigous":** Elements next to each other use the 4 patterns
+* **Subsequence "Non Contigous":** Pick/Skip Elements -> `DP`
+* **Graph/Grid:** Left, Right, Down, Up or Jump to an index `BFS/DFS`
+
+### The Classification Table (How to pick the exact pattern)
+
+| Algorithmic Pattern | Trigger Words in OA | The "Litmus Test" (Why use this?) | Hidden Trap (When it fails) |
+| --- | --- | --- | --- |
+| **1. Prefix Sum + Hash Map** | "Exact sum $K$", "Divisible by $K$", "Count of subarrays" | You need to find an **exact mathematical match** looking backward. | Works perfectly with **negative numbers**. |
+| **2. Sliding Window** | "Longest/Shortest", "At most $K$", "Contiguous elements", `SINGLE VALID CONDITION` | You can safely stretch the right boundary, and squeeze the left when rules break. | **FAILS if array has negative numbers** (because adding a negative makes the sum smaller, breaking the window logic). |
+| **3. Monotonic Stack** | "Next greater/smaller", "Sum of minimums", "Histogram" | The answer depends entirely on finding the **borders where an element is the smallest/largest**. | Not used for finding sums or counts; only used for finding bounding elements. |
+| **4. Difference Array** | "Add $V$ to range $[L, R]$", "Overlapping intervals" | You have **multiple updates** over ranges and only need to print the final array at the end. | Fails if you need to query the array's state *during* the updates (use Segment Tree instead). |
+
+## 2 types of `PREFIX SUM`
+### Template 1: The "Count" Approach (Handshake)
+Use for: **Subarray Sum Equals K**, **Subarrays Divisible by K**
+```
+int countSubarrays(...) {
+    unordered_map<int, int> map;
+    map[0] = 1; // Base case for frequency
+    int ans = 0;
+    
+    for(int i = 0; i < nums.size(); i++) {
+        // 1. Calculate Target
+        // 2. Shake hands with everyone in the room
+        if (map.count(target)) {
+            ans += map[target]; 
+        }
+        // 3. Stand in the room
+        map[target]++; // ALWAYS update
+    }
+    return ans;
+}
+```
+
+### Template 2: The "Length" Approach (Earliest Index)
+Use for: **Continuous Subarray Sum (Exists), Contiguous Array (Longest)**
+```
+int lengthSubarrays(...) {
+    unordered_map<int, int> map;
+    map[0] = -1; // Base case for length calculation
+    int max_len = 0;
+    
+    for(int i = 0; i < nums.size(); i++) {
+        // 1. Calculate Target
+        // 2. Measure distance from the first guy wearing this shirt
+        if (map.count(target)) {
+            max_len = max(max_len, i - map[target]);
+        } 
+        // 3. Keep your spot in the room (Do NOT overwrite)
+        else {
+            map[target] = i; // ONLY update if it's the first time seeing it
+        }
+    }
+    return max_len; // Or return true if i - map[target] >= 2
+}
+```
+
 
 
 # Stacks & Queues
@@ -919,6 +981,10 @@ Only make Dimensions for changing variables
 - Greedy: "I can greedily pick the biggest/smallest item now, and I never regret it." (e.g., Activity Selection).
 - DP: "I have choices (Pick/Skip, Buy/Sell). If I pick this now, it might prevent me from picking something better later. I need to **try ALL choices**."
 
+# Solve DP Important
+* **1. State:** For any random position calculate what states i need like index, how many moves travelled, is_holding
+* **2: Transition:** Cases of [PICK] or [NOT PICK] or other transitions
+* **3. Recursive calls:** Now take max or count or is_possible of all recursive calls
 
 ## DP PATTERNS
 ```

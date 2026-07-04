@@ -30,8 +30,12 @@ class Solution{
     ListNode* next_node = head->next;
 
     while(curr){
-      curr->
+      curr->next = prev;
+      prev = curr;
+      curr = next_node;
+      if(next_node){next_node = next_node->next;}
     }
+    head = prev;
   }
 
   void print_LL(ListNode* head){
