@@ -1265,24 +1265,152 @@ int lengthOfLIS(vector<int>& nums) {
 
 
 
-### Pattern 4: ```Digit DP``` (The 4D/5D Monster) ```[V.Important]```
-- Used for: "Count numbers in range [L, R] that satisfy property X".
+### Pattern 9: ```Digit DP``` (The 4D/5D Monster) ```[V.Important]```
+- Used for: "Count numbers in range [L, R] i.e `10^18` that satisfy property X".
+- Eg: Sum of digits is prime or contains no repeating adjacent digit
 - State: dp[index][tight_constraint][leading_zeros][...property...]
+  * **index: `int`** Position from left
+  * **tight: `bool`** Restricted by limit. Eg if MAX NUMBER is 345 then if first place i write 3 then still tight remains `true` and if i would have written 2 then tight would become `false` and for rest of digits i can pick any between 0-9 **`{Basically making sure number we form is less and 345 number we can't make 445 as thousands place got bigger}`**
+  * **leading_zeroes: `bool`** Only placed zeroes so far
+  * **property: `int`** Running `sum` or `count` or `condition`
+
+* **The Problem:** Count Numbers with a Target Sum
+* Count how many numbers from $0$ to $R$ have a digit sum exactly equal to target. (For example, if $R = 25$ and target = 5, the valid numbers are $05, 14, 23$).
 
 ```
-long long solve(string& s, int idx, bool tight, int sum, vector<vector<vector<int>>>& dp) {
-    if (idx == s.size()) return sum; // Base Case
-    if (dp[idx][tight][sum] != -1) return dp[idx][tight][sum];
-    
-    int limit = tight ? (s[idx] - '0') : 9;
-    long long ans = 0;
-    
-    for (int digit = 0; digit <= limit; digit++) {
-        // Update tight constraint for next position
-        bool nextTight = tight && (digit == limit);
-        ans += solve(s, idx + 1, nextTight, sum + digit, dp);
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
+// DP Table: [index up to 18][tight 0 or 1][sum up to 162]
+// (Max sum is 18 digits * 9 = 162)
+int dp[20][2][200]; 
+
+// State: idx (current position), tight (are we restricted?), sum (running sum)
+int solve(string& R, int target, int idx, bool tight, int sum) {
+    // Base Case: We reached the end of the number
+    if (idx == R.length()) {
+        if (sum == target) return 1; // It's a match!
+        else return 0; // Not a match
     }
-    return dp[idx][tight][sum] = ans;
+    
+    // Memoization Check
+    if (dp[idx][tight][sum] != -1) {
+        return dp[idx][tight][sum];
+    }
+    
+    // Determine the max digit we can place here
+    // If tight is true, we are capped by the actual digit in R
+    // If tight is false, we can safely place 9
+    int limit;
+    if (tight == true) limit = R[idx] - '0';
+    else limit = 9;
+    
+    int valid_numbers_count = 0;
+    
+    // Try placing every digit from 0 up to our calculated limit
+    for (int digit = 0; digit <= limit; digit++) {
+        
+        // Calculate the state variables for the next step
+        
+        // Next tight is ONLY true if we were already tight AND we picked the max limit
+        bool new_tight = (tight == true && digit == limit);
+        
+        int new_sum = sum + digit;
+        
+        // Recursively count ways for the rest of the string
+        valid_numbers_count += solve(R, target, idx + 1, new_tight, new_sum);
+    }
+    
+    return dp[idx][tight][sum] = valid_numbers_count;
+}
+
+int main() {
+    string R = "25";
+    int target_sum = 5;
+    
+    // Initialize DP table with -1
+    for(int i=0; i<20; i++)
+        for(int j=0; j<2; j++)
+            for(int k=0; k<200; k++)
+                dp[i][j][k] = -1;
+                
+    // Start at index 0, tight is initially true (we must respect '25' boundaries), sum is 0
+    cout << "Valid numbers: " << solve(R, target_sum, 0, true, 0) << endl;
+    return 0;
+}
+```
+
+### Pattern 10: `Bitmask DP`
+* Use when `N<=20`
+* Check Item **i** is used (mask & (1 << i))
+* Set Item **i** (mask | (1 << i))
+
+* **Ques:** The Problem: Minimum Cost Job Assignment
+There are $N$ workers and $N$ tasks (N <= 10). You are given an N x N matrix where cost[i][j] is the cost of assigning worker i to task j. Assign exactly one task to each worker to minimize the total cost.
+
+```
+#include <iostream>
+#include <vector>
+#include <climits>
+using namespace std;
+
+int N;
+vector<vector<int>> cost_matrix;
+vector<vector<int>> dp;
+
+// State: index (which worker we are at), mask (which tasks are taken)
+int solve(int worker_idx, int mask) {
+    // Base Case: If we have assigned tasks to all workers, cost is 0
+    if (worker_idx == N) {
+        return 0;
+    }
+    
+    // Memoization Check
+    if (dp[worker_idx][mask] != -1) {
+        return dp[worker_idx][mask];
+    }
+    
+    int min_total_cost = INT_MAX;
+    
+    // The worker tries to pick every possible task (0 to N-1)
+    for (int task = 0; task < N; task++) {
+        
+        // CHECK: Is the task's bit currently 0? (Meaning it is NOT taken)
+        if ((mask & (1 << task)) == 0) {
+            
+            // ACTION: Turn the task's bit to 1 (Mark as taken)
+            int new_mask = mask | (1 << task);
+            
+            // RECURSION: Add current task's cost + ask Oracle for the rest
+            int current_cost = cost_matrix[worker_idx][task];
+            int total_cost = current_cost + solve(worker_idx + 1, new_mask);
+            
+            // Keep track of the minimum cost found
+            min_total_cost = min(min_total_cost, total_cost);
+        }
+    }
+    
+    return dp[worker_idx][mask] = min_total_cost;
+}
+
+int main() {
+    N = 3; // 3 Workers, 3 Tasks
+    cost_matrix = {
+        {3, 2, 7}, // Worker 0's cost for tasks 0, 1, 2
+        {1, 5, 8}, // Worker 1's cost for tasks 0, 1, 2
+        {9, 4, 2}  // Worker 2's cost for tasks 0, 1, 2
+    };
+    
+    // N workers means the max mask is (1 << N) - 1. 
+    // Example: N=3, max mask is 111 in binary, which is 7.
+    // So DP table size is [3][8]
+    dp.assign(N, vector<int>(1 << N, -1));
+    
+    // Start with Worker 0, and mask 0 (000 = no tasks taken)
+    cout << "Minimum Cost: " << solve(0, 0) << endl; 
+    return 0;
 }
 ```
 
