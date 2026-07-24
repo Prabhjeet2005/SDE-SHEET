@@ -28,3 +28,15 @@ Count your total 'X's (`cX`). Your goal is to return `cX` unless mathematically 
 
 3. **Forced Sacrifice (`else`):** You have more Targets than Missiles (e.g., `X Y X Y X`) and no `YY` to split. Exactly one X block *must* survive.
 * *Result:* Sacrifice the smallest block to maximize points. Output = `cX - smallSeg`.
+
+## Q3 Gridpolis Critical Blocks
+### Split Into 3 Neighbourhoods
+* **Pattern Identify**
+* . . .
+* x . x
+* **OR**
+* x . x     -> Pinched Row
+* . . .     -> Open Row
+
+* Here putting X in top middle will create 3 neighbourhoods: Top Left, Top Right, Bottom Middle
+* Main aim is to find a Open row and a pinched row
