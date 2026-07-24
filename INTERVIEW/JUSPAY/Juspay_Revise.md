@@ -29,6 +29,8 @@ Count your total 'X's (`cX`). Your goal is to return `cX` unless mathematically 
 3. **Forced Sacrifice (`else`):** You have more Targets than Missiles (e.g., `X Y X Y X`) and no `YY` to split. Exactly one X block *must* survive.
 * *Result:* Sacrifice the smallest block to maximize points. Output = `cX - smallSeg`.
 
+
+
 ## Q3 Gridpolis Critical Blocks
 ### Split Into 3 Neighbourhoods
 * **Pattern Identify**
@@ -40,3 +42,35 @@ Count your total 'X's (`cX`). Your goal is to return `cX` unless mathematically 
 
 * Here putting X in top middle will create 3 neighbourhoods: Top Left, Top Right, Bottom Middle
 * Main aim is to find a Open row and a pinched row
+
+Here is the breakdown for the fourth question from the PDF.
+
+## Question 4: The Kingdom's Rebellion (Create Adj_List if no Pointer given)
+
+### 📝 Quick-Recall Cheat Sheet: Kingdom's Rebellion
+
+**The OA Trap:**
+Lengthy descriptions of "reassigning children" and "dynamic tree updates" are often **Red Herrings**.
+
+**The Mental Model:**
+
+* A parent's removal requires all its children to be rebels.
+* Moving rebel children to a new parent does not change the mathematical truth of the tree.
+* **Conclusion:** The problem is static. No simulation required.
+
+**The Implementation Trick:**
+
+1. Use `vector<vector<int>> adj` to store `adj[parent].push_back(child)`.
+2. Loop `1` to `N` (handles the smallest index rule for free).
+3. If node is a rebel `&&` no children are loyal -> Print it.
+
+Does the "Red Herring" trap make sense here? Let me know if you want to trace a specific example before we move to Question 5!
+
+
+
+
+
+
+
+
+
