@@ -27,3 +27,39 @@ Sample Input:
 Sample Output:
 2
 */
+
+#include<iostream>
+#include<vector>
+#include<unordered_set>
+using namespace std;
+
+int find_max_parcel(vector<int>&arr){
+  int max_parcel = 0;
+  unordered_set<int>set(arr.begin(),arr.end());
+  vector<int>unique_arr;
+
+  for(auto &element: set){
+    unique_arr.push_back(element);
+  }
+
+  sort(unique_arr.begin(),unique_arr.end());
+
+  int j = 0;
+  for(int i=0; i<unique_arr.size(); i++){
+    while(j+1 < unique_arr.size() && 
+    unique_arr[j+1]-unique_arr[i] < arr.size()) 
+    // FIX: Permutation->1 to N so arr.size()
+    {
+      j++;
+    }
+
+    max_parcel = max(max_parcel,j-i+1);
+  }
+
+  return max_parcel;
+}
+
+int main(){
+  vector<int> arr = {1 ,1, 1, 1, 1, 2};
+  cout << find_max_parcel(arr)<<"\n";
+}
