@@ -28,3 +28,68 @@ Sample Input:
 Sample Output:
 45
 */
+
+#include<iostream>
+#include<vector>
+#include<queue>
+
+using namespace std;
+
+int largest_sum_cycle(vector<int>&arr){
+  int n = arr.size();
+  vector<int>indegree(n,0);
+
+  // Indegree 0
+  for(int i=0; i<n; i++){
+    if(arr[i]==-1)continue;
+    indegree[arr[i]]++;
+  }
+
+  // Snip all 0 indegree
+  queue<int>q;
+  for(int i=0; i<n; i++){
+    if(indegree[i]!=0)continue;
+    q.push(i);
+  }
+
+  vector<bool>visited(n,false);
+
+  while(!q.empty()){
+    int front = q.front();q.pop();
+    visited[front]=true;
+    int neighbor = arr[front];
+    if(neighbor != -1 && !visited[neighbor]){
+      indegree[neighbor]--;
+      if(indegree[neighbor]==0)q.push(neighbor);
+    }
+  }
+
+  int max_sum = 0;
+
+  for(int i=0; i<n; i++){
+    // FIX: node should go somewhere
+    if(!visited[i] && arr[i]!=-1){
+      int curr_cycle_sum = 0;
+      int curr = i;
+
+      while(!visited[curr]){
+        curr_cycle_sum += curr;
+        visited[curr] = true;
+        curr = arr[curr];
+
+      }
+
+      max_sum = max(max_sum,curr_cycle_sum);
+    }
+  }
+
+  return max_sum;
+
+}
+
+int main(){
+
+  vector<int> arr = {4, 4, 1, 4, 13, 8, 8, 8, 0, 8, 14, 9, 15, 11, - 1, 10, 15, 22, 22, 22, 22, 22, 21};
+
+  cout<<"\n"<<largest_sum_cycle(arr)<<"\n";
+}
