@@ -55,6 +55,81 @@ Does the "Red Herring" trap make sense here? Let me know if you want to trace a 
 
 
 
+## Question 5: Parcel Count Maximization
+### 📝 Quick-Recall Cheat Sheet: Parcel Count Maximization
+
+**The OA Trap:**
+The problem hides a simple gap-closing math puzzle behind a confusing story about "permutations" and "parcel updates."
+
+**The Mental Model (The 2 Rules):**
+
+1. **Duplicates are Dead Weight:** You are adding a permutation (unique numbers). If two boxes start with the exact same number, it is mathematically impossible for them to reach the same final target. **Action: Destroy all duplicates.**
+2. **The "Closing Power" limit:** The biggest boost you have is `N`, the smallest is `1`. Therefore, the absolute maximum gap you can close between the smallest box and the largest box is exactly `N - 1`. **Action: The gap between boxes in your group must be `< N`.**
+
+**The Implementation Trick:**
+
+1. Filter the array through an `unordered_map` to remove all duplicates.
+2. **Sort** the unique array in ascending order.
+3. Use a **Sliding Window** (Two Pointers: `i` for left, `j` for right) to find the longest valid group where the difference is `< N`.
+
+---
+
+* Gap is < N because 1 to N so Max_boost is N and Min_Boost is 1 so max-min boost is N-1
+
+---
+
+**Code Core Logic (Mental Snapshot):**
+
+```cpp
+// 1. Array is already filtered of duplicates and sorted
+
+int ans = 0;
+int j = 0; // Right pointer
+
+for (int i = 0; i < arr.size(); i++) { // 'i' is Left pointer
+    
+    // As long as the gap is valid (strictly less than N), expand right!
+    while (j + 1 < arr.size() && arr[j + 1] - arr[i] < n) {
+        j++;
+    }
+    
+    // Save the maximum window size (Right - Left + 1)
+    ans = max(ans, j - i + 1); 
+}
+
+```
+
+---
+## Question 6: Nearest Meeting Cell
+### 📝 Quick-Recall Cheat Sheet: Nearest Meeting Cell
+
+**The OA Trap:**
+Do not use a Multi-Source BFS. Mixing the starting points in one queue makes it impossible to track which node reached the cell first.
+Do not build a 2D Adjacency List. A single array jump is faster.
+
+**The Mental Model:**
+
+1. Run a standard BFS strictly from `C1` to map all its reach times.
+2. Run a standard BFS strictly from `C2` to map all its reach times.
+3. The "Meeting Time" for any cell is the `max(dist1, dist2)`. We want the cell that provides the absolute minimum of these maximums.
+
+**The Implementation Trick:**
+
+* **The Array Jump:** `int next_cell = arr[current_cell];`
+* **The Validation:** `if (next_cell != -1 && dist[next_cell] == 1e9)`
+* **The Final Loop:** Loop `0` to `N-1`. If both distances `< 1e9`, check if `max(dist1, dist2)` is your new minimum. If yes, save the index `i`.
+
+---
+## Question 7: Largest Sum Cycle
+**Use Kahn's Algorithm**
+* Check all indegree 0 or Non Cycle Nodes and put them in queue and remove them, if neighbor also drop indgree to 0 put it in queue
+* After snipping all non-cycle, count sum of all cycles and mark them visited as you go
+* Return Max Sum Cycle
+1. Count all Indegree
+2. Remove non cylces by indegree 0
+3. Sum all leftover, keep track of each cycle sum
+
+
 
 
 
