@@ -142,6 +142,27 @@ Do not build a 2D Adjacency List. A single array jump is faster.
 2. Remove non cylces by indegree 0
 3. Sum all leftover, keep track of each cycle sum
 
+### 📝 Quick-Recall Cheat Sheet: Largest Sum Cycle
+
+**The Trigger:**
+
+* Input is a 1D array (`Edge[i]`).
+* Nodes have at most 1 exit.
+* Asking to find/measure Cycles.
+* $N >= 10^5$ (Stack Overflow risk for DFS).
+
+**The Mental Model (Kahn's Graph Peeling):**
+
+1. **Count Arrows:** Build an `indegree` array.
+2. **Queue Dead Ends:** Push all nodes with `indegree == 0`.
+3. **Snip Branches:** Pop the queue, mark `visited`, and subtract $1$ from the neighbor's `indegree`. If the neighbor hits $0$, push it.
+4. **Harvest the Cycles:** Whatever is `!visited` at the end is part of a cycle. Run a `while(!visited)` loop to traverse the loop, adding to a `long long` sum.
+
+**Critical Edge Cases to Remember:**
+
+* **Data Types:** Summing up to $10^5$ indices WILL overflow an `int`. Default to `long long` for graph summation metrics.
+* **The "No Cycle" Rule:** Read the return requirements carefully. Usually, it requires a `-1` if the graph is entirely stripped away by the Kahn's queue.
+
 
 
 

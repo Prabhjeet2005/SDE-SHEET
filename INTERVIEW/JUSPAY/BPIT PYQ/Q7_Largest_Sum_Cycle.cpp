@@ -64,10 +64,10 @@ int largest_sum_cycle(vector<int>&arr){
     }
   }
 
-  int max_sum = 0;
+  int max_sum = -1;
 
   for(int i=0; i<n; i++){
-    // FIX: node should go somewhere
+    // FIX: node should go somewhere so arr[i]!=-1
     if(!visited[i] && arr[i]!=-1){
       int curr_cycle_sum = 0;
       int curr = i;
@@ -78,13 +78,10 @@ int largest_sum_cycle(vector<int>&arr){
         curr = arr[curr];
 
       }
-
       max_sum = max(max_sum,curr_cycle_sum);
     }
   }
-
   return max_sum;
-
 }
 
 int main(){
