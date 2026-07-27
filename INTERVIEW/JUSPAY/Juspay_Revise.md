@@ -30,6 +30,19 @@ Count your total 'X's (`cX`). Your goal is to return `cX` unless mathematically 
 * *Result:* Sacrifice the smallest block to maximize points. Output = `cX - smallSeg`.
 
 
+
+## Q3 Gridpolis Critical Blocks
+### Split Into 3 Neighbourhoods
+* **Pattern Identify**
+* . . .
+* x . x
+* **OR**
+* x . x     -> Pinched Row
+* . . .     -> Open Row
+
+* Here putting X in top middle will create 3 neighbourhoods: Top Left, Top Right, Bottom Middle
+* Main aim is to find a Open row and a pinched row
+
 Here is the breakdown for the fourth question from the PDF.
 
 ## Question 4: The Kingdom's Rebellion (Create Adj_List if no Pointer given)
@@ -128,6 +141,8 @@ Do not build a 2D Adjacency List. A single array jump is faster.
 1. Count all Indegree
 2. Remove non cylces by indegree 0
 3. Sum all leftover, keep track of each cycle sum
+
+
 
 
 
