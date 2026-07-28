@@ -168,5 +168,58 @@ Do not build a 2D Adjacency List. A single array jump is faster.
 
 
 
+## Q9: Power Distribution Electovia
+### 📝 Quick-Recall Cheat Sheet: Power Distribution Network
+
+**The Core Concept**
+Because this is a strict tree, there is mathematically only **one path** between any two cities.
+
+**The OA Traps to Avoid**
+
+* **Skip Dijkstra:** It is overkill for a tree and will waste execution time.
+* **Skip Segment Trees/HLD:** Too much code to write and debug in a 45-minute MAANG assessment. A standard DFS is accepted.
+* **Global Variables:** Pass your adjacency list by reference (`&adj`) to avoid hidden test case failures when `N` changes.
+
+**The Data Structure**
+Use an adjacency list that stores both the neighbor and the weight.
+
+* `vector<vector<pair<int, int>>> adj(n + 1);`
+
+**The 2-Part Implementation**
+
+* **Action 1: Update the Edge (Type 2 Query)**
+Simply loop through `u`'s list to find `v` and change the weight. Do the exact same for `v`'s list to find `u`.
+*Crucial:* Use `auto &element` so you modify the *actual* graph, not a copy.
+* **Action 2: Calculate the Cost (Type 1 Query)**
+Use an **Int-Returning DFS** (DP-Style) to act as an instant brake pedal.
+1. **Base Case:** `if (curr == dest) return curr_sum;` 
+2. **Explore:** `int path_sum = dfs(..., curr_sum + weight);`
+3. **Bubble Up:** `if (path_sum != -1) return path_sum;`
+4. **Dead End:** `return -1;` (If the loop finishes without finding it).
 
 
+## Q10: Building Distance Analysis
+### 📝 Quick-Recall Cheat Sheet: (Break 2D [X,Y] points seperately into X and Y)
+
+**The OA Trigger:**
+
+* **Keywords:** "Sum of Manhattan Distances", "All pairs", "Grid".
+* **The Trap:** Writing a nested loop to pair buildings up causes an $\mathcal{O}(N^2)$ Time Limit Exceeded (TLE) error.
+
+**The Mental Model (The "Decoupling" Trick):**
+Manhattan distance is just simple addition: $\vert{}X_2 - X_1\vert{} + \vert{}Y_2 - Y_1\vert{}$. Because it is addition, $X$ and $Y$ do not affect each other.
+
+1. **Split:** Rip the 2D coordinates apart. Treat all $X$ coordinates as one isolated problem, and all $Y$ coordinates as another.
+2. **Sort:** Sorting a 1D array from smallest to largest guarantees every number to the right is bigger.
+3. **Sum:** Use a Suffix Sum array to calculate the distance to all remaining elements instantly.
+
+**The $\mathcal{O}(1)$ Math Formula:**
+For any element in your sorted 1D array, the distance to all elements on its right is:
+`Suffix_Sum_of_Right_Elements - (Count_of_Right_Elements * Current_Element)`
+
+**Step-by-Step Implementation:**
+
+1. Store coordinates in grouped arrays: `vector<long long> x[100005], y[100005]`
+2. Loop through each building type and `sort()` its $X$ and $Y$ arrays independently.
+3. Build a `sufX` and `sufY` array for that building type.
+4. Loop through the elements and add the results of the math formula to a `long long` total sum.
