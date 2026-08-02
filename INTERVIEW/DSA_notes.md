@@ -310,6 +310,23 @@ int lengthSubarrays(...) {
 ```
 
 
+# 2D Decoupling & Suffix Sums (2D Array Pointss  diistance between same types)
+**JUSPAY Q10_Building_Distance**
+The 2D Decoupling Pattern
+
+- The Rule: In Manhattan Distance (|X2 - X1| + |Y2 - Y1|), the X-axis and Y-axis are mathematically independent. They never mix.
+
+- The Action: Never store points as pair<x, y>. Completely separate them into an X_array and a Y_array. Solve them as two separate 1D problems, then add the answers together.
+
+## The 1D Suffix Sum Trick
+
+- The Setup: Sort the 1D array. Now, for any element you look at, every element to its right is guaranteed to be a larger number.
+
+- The Visualization: If you are standing at X and need to walk to 5 buildings on your right, you are basically walking the distance of X 5 times before you even start covering the extra ground.
+
+- The Formula: Distance = `Suffix_Sum[next_index] - (Count_of_elements_on_right * Current_Element)`
+
+
 
 # Stacks & Queues
 ## STACKS [When Use]
