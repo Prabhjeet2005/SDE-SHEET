@@ -223,3 +223,20 @@ For any element in your sorted 1D array, the distance to all elements on its rig
 2. Loop through each building type and `sort()` its $X$ and $Y$ arrays independently.
 3. Build a `sufX` and `sufY` array for that building type.
 4. Loop through the elements and add the results of the math formula to a `long long` total sum.
+
+## Q11. Network Technician (Trees in form of Arrays)
+
+* **The Core Logic (DFS + Consecutive State)**
+* You are walking down a tree. Every time you take a step, you carry a "hazard counter" in your pocket.
+
+* If you step on a Safe Zone (1): Throw the counter away (reset to 0).
+* If you step on a Hazard Zone (0): Add 1 to your counter.
+
+* **The 3 Crucial Code Blocks:**
+
+* The Kill-Switch: Right at the top of the DFS, check if (count_hazard > m) return 0;. If you exceed the limit, instantly kill that path.
+
+* The Next State (No Sibling Poisoning): Inside the loop, create a fresh variable for the child: int curr_hazard = (is_safe == 1) ? 0 : count_hazard + 1;. Pass this down so siblings don't share the same variable.
+
+* The Leaf Detector: Start with bool is_leaf = true;. Inside the loop, if you find a neighbor that is not the parent, you set is_leaf = false;. If the loop finishes and it is still true, return 1.
+
