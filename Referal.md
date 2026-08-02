@@ -14,7 +14,9 @@ Thanks Prabhjeet
 ----
 
 
-Hi , I'm a 6th-semester CS student (9.5 CGPA) targeting the Siemens Trainee role (ID: 507844). With SWE internships at Tech Mahindra and Delhi Police, plus a LeetCode Knight rank (1933), I’d love to connect and would appreciate a referral. Thanks, Prabhjeet  
+Hi  , 
+I'm a 4th year CSE student (9.5 CGPA) targeting the Amazon SDE Intern role (ID: 10488368). With SWE internships at Tech Mahindra and Delhi Police, plus a LeetCode Knight rank (1933), I’d love to connect and would appreciate a referral. 
+Thanks, Prabhjeet  
 
 
 -----

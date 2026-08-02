@@ -407,6 +407,36 @@ for (int i = index; i < s.length(); i++) {
 - The Logic: Explore paths on a 2D grid.
 
 # Trees
+
+### 🚨 Cheat Sheet: The Array-Based Tree Pattern (Q11 -> Juspay) [TREE IN FORM OF ARRAYS NOT POINTERS]
+
+In LeetCode, trees are usually given as objects (`TreeNode* left, right`). In MAANG OAs, trees are almost always given as a list of edges and an array of values. This introduces four deadly traps you must memorize.
+
+**1. The Index Offset (1-Based vs 0-Based)**
+
+* **The Trap:** Problem descriptions number nodes from $1$ to $N$. Arrays in C++ are indexed from $0$ to $N-1$.
+* **The Fix:** Always subtract 1 when looking up a node's value in the array.
+* **Code:** `int value = arr1[node - 1];`
+
+**2. The Bidirectional Edge Trap**
+
+* **The Trap:** Even if the problem implies a top-down tree (Root 1 to leaves), the edges are given in random order (e.g., `[child, parent]`).
+* **The Fix:** Treat the tree as an **undirected graph**. You must push edges in both directions when building the adjacency list.
+* **Code:** `adj[u].push_back(v); adj[v].push_back(u);`
+
+**3. The Infinite Loop Trap**
+
+* **The Trap:** Because the graph is undirected, Node 1 connects to Node 2, and Node 2 connects right back to Node 1. A naive DFS will bounce between them forever until a Stack Overflow.
+* **The Fix:** Always pass `int parent` into your DFS parameters.
+* **Code:** `if (neighbor == parent) continue;`
+
+**4. The "Fake" Empty Leaf Trap**
+
+* **The Trap:** You might be tempted to check if a node is a leaf by seeing if it has no connections (`adj[curr].empty()`).
+* **The Reality:** In an undirected tree, a leaf is connected to its parent! Its adjacency list will have exactly 1 item in it.
+* **The Fix:** A node is only a leaf if its loop skips the parent and finds absolutely nothing else. Use the `bool is_leaf` flag to detect if it has actual children.
+
+
 ## Perfect Binary Tree
 ```
 Total Nodes in Perfect Binary Tree = (2^Height - 1)
